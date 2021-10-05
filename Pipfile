@@ -11,6 +11,7 @@ pylint = "*"
 pylint-flask = "*"
 pymongo = "*"
 flask-pymongo = "*"
+dnspython = "*"
 
 [dev-packages]
 
