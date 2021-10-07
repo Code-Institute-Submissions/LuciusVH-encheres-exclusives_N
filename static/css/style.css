@@ -1,0 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400..700;1,400..700&family=Open+Sans:ital,wght@0,400..700;1,400..700&display=swap');
+
+/* _____ GENERAL _____ */
+
+:root {
+  --font-title: "Cormorant Garamond", Georgia;
+  --font-body: "Open Sans", Verdana;
+}
+
+body {
+  font-family: var(--font-body);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-title);
+}
+
+
+/* _____ NAVBAR _____ */
+
+img.logo {
+  height: 30px;
+}
+
+.nav-link {
+  text-transform: uppercase;
+}
+
+@media screen and (min-width: 768px) {
+  img.logo {
+    height: 60px;
+  }
+}
