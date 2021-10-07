@@ -5,9 +5,11 @@
 :root {
   --font-title: "Cormorant Garamond", Georgia;
   --font-body: "Open Sans", Verdana;
-  --bg-light: hsl(0, 0, 100);
+  --bg-light: hsl(0, 0%, 100%);
   --bg-grey: hsl(0, 0%, 80%);
   --color-text: hsl(0, 0%, 20%);
+  --color-text-highlight-light-bg: hsl(221, 60%, 34%);
+  --color-text-highlight-dark-bg: hsl(221, 60%, 50%);
 }
 
 body {
@@ -57,6 +59,23 @@ img.logo {
   font-size: 2rem;
 }
 
+.social a {
+  color: var(--font-body);
+}
+
+.social a i:hover {
+  color: var(--color-text-highlight-dark-bg);
+  transition: all 0.2s ease-in-out;
+}
+
+.social span {
+  font-size: 1.5rem;
+}
+
+.copy-rel-sm {
+  position: relative;
+}
+
 .copyright {
   position: absolute;
   width: max-content;
@@ -71,13 +90,8 @@ img.logo {
     position: relative;
   }
   .copyright {
-    left: 142px;
-    bottom: -81px;
-  }
-}
-
-@media screen and (max-width: 767px) {
-  .copy-rel-sm {
-    position: relative;
+    font-size: 0.8rem;
+    left: 115px;
+    bottom: -50px;
   }
 }
