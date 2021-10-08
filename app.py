@@ -25,8 +25,12 @@ mongo = PyMongo(app)
 
 @app.route('/')
 def index():
-  # return "Hello World again!"
   return render_template('index.html')
+
+
+@app.route('/auction')
+def auction():
+  return render_template('auction.html')
 
 
 if __name__ == '__main__':

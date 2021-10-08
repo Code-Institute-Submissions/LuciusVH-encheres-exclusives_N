@@ -56,7 +56,7 @@ img.logo {
 
 /* _____ HERO IMG _____ */
 
-header p:last-child {
+.hero-section p:last-child {
   margin-top: 0.5rem;
 }
 
@@ -75,29 +75,34 @@ header p:last-child {
 }
 
 
-/* _____ FOOTER _____ */
+/* _____ HEADER _____ */
 
+
+/* @media screen and (max-width: 768px) {
+  .header-title .d-flex {
+
+  } */
+
+
+}
+
+/* _____ FOOTER _____ */
 .social {
   font-size: 2rem;
 }
-
 .social a {
   color: var(--font-body);
 }
-
 .social a i:hover {
   color: var(--color-text-highlight-dark-bg);
   transition: all 0.2s ease-in-out;
 }
-
 .social span {
   font-size: 1.5rem;
 }
-
 .copy-rel-sm {
   position: relative;
 }
-
 .copyright {
   position: absolute;
   width: max-content;
@@ -106,11 +111,11 @@ header p:last-child {
   transform: translate(-50%, -50%);
   font-size: 1rem;
 }
-
 @media screen and (min-width: 768px) {
   .copy-rel-md {
     position: relative;
   }
+  
   .copyright {
     font-size: 0.8rem;
     left: 115px;

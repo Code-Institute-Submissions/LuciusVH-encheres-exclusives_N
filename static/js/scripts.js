@@ -17,11 +17,11 @@ function scrollCheck() {
 window.onresize = changeBgImg;
 
 function changeBgImg() {
-  let header = document.querySelector('header');
+  let header = document.querySelector('.hero-section');
 
   if (window.innerHeight >= window.innerWidth) {
-    header.className = "bg-dark py-5 hero-img-portrait"
+    header.className = "hero-section bg-dark py-5 hero-img-portrait"
   } else {
-    header.className = "bg-dark py-5 hero-img-landscape"
+    header.className = "hero-section bg-dark py-5 hero-img-landscape"
   }
 }
