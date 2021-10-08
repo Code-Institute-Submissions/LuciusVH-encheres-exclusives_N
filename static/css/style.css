@@ -54,6 +54,27 @@ img.logo {
 }
 
 
+/* _____ HERO IMG _____ */
+
+header p:last-child {
+  margin-top: 0.5rem;
+}
+
+.hero-img-portrait {
+  background: linear-gradient( rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("../img/hero_img_portrait.jpeg  ") no-repeat center center;
+  background-size: cover;
+  padding: 0;
+  margin: 0;
+}
+
+.hero-img-landscape {
+  background: linear-gradient( rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("../img/hero_img_landscape.jpeg") no-repeat center center;
+  background-size: cover;
+  padding: 0;
+  margin: 0;
+}
+
+
 /* _____ FOOTER _____ */
 
 .social {
