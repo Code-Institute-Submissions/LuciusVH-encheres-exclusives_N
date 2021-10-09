@@ -8,8 +8,9 @@
   --bg-light: hsl(0, 0%, 100%);
   --bg-grey: hsl(0, 0%, 80%);
   --color-text: hsl(0, 0%, 20%);
-  --color-text-highlight-light-bg: hsl(221, 60%, 34%);
-  --color-text-highlight-dark-bg: hsl(221, 60%, 50%);
+  --bg-highlight-dark: hsl(221, 60%, 34%);
+  --bg-highlight-darker: hsl(221, 60%, 23%);
+  --bg-highlight-light: hsl(221, 60%, 50%);
 }
 
 body {
@@ -33,6 +34,28 @@ h6 {
 
 .bg-dark {
   background-color: var(--bg-grey)!important;
+}
+
+
+/* _____ BUTTONS _____ */
+
+.btn-bg-dark {
+  background-color: var(--bg-highlight-dark);
+  border-color: var(--bg-highlight-darker);
+  color: white;
+}
+
+.btn-bg-light {
+  background-color: var(--bg-grey);
+  border-color: var(--color-text);
+}
+
+
+/* _____ BUTTONS _____ */
+
+.divider {
+  margin: 1.5rem 0;
+  width: 70%;
 }
 
 
@@ -97,7 +120,6 @@ img.logo {
   font-family: var(--font-title);
   font-size: calc(1.375rem + 1vw);
   line-height: 1.2;
-  /* width: fit-content; */
   text-align: center;
 }
 
@@ -105,6 +127,13 @@ img.logo {
   .item-title {
     font-size: calc(1.375rem + 3vw)
   }
+}
+
+
+/* _____ FOOTER _____ */
+
+.upper {
+  text-transform: uppercase;
 }
 
 
@@ -119,7 +148,7 @@ img.logo {
 }
 
 .social a i:hover {
-  color: var(--color-text-highlight-dark-bg);
+  color: var(--bg-highlight-dark);
   transition: all 0.2s ease-in-out;
 }
 
