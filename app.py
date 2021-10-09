@@ -28,9 +28,16 @@ def index():
   return render_template('index.html')
 
 
+# _____ CURRENT AUCTION _____ #
+
+
 @app.route('/auction')
 def auction():
-  return render_template('auction.html')
+  items = mongo.db.items.find()
+  return render_template('auction.html', items=items)
+
+
+# _____ LOCAL SERVER _____ #
 
 
 if __name__ == '__main__':
