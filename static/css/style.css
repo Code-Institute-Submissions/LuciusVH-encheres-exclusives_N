@@ -75,15 +75,9 @@ h6 {
   width: 50%;
 }
 
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 576px) {
   .divider {
-    width: 20%;
-  }
-}
-
-@media screen and (min-width: 1200px) {
-  .divider {
-    width: 10%;
+    width: 40%;
   }
 }
 
