@@ -1,5 +1,28 @@
 {% extends "base.html" %}
 {% block content %}
 
+  <header class="header-title bg-dark p-2 p-md-3 mb-5">
+    <div class="d-flex flex-column flex-md-row align-items-baseline text-md-start text-center">
+      <div class="p-md-2 mx-auto">
+        <h2 class="fw-bolder">Welcome {title} {last_name}</h2>
+      </div>
+    </div> 
+  </header>
+
+  <div class="row user-details">
+    <p><strong>Full name</strong>
+      <br>
+      {title} {first_name} {last_name}
+    </p>
+    <p><strong>Email</strong>
+      <br>
+      {email}
+    </p>
+    <p><strong>Password</strong>
+      <br>
+      *********
+    </p>
+    <p class="user-details-actions">Edit / Delete</p>
+  </div>
 
 {% endblock %}

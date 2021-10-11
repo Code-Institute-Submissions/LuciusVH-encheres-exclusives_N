@@ -98,10 +98,10 @@ def login():
   return render_template('login.html')
 
 
-# _____ LOGIN _____ #
+# _____ PROFILE _____ #
 
 
-@app.route('/profile/<email>', methods=["GET", "POST"])
+@app.route('/profile/<id>', methods=["GET", "POST"])
 def profile(email):
   # Grab the session's user email from database
   email = mongo.db.users.find_one(

@@ -176,6 +176,13 @@ label[for="newsletter"] {
 }
 
 
+/* _____ PROFILE _____ */
+
+.user-details-actions {
+  font-style: italic;
+}
+
+
 /* _____ FOOTER _____ */
 
 .social {
