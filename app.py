@@ -52,13 +52,14 @@ def register():
       flash("Email already registered")
       return redirect(url_for("register"))
 
+    newsletter = "yes" if request.form.get("newsletter") else "no"
     register = {
       "email": request.form.get("email").lower(),
       "password": generate_password_hash(request.form.get("password")),
       "title": request.form.get("title").lower(),
       "first_name": request.form.get("first_name").lower(),
       "last_name": request.form.get("last_name").lower(),
-      "newsletter": request.form.get("newsletter")
+      "newsletter": newsletter
     }
     mongo.db.users.insert_one(register)
 
@@ -84,9 +85,9 @@ def login():
       # Check if the hashed password matches the user input
       if check_password_hash(
         existing_user["password"], request.form.get("password")):
-          session["user"] = request.form.get("email").lower()
+          session["user"] = existing_user["_id"] # request.form.get("email").lower()
           flash("Welcome, {}".format(request.form.get("email")))
-          return redirect(url_for("profile", email=session["user"]))
+          return redirect(url_for("profile", _id=session["user"]))
       else:
         # Invalid password
         flash("Incorrect email and/or password.")
@@ -98,17 +99,25 @@ def login():
   return render_template('login.html')
 
 
-# _____ LOGIN _____ #
+# _____ PROFILE _____ #
 
 
-@app.route('/profile/<email>', methods=["GET", "POST"])
-def profile(email):
-  # Grab the session's user email from database
+@app.route('/profile/<_id>', methods=["GET", "POST"])
+def profile(_id):
+  # Grab the session's user details from database
+  _id = mongo.db.users.find_one(
+    {"_id": session["user"]})["_id"]
   email = mongo.db.users.find_one(
     {"email": session["user"]})["email"]
+  title = mongo.db.users.find_one(
+    {"title": session["user"]})["title"]
+  first_name = mongo.db.users.find_one(
+    {"first_name": session["user"]})["first_name"]
+  last_name = mongo.db.users.find_one(
+    {"last_name": session["user"]})["last_name"]
 
   if session["user"]:
-    return render_template('profile.html', email=email)
+    return render_template('profile.html', _id=_id, email=email, title=title, first_name=first_name, last_name=last_name)
 
   return redirect(url_for("login"))
 
