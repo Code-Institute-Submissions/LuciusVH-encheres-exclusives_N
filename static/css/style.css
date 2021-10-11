@@ -169,7 +169,7 @@ select {
   height: 100%;
 }
 
-label[for="fname"] {
+label[for="first_name"] {
   left: unset;
 }
 
