@@ -36,6 +36,10 @@ h6 {
   background-color: var(--bg-grey)!important;
 }
 
+.bg-color {
+  background-color: var(--bg-highlight-darker);
+}
+
 
 /* _____ BUTTONS _____ */
 
@@ -213,4 +217,11 @@ label[for="newsletter"] {
     left: 115px;
     bottom: -50px;
   }
+}
+
+
+/* _____ FLASH MESSAGES _____ */
+
+#flash_message {
+  color: white;
 }
