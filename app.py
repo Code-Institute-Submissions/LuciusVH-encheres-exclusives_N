@@ -98,6 +98,21 @@ def login():
   return render_template('login.html')
 
 
+# _____ LOGIN _____ #
+
+
+@app.route('/profile/<email>', methods=["GET", "POST"])
+def profile(email):
+  # Grab the session's user email from database
+  email = mongo.db.users.find_one(
+    {"email": session["user"]})["email"]
+
+  if session["user"]:
+    return render_template('profile.html', email=email)
+
+  return redirect(url_for("login"))
+
+
 # _____ LOCAL SERVER _____ #
 
 
