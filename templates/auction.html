@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <header class="header-title bg-dark p-2 p-md-3">
+  <header class="header-title bg-dark p-2 p-md-3 mb-5">
     <div class="d-flex flex-column flex-md-row align-items-baseline text-md-start text-center">
       <div class="p-md-2 mx-auto">
         <h2 class="fw-bolder">Current Auction<span class="d-none d-md-inline"> |</span></h2>
@@ -15,7 +15,7 @@
     </div> 
   </header>
 
-  <section class="py-5">
+  <section class="pb-5">
     <div class="container mt-lg-5">
       <div class="row gx-4 gx-lg-5 row-cols-1 row-cols-md-3 row-cols-xl-4 justify-content-center">
       {% for item in items %}

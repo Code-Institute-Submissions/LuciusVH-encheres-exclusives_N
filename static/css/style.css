@@ -36,6 +36,10 @@ h6 {
   background-color: var(--bg-grey)!important;
 }
 
+.bg-color {
+  background-color: var(--bg-highlight-darker);
+}
+
 
 /* _____ BUTTONS _____ */
 
@@ -75,15 +79,9 @@ h6 {
   width: 50%;
 }
 
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 576px) {
   .divider {
-    width: 20%;
-  }
-}
-
-@media screen and (min-width: 1200px) {
-  .divider {
-    width: 10%;
+    width: 40%;
   }
 }
 
@@ -219,4 +217,11 @@ label[for="newsletter"] {
     left: 115px;
     bottom: -50px;
   }
+}
+
+
+/* _____ FLASH MESSAGES _____ */
+
+#flash_message {
+  color: white;
 }
