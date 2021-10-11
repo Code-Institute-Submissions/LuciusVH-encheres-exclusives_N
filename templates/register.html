@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block content %}
+
+  <header class="header-title bg-dark p-2 p-md-3">
+    <div class="d-flex flex-column flex-md-row align-items-baseline text-md-start text-center">
+      <div class="p-md-2 mx-auto">
+        <h2 class="fw-bolder">Register</h2>
+      </div>
+    </div> 
+  </header>
+
+  <section class="py-5">
+    <div class="container px-5">
+      <div class="row gx-4 gx-lg-5">
+        <div class="col-md-7 col-lg-5 col-xl-4 mx-auto">
+          <form method="POST" action="{{ url_for('register') }}">
+            <div class="form-floating mx-auto mb-4">
+              <input id="email" name="email" type="email" class="form-control" placeholder="name@example.com" required>
+              <label for="email">Email</label>
+            </div>
+            <div class="form-floating mx-auto my-4">
+              <input id="password" name="password" type="password" class="form-control" placeholder="Password" required>
+              <label for="password">Password</label>
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+                <label for="title" class="visually-hidden">Title</label>
+                <select class="form-select" id="title" name="title" required>
+                  <option selected>Ms</option>
+                  <option>Miss</option>
+                  <option>Mrs</option>
+                  <option>Mr</option>
+                  <option>Dr</option>
+                  <option>Lady</option>
+                  <option>Sir</option>
+                </select>
+              </div>
+              <div class="form-floating col-md-8">
+                <input id="fname" name="fname" type="text" class="form-control" placeholder="First Name" required>
+                <label for="fname">First Name</label>
+              </div>
+            </div>
+            <div class="form-floating mx-auto my-4">
+              <input id="lname" name="lname" type="text" class="form-control" placeholder="Last Name" required>
+              <label for="lname">Last Name</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="newsletter" name="newsletter">
+              <label class="form-check-label" for="newsletter">
+                Yes, I would like to receive email communications from Enchères Exclusives.
+              </label>
+            </div>
+            <div class="row">
+              <button type="submit" class="col-md-6 mx-auto mt-4 btn btn-bg-dark upper">
+                Sign Up
+              </button>
+            </div>
+          </form>
+          <hr class="divider mx-auto">
+          <p class="text-center">Already have an account? <a href="{{ url_for('login') }}" class="link link-login">Log in</a></p>
+        </div>
+      </div>
+    </div>
+  </section> 
+
+{% endblock %}
