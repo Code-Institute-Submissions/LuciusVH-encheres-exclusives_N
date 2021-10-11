@@ -51,11 +51,40 @@ h6 {
 }
 
 
-/* _____ BUTTONS _____ */
+/* _____ LINKS _____ */
+
+.link {
+  color: var(--bg-highlight-darker);
+  text-decoration: none;
+  border-bottom: solid var(--bg-highlight-dark) 0.3rem;
+  display: inline-block;
+  line-height: 1.05;
+  text-shadow: 1px 1px var(--bg-light), 1px -1px var(--bg-light), -1px 1px var(--bg-light), -1px -1px var(--bg-light);
+}
+
+.link:hover {
+  color: var(--bg-highlight-darker);
+  border-bottom: solid var(--bg-highlight-light) 0.3rem;
+}
+
+
+/* _____ DIVIDERS _____ */
 
 .divider {
   margin: 1.5rem 0;
-  width: 70%;
+  width: 50%;
+}
+
+@media screen and (min-width: 768px) {
+  .divider {
+    width: 20%;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .divider {
+    width: 10%;
+  }
 }
 
 
@@ -130,10 +159,22 @@ img.logo {
 }
 
 
-/* _____ FOOTER _____ */
+/* _____ REGISTER _____ */
 
 .upper {
   text-transform: uppercase;
+}
+
+select {
+  height: 100%;
+}
+
+label[for="first_name"] {
+  left: unset;
+}
+
+label[for="newsletter"] {
+  font-size: smaller;
 }
 
 

@@ -4,6 +4,7 @@ from flask import (
   Flask, flash, render_template, redirect, request, session, url_for)
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
+from werkzeug.security import generate_password_hash, check_password_hash
 if os.path.exists('env.py'):
   import env
 
@@ -35,6 +36,45 @@ def index():
 def auction():
   items = mongo.db.items.find()
   return render_template('auction.html', items=items)
+
+
+# _____ REGISTER _____ #
+
+
+@app.route('/register', methods=["GET", "POST"])
+def register():
+  if request.method == "POST":
+    # Check if the email exists already in the database
+    existing_user = mongo.db.users.find_one(
+      {"email": request.form.get("email").lower()}
+    )
+    if existing_user:
+      flash("Email already registered")
+      return redirect(url_for("register"))
+
+    register = {
+      "email": request.form.get("email").lower(),
+      "password": generate_password_hash(request.form.get("password")),
+      "title": request.form.get("title").lower(),
+      "first_name": request.form.get("first_name").lower(),
+      "last_name": request.form.get("last_name").lower(),
+      "newsletter": request.form.get("newsletter")
+    }
+    mongo.db.users.insert_one(register)
+
+    # Put the new user into "session" cookie
+    session["user"] = request.form.get("email").lower()
+    flash("Registration Successful, Welcome!")
+    return redirect(url_for("profile", username=session["user"]))
+  return render_template('register.html')
+
+
+# _____ LOGIN _____ #
+
+
+@app.route('/login', methods=["GET", "POST"])
+def login():
+  return render_template('login.html')
 
 
 # _____ LOCAL SERVER _____ #
