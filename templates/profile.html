@@ -11,21 +11,21 @@
 
   <section class="pb-3 pb-md-5">
     <div class="container px-4 mt-sm-5">
-      <form class="row user-details">
-        <label><strong>Full name</strong>
+      <div class="row user-details">
+        <p><strong>Full name</strong>
           <br>
-          {{ title|capitalize }} {{ first_name|capitalize }} {{ last_name|capitalize }}
-        </label>
-        <label><strong>Email</strong>
+          {{ title|capitalize }} {{ first_name|title }} {{ last_name|title }}
+        </p>
+        <p><strong>Email</strong>
           <br>
           {{ email }}
-        </label>
-        <label><strong>Password</strong>
+        </p>
+        <p><strong>Password</strong>
           <br>
           *********
-        </label>
-        <p class="user-details-actions">Edit / Delete</p>
-      </form>
+        </p>
+        <p class="user-details-actions"><a href="{{ url_for('edit_profile', user_id=user_id)}}">Edit</a> / Delete</p>
+      </div>
     </div>
   </section>
 
