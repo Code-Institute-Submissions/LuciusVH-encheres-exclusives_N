@@ -5,11 +5,14 @@ window.onscroll = () => {
 
 function scrollCheck() {
   let logo = document.querySelector('.logo');
+  let nav = document.querySelector('nav');
 
   if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
     logo.style.height = '30px';
+    nav.classList.add('navbar-shadow');
   } else {
     logo.style.height = '60px';
+    nav.classList.remove('navbar-shadow');
   }
 }
 
