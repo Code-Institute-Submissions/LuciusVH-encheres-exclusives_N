@@ -1,23 +1,23 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <header class="header-title bg-dark p-2 p-md-3 mb-5">
+  <header class="header-title bg-dark p-3 mb-3 mb-md-5">
     <div class="d-flex flex-column flex-md-row align-items-baseline text-md-start text-center">
       <div class="p-md-2 mx-auto">
-        <h2 class="fw-bolder">Current Auction<span class="d-none d-md-inline"> |</span></h2>
+        <h2 class="fw-bolder mb-md-0">Current Auction<span class="d-none d-md-inline"> |</span></h2>
       </div>
-      <div class="p-md-2 flex-grow-1 mx-auto">
-        <h3 class="fw-bolder">Books, Letters & Manuscripts</h3>
+      <div class="p-md-2 flex-grow-1 mx-auto ">
+        <h3 class="fw-bolder mb-md-0">Books, Letters & Manuscripts</h3>
       </div>
       <div class="p-md-2 mx-auto">
-        <h6>Ends: November 10th, 2021</h6>
+        <h6 class="mb-0">Ends: November 10th, 2021</h6>
       </div>
     </div> 
   </header>
 
-  <section class="pb-5">
-    <div class="container mt-lg-5">
-      <div class="row gx-4 gx-lg-5 row-cols-1 row-cols-md-3 row-cols-xl-4 justify-content-center">
+  <section class="pb-3 pb-md-5">
+    <div class="container px-4 mt-sm-5">
+      <div class="row gx-4 gx-lg-5 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
       {% for item in items %}
         <div class="col mb-5">
           <div class="card h-100">

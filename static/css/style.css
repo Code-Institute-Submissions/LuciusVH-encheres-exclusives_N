@@ -182,6 +182,10 @@ label[for="newsletter"] {
   font-style: italic;
 }
 
+.user-details-actions:last-child {
+  margin-bottom: 0;
+}
+
 
 /* _____ FOOTER _____ */
 
