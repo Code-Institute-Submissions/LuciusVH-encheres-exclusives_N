@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% block content %}
+
+  <header class="header-title bg-dark p-3 mb-3 mb-md-5">
+    <div class="d-flex flex-column flex-md-row align-items-baseline text-md-start text-center">
+      <div class="p-md-2 mx-auto">
+        <h2 class="fw-bolder m-0">Edit your profile</h2>
+      </div>
+    </div> 
+  </header>
+
+  <section id="flash_message">
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+          <div class="row">
+            <div class="col-sm-8 col-md-6 col-lg-4 m-4 mx-auto bg-color rounded-3">
+              <p class="text-center fs-4 my-4">{{ message }}</p>
+            </div>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+  </section>
+
+  <section class="pb-3 pb-md-5">
+    <div class="container px-4 mt-sm-5">
+      <div class="row gx-4 gx-lg-5">
+        <div class="col-md-7 col-lg-5 col-xl-4 mx-auto">
+          <form method="POST" action="{{ url_for('edit_profile', user_id=user_id) }}">
+            <div class="form-floating mx-auto mb-4">
+              <input id="email" name="email" type="email" class="form-control" placeholder="name@example.com" value="{{ email }}">
+              <label for="email">Email</label>
+            </div>
+            <div class="form-floating mx-auto my-4 password-instructions-rel">
+              <input id="password" name="password" type="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}" class="form-control password-register" placeholder="Password">
+              <label for="password">Password</label>
+              <div class="password-instructions">
+                <i class="fas fa-lock"></i>The password must be 6 to 20 characters and contain at least one digit, one uppercase and one lowercase letter. 
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4 mb-4 mb-md-0">
+                <label for="title" class="visually-hidden">Title</label>
+                <select class="form-select" id="title" name="title" value="{{ title|capitalize }}" selected>
+                  <option>Ms</option>
+                  <option>Miss</option>
+                  <option>Mrs</option>
+                  <option>Mr</option>
+                  <option>Dr</option>
+                  <option>Lady</option>
+                  <option>Sir</option>
+                </select>
+              </div>
+              <div class="form-floating col-md-8">
+                <input id="first_name" name="first_name" type="text" class="form-control" placeholder="First Name" value="{{ first_name|capitalize }}">
+                <label for="first_name">First Name</label>
+              </div>
+            </div>
+            <div class="form-floating mx-auto my-4">
+              <input id="last_name" name="last_name" type="text" class="form-control" placeholder="Last Name" value="{{ last_name|capitalize }}">
+              <label for="last_name">Last Name</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="newsletter" name="newsletter">
+              <label class="form-check-label" for="newsletter">
+                Yes, I would like to receive email communications from Enchères Exclusives.
+              </label>
+            </div>
+            <div class="row d-flex justify-content-center">
+              <div class="col-7 col-sm-5 mt-4">
+                <button type="submit" class="mx-auto btn btn-bg-dark upper w-100">
+                  Validate
+                </button>
+              </div>
+              <div class="col-7 col-sm-5 mt-4">
+                <a href="{{ url_for('profile', user_id=user_id) }}" class="text-center p-0">
+                  <button class="btn btn-bg-light upper w-100">
+                    Cancel
+                  </button>
+                </a>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section> 
+
+{% endblock %}
