@@ -11,7 +11,6 @@ if os.path.exists('env.py'):
 
 # _____ CONFIGURATION _____ #
 
-
 app = Flask(__name__)
 
 app.config['MONGO_DBNAME'] = os.environ.get('MONGO_DBNAME')
@@ -23,14 +22,12 @@ mongo = PyMongo(app)
 
 # _____ INDEX _____ #
 
-
 @app.route('/')
 def index():
   return render_template('index.html')
 
 
 # _____ CURRENT AUCTION _____ #
-
 
 @app.route('/auction')
 def auction():
@@ -39,7 +36,6 @@ def auction():
 
 
 # _____ REGISTER _____ #
-
 
 @app.route('/register', methods=["GET", "POST"])
 def register():
@@ -64,14 +60,16 @@ def register():
     mongo.db.users.insert_one(register)
 
     # Put the new user into "session" cookie
-    session["user"] = request.form.get("email").lower()
+    user_data = mongo.db.users.find_one(
+      {"email": request.form.get("email").lower()}
+    )
+    session["user"] = str(user_data["_id"])
     flash("Registration Successful, Welcome!")
-    return redirect(url_for("profile", username=session["user"]))
+    return redirect(url_for("profile", user_id=session["user"]))
   return render_template('register.html')
 
 
 # _____ LOGIN _____ #
-
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
@@ -101,7 +99,6 @@ def login():
 
 # _____ PROFILE _____ #
 
-
 @app.route('/profile/<user_id>', methods=["GET", "POST"])
 def profile(user_id):
   # Grab the session's user details from database
@@ -120,8 +117,38 @@ def profile(user_id):
   return redirect(url_for("login"))
 
 
-# _____ LOCAL SERVER _____ #
+# _____ EDIT PROFILE _____ #
 
+@app.route('/edit_profile/<user_id>', methods=["GET", "POST"])
+def edit_profile(user_id):
+  # Grab the session's user details from database
+  user = mongo.db.users.find_one(
+    {"_id": ObjectId(session["user"])}
+  )
+
+  if request.method == "POST":
+    newsletter = "yes" if request.form.get("newsletter") else "no"
+    updated_profile = {
+      "email": request.form.get("email").lower(),
+      "password": generate_password_hash(request.form.get("password")),
+      "title": request.form.get("title").lower(),
+      "first_name": request.form.get("first_name").lower(),
+      "last_name": request.form.get("last_name").lower(),
+      "newsletter": newsletter
+    }
+    mongo.db.users.update_one({"_id": ObjectId(user_id)}, updated_profile)
+    flash("Profile Updated")
+  
+  return render_template('edit_profile.html', 
+                          user_id=user["_id"], 
+                          email=user["email"], 
+                          title=user["title"], 
+                          first_name=user["first_name"], 
+                          last_name=user["last_name"])
+
+
+
+# _____ LOCAL SERVER _____ #
 
 if __name__ == '__main__':
   app.run(host=os.environ.get('IP'),
