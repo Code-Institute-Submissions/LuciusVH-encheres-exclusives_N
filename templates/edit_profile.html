@@ -42,7 +42,7 @@
             <div class="row">
               <div class="col-md-4 mb-4 mb-md-0">
                 <label for="title" class="visually-hidden">Title</label>
-                <select class="form-select" id="title" name="title" value="{{ title|capitalize }}" selected>
+                <select class="form-select" id="title" name="title" value="{{ title|capitalize }}">
                   <option>Ms</option>
                   <option>Miss</option>
                   <option>Mrs</option>
@@ -53,12 +53,12 @@
                 </select>
               </div>
               <div class="form-floating col-md-8">
-                <input id="first_name" name="first_name" type="text" class="form-control" placeholder="First Name" value="{{ first_name|capitalize }}">
+                <input id="first_name" name="first_name" type="text" class="form-control" placeholder="First Name" value="{{ first_name|title }}">
                 <label for="first_name">First Name</label>
               </div>
             </div>
             <div class="form-floating mx-auto my-4">
-              <input id="last_name" name="last_name" type="text" class="form-control" placeholder="Last Name" value="{{ last_name|capitalize }}">
+              <input id="last_name" name="last_name" type="text" class="form-control" placeholder="Last Name" value="{{ last_name|title }}">
               <label for="last_name">Last Name</label>
             </div>
             <div class="form-check">
