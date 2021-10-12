@@ -32,9 +32,12 @@
               <input id="email" name="email" type="email" class="form-control" placeholder="name@example.com" required>
               <label for="email">Email</label>
             </div>
-            <div class="form-floating mx-auto my-4">
-              <input id="password" name="password" type="password" class="form-control" placeholder="Password" required>
+            <div class="form-floating mx-auto my-4 password-instructions-rel">
+              <input id="password" name="password" type="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}" class="form-control password-register" placeholder="Password" required>
               <label for="password">Password</label>
+              <div class="password-instructions">
+                <i class="fas fa-lock"></i>The password must be 6 to 20 characters and contain at least one digit, one uppercase and one lowercase letter. 
+              </div>
             </div>
             <div class="row">
               <div class="col-md-4 mb-4 mb-md-0">

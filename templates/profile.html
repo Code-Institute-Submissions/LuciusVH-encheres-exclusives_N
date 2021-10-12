@@ -11,21 +11,21 @@
 
   <section class="pb-3 pb-md-5">
     <div class="container px-4 mt-sm-5">
-      <div class="row user-details">
-        <p><strong>Full name</strong>
+      <form class="row user-details">
+        <label><strong>Full name</strong>
           <br>
           {{ title|capitalize }} {{ first_name|capitalize }} {{ last_name|capitalize }}
-        </p>
-        <p><strong>Email</strong>
+        </label>
+        <label><strong>Email</strong>
           <br>
           {{ email }}
-        </p>
-        <p><strong>Password</strong>
+        </label>
+        <label><strong>Password</strong>
           <br>
           *********
-        </p>
+        </label>
         <p class="user-details-actions">Edit / Delete</p>
-      </div>
+      </form>
     </div>
   </section>
 
