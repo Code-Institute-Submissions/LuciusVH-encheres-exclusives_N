@@ -4,7 +4,7 @@
   <header class="header-title bg-dark p-2 p-md-3 mb-5">
     <div class="d-flex flex-column flex-md-row align-items-baseline text-md-start text-center">
       <div class="p-md-2 mx-auto">
-        <h2 class="fw-bolder">Welcome {title} {last_name}</h2>
+        <h2 class="fw-bolder">Welcome {{title|capitalize}} {{last_name|capitalize}}</h2>
       </div>
     </div> 
   </header>
@@ -12,11 +12,11 @@
   <div class="row user-details">
     <p><strong>Full name</strong>
       <br>
-      {title} {first_name} {last_name}
+      {{title|capitalize}} {{first_name|capitalize}} {{last_name|capitalize}}
     </p>
     <p><strong>Email</strong>
       <br>
-      {email}
+      {{email}}
     </p>
     <p><strong>Password</strong>
       <br>

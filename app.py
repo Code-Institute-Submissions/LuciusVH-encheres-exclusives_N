@@ -85,9 +85,9 @@ def login():
       # Check if the hashed password matches the user input
       if check_password_hash(
         existing_user["password"], request.form.get("password")):
-          session["user"] = existing_user["_id"] # request.form.get("email").lower()
+          session["user"] = str(existing_user["_id"])
           flash("Welcome, {}".format(request.form.get("email")))
-          return redirect(url_for("profile", _id=session["user"]))
+          return redirect(url_for("profile", user_id=session["user"]))
       else:
         # Invalid password
         flash("Incorrect email and/or password.")
@@ -102,22 +102,20 @@ def login():
 # _____ PROFILE _____ #
 
 
-@app.route('/profile/<_id>', methods=["GET", "POST"])
-def profile(_id):
+@app.route('/profile/<user_id>', methods=["GET", "POST"])
+def profile(user_id):
   # Grab the session's user details from database
-  _id = mongo.db.users.find_one(
-    {"_id": session["user"]})["_id"]
-  email = mongo.db.users.find_one(
-    {"email": session["user"]})["email"]
-  title = mongo.db.users.find_one(
-    {"title": session["user"]})["title"]
-  first_name = mongo.db.users.find_one(
-    {"first_name": session["user"]})["first_name"]
-  last_name = mongo.db.users.find_one(
-    {"last_name": session["user"]})["last_name"]
+  user = mongo.db.users.find_one(
+    {"_id": ObjectId(session["user"])}
+  )
 
   if session["user"]:
-    return render_template('profile.html', _id=_id, email=email, title=title, first_name=first_name, last_name=last_name)
+    return render_template('profile.html', 
+                            user_id=user["_id"], 
+                            email=user["email"], 
+                            title=user["title"], 
+                            first_name=user["first_name"], 
+                            last_name=user["last_name"])
 
   return redirect(url_for("login"))
 
