@@ -123,20 +123,35 @@ def profile(user_id):
 def edit_profile(user_id):
   # Grab the session's user details from database
   user = mongo.db.users.find_one(
-    {"_id": ObjectId(session["user"])}
+    {"_id": ObjectId(session["user"])} # switch session["user"] to user_id?
   )
 
   if request.method == "POST":
     newsletter = "yes" if request.form.get("newsletter") else "no"
-    updated_profile = {
+    updated_profile = { 
       "email": request.form.get("email").lower(),
-      "password": generate_password_hash(request.form.get("password")),
       "title": request.form.get("title").lower(),
       "first_name": request.form.get("first_name").lower(),
       "last_name": request.form.get("last_name").lower(),
-      "newsletter": newsletter
+      "newsletter": newsletter 
     }
-    mongo.db.users.update_one({"_id": ObjectId(user_id)}, updated_profile)
+    
+    mongo.db.users.update_one(
+      {"_id": ObjectId(user_id)},
+      {"$set": updated_profile}) 
+
+    # Check if the password field has been updated too
+    updated_password = {}
+    if len(request.form.get("password")) != 0:
+      updated_password_data = {
+        "password": generate_password_hash(request.form.get("password"))
+      }
+      updated_password = updated_password_data
+
+    mongo.db.users.update_one(
+      {"_id": ObjectId(user_id)},
+      {"$set": updated_password})
+
     flash("Profile Updated")
   
   return render_template('edit_profile.html', 
@@ -145,7 +160,6 @@ def edit_profile(user_id):
                           title=user["title"], 
                           first_name=user["first_name"], 
                           last_name=user["last_name"])
-
 
 
 # _____ LOCAL SERVER _____ #
