@@ -23,6 +23,7 @@ mongo = PyMongo(app)
 # _____ INDEX _____ #
 
 @app.route('/')
+@app.route('/index')
 def index():
   return render_template('index.html')
 
@@ -160,6 +161,14 @@ def edit_profile(user_id):
                           title=user["title"], 
                           first_name=user["first_name"], 
                           last_name=user["last_name"])
+
+
+# _____ DELETE PROFILE _____ #
+
+@app.route('/delete_profile/<user_id>')
+def delete_profile(user_id):
+  mongo.db.users.remove({'_id': ObjectId(user_id)})
+  return redirect(url_for('index'))
 
 
 # _____ LOCAL SERVER _____ #
