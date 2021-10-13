@@ -4,7 +4,7 @@
   <header class="header-title bg-dark p-3 mb-3 mb-md-5">
     <div class="d-flex flex-column flex-md-row align-items-baseline text-md-start text-center">
       <div class="p-md-2 mx-auto">
-        <h2 class="fw-bolder m-0">Welcome {{ title|capitalize }} {{ last_name|capitalize }}</h2>
+        <h2 class="fw-bolder m-0">Welcome {{ title|capitalize }} {{ last_name|title }}</h2>
       </div>
     </div> 
   </header>
@@ -24,7 +24,27 @@
           <br>
           *********
         </p>
-        <p class="user-details-actions"><a href="{{ url_for('edit_profile', user_id=user_id)}}">Edit</a> / Delete</p>
+        <p class="user-details-actions"><a href="{{ url_for('edit_profile', user_id=user_id)}}">Edit</a> / <a href="#" onclick="deleteToast()">Delete</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section id="delete-profile-confirmation" class="toast p-3" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+      <i class="fas fa-exclamation-triangle"></i>
+      <strong class="me-auto">Confirmation</strong>
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+      <p>Dear {{ title|capitalize }} {{ last_name|title }},</p>
+      <p>Are you sure you want to delete your profile?</p>
+      <p>All your data will be deleted, which includes your potential bids and items to be sold.</p>
+      <p>This action is irrevocable.</p>
+      <div class="mt-2 pt-2 border-top">
+        <a href="{{ url_for('delete_profile', user_id=user_id) }}" class="">
+          <button type="button" class="btn btn-danger btn-sm upper">Delete</button>
+        </a>
+        <button type="button" class="btn btn-bg-light btn-sm upper" data-bs-dismiss="toast">Cancel</button>
       </div>
     </div>
   </section>
