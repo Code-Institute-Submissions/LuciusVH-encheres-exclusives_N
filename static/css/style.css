@@ -7,6 +7,7 @@
   --font-body: "Open Sans", Verdana;
   --bg-light: hsl(0, 0%, 100%);
   --bg-grey: hsl(0, 0%, 80%);
+  --bg-grey-darker: hsl(0, 0%, 60%);
   --color-text: hsl(0, 0%, 20%);
   --bg-highlight-dark: hsl(221, 60%, 34%);
   --bg-highlight-darker: hsl(221, 60%, 23%);
@@ -49,9 +50,19 @@ h6 {
   color: white;
 }
 
+.btn-bg-dark:hover {
+  color: white;
+  /* font-weight: bolder; */
+  background-color: var(--bg-highlight-light);
+}
+
 .btn-bg-light {
   background-color: var(--bg-grey);
   border-color: var(--color-text);
+}
+
+.btn-bg-light:hover {
+  background-color: var(--bg-grey-darker);
 }
 
 
