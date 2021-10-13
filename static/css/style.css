@@ -231,10 +231,15 @@ label[for="newsletter"],
 
 .user-details-actions {
   font-style: italic;
+  margin-bottom: 0;
 }
 
-.user-details-actions:last-child {
-  margin-bottom: 0;
+.user-details-actions a {
+  color: var(--color-text);
+}
+
+.user-details-actions a:hover {
+  color: var(--bg-highlight-dark);
 }
 
 
