@@ -5,11 +5,14 @@ window.onscroll = () => {
 
 function scrollCheck() {
   let logo = document.querySelector('.logo');
+  let nav = document.querySelector('nav');
 
   if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
     logo.style.height = '30px';
+    nav.classList.add('navbar-shadow');
   } else {
     logo.style.height = '60px';
+    nav.classList.remove('navbar-shadow');
   }
 }
 
@@ -24,4 +27,19 @@ function changeBgImg() {
   } else {
     header.className = "hero-section bg-dark py-5 hero-img-landscape"
   }
+}
+
+// Show the password instructions when the user selects the password field when registering
+const passportField = document.querySelector('.password-register');
+const passportInstructions = document.querySelector('.password-instructions');
+
+passportField.addEventListener('focus', showInstructions);
+passportField.addEventListener('blur', hideInstructions);
+
+function showInstructions() {
+  passportInstructions.style.display = 'block';
+}
+
+function hideInstructions() {
+  passportInstructions.style.display = 'none';
 }

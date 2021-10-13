@@ -11,7 +11,6 @@ if os.path.exists('env.py'):
 
 # _____ CONFIGURATION _____ #
 
-
 app = Flask(__name__)
 
 app.config['MONGO_DBNAME'] = os.environ.get('MONGO_DBNAME')
@@ -23,14 +22,12 @@ mongo = PyMongo(app)
 
 # _____ INDEX _____ #
 
-
 @app.route('/')
 def index():
   return render_template('index.html')
 
 
 # _____ CURRENT AUCTION _____ #
-
 
 @app.route('/auction')
 def auction():
@@ -39,7 +36,6 @@ def auction():
 
 
 # _____ REGISTER _____ #
-
 
 @app.route('/register', methods=["GET", "POST"])
 def register():
@@ -64,14 +60,16 @@ def register():
     mongo.db.users.insert_one(register)
 
     # Put the new user into "session" cookie
-    session["user"] = request.form.get("email").lower()
+    user_data = mongo.db.users.find_one(
+      {"email": request.form.get("email").lower()}
+    )
+    session["user"] = str(user_data["_id"])
     flash("Registration Successful, Welcome!")
-    return redirect(url_for("profile", username=session["user"]))
+    return redirect(url_for("profile", user_id=session["user"]))
   return render_template('register.html')
 
 
 # _____ LOGIN _____ #
-
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
@@ -85,9 +83,9 @@ def login():
       # Check if the hashed password matches the user input
       if check_password_hash(
         existing_user["password"], request.form.get("password")):
-          session["user"] = existing_user["_id"] # request.form.get("email").lower()
+          session["user"] = str(existing_user["_id"])
           flash("Welcome, {}".format(request.form.get("email")))
-          return redirect(url_for("profile", _id=session["user"]))
+          return redirect(url_for("profile", user_id=session["user"]))
       else:
         # Invalid password
         flash("Incorrect email and/or password.")
@@ -101,29 +99,70 @@ def login():
 
 # _____ PROFILE _____ #
 
-
-@app.route('/profile/<_id>', methods=["GET", "POST"])
-def profile(_id):
+@app.route('/profile/<user_id>', methods=["GET", "POST"])
+def profile(user_id):
   # Grab the session's user details from database
-  _id = mongo.db.users.find_one(
-    {"_id": session["user"]})["_id"]
-  email = mongo.db.users.find_one(
-    {"email": session["user"]})["email"]
-  title = mongo.db.users.find_one(
-    {"title": session["user"]})["title"]
-  first_name = mongo.db.users.find_one(
-    {"first_name": session["user"]})["first_name"]
-  last_name = mongo.db.users.find_one(
-    {"last_name": session["user"]})["last_name"]
+  user = mongo.db.users.find_one(
+    {"_id": ObjectId(session["user"])}
+  )
 
   if session["user"]:
-    return render_template('profile.html', _id=_id, email=email, title=title, first_name=first_name, last_name=last_name)
+    return render_template('profile.html', 
+                            user_id=user["_id"], 
+                            email=user["email"], 
+                            title=user["title"], 
+                            first_name=user["first_name"], 
+                            last_name=user["last_name"])
 
   return redirect(url_for("login"))
 
 
-# _____ LOCAL SERVER _____ #
+# _____ EDIT PROFILE _____ #
 
+@app.route('/edit_profile/<user_id>', methods=["GET", "POST"])
+def edit_profile(user_id):
+  # Grab the session's user details from database
+  user = mongo.db.users.find_one(
+    {"_id": ObjectId(session["user"])} # switch session["user"] to user_id?
+  )
+
+  if request.method == "POST":
+    newsletter = "yes" if request.form.get("newsletter") else "no"
+    updated_profile = { 
+      "email": request.form.get("email").lower(),
+      "title": request.form.get("title").lower(),
+      "first_name": request.form.get("first_name").lower(),
+      "last_name": request.form.get("last_name").lower(),
+      "newsletter": newsletter 
+    }
+    
+    mongo.db.users.update_one(
+      {"_id": ObjectId(user_id)},
+      {"$set": updated_profile}) 
+
+    # Check if the password field has been updated too
+    updated_password = {}
+    if len(request.form.get("password")) != 0:
+      updated_password_data = {
+        "password": generate_password_hash(request.form.get("password"))
+      }
+      updated_password = updated_password_data
+
+    mongo.db.users.update_one(
+      {"_id": ObjectId(user_id)},
+      {"$set": updated_password})
+
+    flash("Profile Updated")
+  
+  return render_template('edit_profile.html', 
+                          user_id=user["_id"], 
+                          email=user["email"], 
+                          title=user["title"], 
+                          first_name=user["first_name"], 
+                          last_name=user["last_name"])
+
+
+# _____ LOCAL SERVER _____ #
 
 if __name__ == '__main__':
   app.run(host=os.environ.get('IP'),

@@ -1,5 +1,32 @@
 {% extends "base.html" %}
 {% block content %}
 
+  <header class="header-title bg-dark p-3 mb-3 mb-md-5">
+    <div class="d-flex flex-column flex-md-row align-items-baseline text-md-start text-center">
+      <div class="p-md-2 mx-auto">
+        <h2 class="fw-bolder m-0">Welcome {{ title|capitalize }} {{ last_name|capitalize }}</h2>
+      </div>
+    </div> 
+  </header>
+
+  <section class="pb-3 pb-md-5">
+    <div class="container px-4 mt-sm-5">
+      <div class="row user-details">
+        <p><strong>Full name</strong>
+          <br>
+          {{ title|capitalize }} {{ first_name|title }} {{ last_name|title }}
+        </p>
+        <p><strong>Email</strong>
+          <br>
+          {{ email }}
+        </p>
+        <p><strong>Password</strong>
+          <br>
+          *********
+        </p>
+        <p class="user-details-actions"><a href="{{ url_for('edit_profile', user_id=user_id)}}">Edit</a> / Delete</p>
+      </div>
+    </div>
+  </section>
 
 {% endblock %}
