@@ -242,6 +242,46 @@ label[for="newsletter"],
   color: var(--bg-highlight-dark);
 }
 
+.toast {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  z-index: 999;
+  background-color: hsl(0, 0%, 100%, 100%);
+}
+
+.toast a {
+  text-decoration: none;
+}
+
+.toast-header {
+  font-family: var(--font-title);
+  font-size: 1.5rem;
+}
+
+.toast-header i {
+  color: var(--bs-danger);
+  padding-right: 10px;
+}
+
+.toast button:last-child {
+  margin-right: 0.5rem;
+}
+
+@media screen and (min-width: 768px) {
+  .toast {
+    width: 70%;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .toast {
+    width: fit-content;
+  }
+}
+
 
 /* _____ FOOTER _____ */
 

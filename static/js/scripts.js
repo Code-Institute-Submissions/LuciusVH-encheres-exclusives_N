@@ -43,3 +43,16 @@ function showInstructions() {
 function hideInstructions() {
   passportInstructions.style.display = 'none';
 }
+
+
+// Target the Delete link on profile page to toggle the delete profile confirmation toast
+function deleteToast() {
+  const options = {
+    autohide: false,
+    animation: true
+  }
+
+  const deleteProfileToast = document.querySelector('#delete-profile-confirmation')
+  const toast = new bootstrap.Toast(deleteProfileToast, options)
+  toast.show()
+}
