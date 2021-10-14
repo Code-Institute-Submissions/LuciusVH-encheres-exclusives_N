@@ -97,6 +97,14 @@ def login():
       return redirect(url_for("login"))
   return render_template('login.html')
 
+# _____ LOGOUT _____ #
+
+@app.route('/logout')
+def logout():
+  # Remove the user from the session cookie
+  # flash("You have been logged out")
+  session.pop("user")
+  return redirect(url_for("login"))
 
 # _____ PROFILE _____ #
 
