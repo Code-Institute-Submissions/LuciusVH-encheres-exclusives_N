@@ -50,7 +50,9 @@ The world of auctions known for selling famous artworks and extremely expensive 
 
 Designed as a multipage website, built with Flask, it allows the user to browse the different collections, create an account to bid on some items of their liking, and sold some of their own. *Enchères Exclusives* also gives some precious information about the auction business, in order to familiarize the user and sort of demystify this world. 
 
-The <u>Home page</u> display a hero image, the image being different depending on the viewport's width, to ensure a nice rendering on any screen. 
+I wanted the general design to stay clean and sleek, to allow the user to focus on the items. The color panel is really neutral with Ghost White (#F8F8FF) and Gray80 (#CCCCCC) as background color when an element needs a bit more attention (like for a title banner). The global text color is also a gray, Gray20 (#333333). To highlight some elements, I used different shades of *Enchères Exclusives*'s indigo (#23448D). All contrast ratios were tested using [WebAIM.org contrast checker](https://webaim.org/resources/contrastchecker/). 
+
+The <u>Home page</u> displays a hero image, the image being different depending on the viewport's width, to ensure a nice rendering on any screen. 
 
 Below this, the latest auction is exposed, showing off the items in a carousel, each item presented in a card. The number of cards depends on the width available: from 1 to 4. 
 
@@ -106,6 +108,16 @@ The *Delete* link opens up a Bootstrap "toast", playing the alert role (it is se
 
   <u>Solution:</u> N/A
 
+- **Resources requested over Http requests instead of https**
+
+  The landing page is requested by default over https, but the CSS stylesheets and JS scripts are requested through Flask url_for, by default over http. 
+
+  <p align="center">
+    <img src="https://github.com/LuciusVH/encheres-exclusives/blob/main/static/docs/readme-img/insecure-resources-requests.png" alt="Landing page charging without CSS stylesheets and JS scripts, due to http  instead of https requests"/>
+  </p>
+
+  <u>Solution:</u> adding [Talisman](https://github.com/GoogleCloudPlatform/flask-talisman) as a Flask extension. It forces all connects to https. 
+
 
 
 ## Features
@@ -124,11 +136,13 @@ The *Delete* link opens up a Bootstrap "toast", playing the alert role (it is se
     <img src="https://github.com/LuciusVH/encheres-exclusives/blob/main/static/docs/readme-img/password-instructions.gif" alt="gif showing off the passport instructions popup"/>
   </p>
 
--  
+- **Profile data update**
+
+  When updating their profile data, all data is prepopulated except the password. If they leave the field blank, the password remain unchanged, if they fill up the password field (with a correct input, matching the instructions) then it is updated. This feature is to avoid the user having to retype their password anytime they want to change something else.
 
 ### Features Left to Implement
 
-- X
+- Password lost function
 
 
 
