@@ -5,7 +5,7 @@
 :root {
   --font-title: "Cormorant Garamond", Georgia;
   --font-body: "Open Sans", Verdana;
-  --bg-light: hsl(0, 0%, 100%);
+  --bg-light: hsl(240, 100%, 99%);
   --bg-grey: hsl(0, 0%, 80%);
   --bg-grey-darker: hsl(0, 0%, 60%);
   --color-text: hsl(0, 0%, 20%);
