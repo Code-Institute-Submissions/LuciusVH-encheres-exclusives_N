@@ -2,8 +2,10 @@
 import os
 from flask import (
   Flask, flash, render_template, redirect, request, session, url_for)
+from flask_talisman import Talisman
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
+from werkzeug.datastructures import ContentSecurityPolicy
 from werkzeug.security import generate_password_hash, check_password_hash
 if os.path.exists('env.py'):
   import env
@@ -12,6 +14,31 @@ if os.path.exists('env.py'):
 # _____ CONFIGURATION _____ #
 
 app = Flask(__name__)
+
+SELF = "'self'"
+talisman = Talisman(app, content_security_policy={
+  'default-src': [
+    SELF
+  ],
+  'font-src': [
+    'fonts.googleapis.com',
+    'fonts.gstatic.com',
+    'cdn.jsdelivr.net',
+    'cdnjs.cloudflare.com'
+  ],
+  'img-src': '*',
+  'script-src': [
+    SELF,
+    'cdn.jsdelivr.net',
+    'cdnjs.cloudflare.com'    
+  ],
+  'style-src': [
+    SELF,
+    'fonts.googleapis.com',
+    'cdn.jsdelivr.net',
+    'cdnjs.cloudflare.com'
+  ]
+})
 
 app.config['MONGO_DBNAME'] = os.environ.get('MONGO_DBNAME')
 app.config['MONGO_URI'] = os.environ.get('MONGO_URI')
@@ -132,7 +159,7 @@ def profile(user_id):
 def edit_profile(user_id):
   # Grab the session's user details from database
   user = mongo.db.users.find_one(
-    {"_id": ObjectId(session["user"])} # switch session["user"] to user_id?
+    {"_id": ObjectId(user_id)} 
   )
 
   if request.method == "POST":

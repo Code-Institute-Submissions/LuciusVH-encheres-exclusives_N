@@ -116,7 +116,7 @@ The *Delete* link opens up a Bootstrap "toast", playing the alert role (it is se
     <img src="https://github.com/LuciusVH/encheres-exclusives/blob/main/static/docs/readme-img/insecure-resources-requests.png" alt="Landing page charging without CSS stylesheets and JS scripts, due to http  instead of https requests"/>
   </p>
 
-  <u>Solution:</u> adding [Talisman](https://github.com/GoogleCloudPlatform/flask-talisman) as a Flask extension. It forces all connects to https. 
+  <u>Solution:</u> adding [Talisman](https://github.com/GoogleCloudPlatform/flask-talisman) as a Flask extension. It allows only connects from specified sources & forces them to https.
 
 
 
