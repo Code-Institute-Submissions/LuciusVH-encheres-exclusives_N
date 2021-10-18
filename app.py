@@ -1,4 +1,3 @@
-# from logging import debug
 import os
 from flask import (
   Flask, flash, render_template, redirect, request, session, url_for)
@@ -97,6 +96,14 @@ def login():
       return redirect(url_for("login"))
   return render_template('login.html')
 
+# _____ LOGOUT _____ #
+
+@app.route('/logout')
+def logout():
+  # Remove the user from the session cookie
+  # flash("You have been logged out")
+  session.pop("user")
+  return redirect(url_for("login"))
 
 # _____ PROFILE _____ #
 
@@ -124,7 +131,7 @@ def profile(user_id):
 def edit_profile(user_id):
   # Grab the session's user details from database
   user = mongo.db.users.find_one(
-    {"_id": ObjectId(session["user"])} # switch session["user"] to user_id?
+    {"_id": ObjectId(user_id)} 
   )
 
   if request.method == "POST":

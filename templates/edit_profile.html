@@ -74,8 +74,8 @@
                 </button>
               </div>
               <div class="col-7 col-sm-5 mt-4">
-                <a href="{{ url_for('profile', user_id=user_id) }}" class="text-center p-0">
-                  <button class="btn btn-bg-light upper w-100">
+                <a href="{{ url_for('profile', user_id=session['user']) }}" class="text-center p-0">
+                  <button type="button" class="btn btn-bg-light upper w-100">
                     Cancel
                   </button>
                 </a>
