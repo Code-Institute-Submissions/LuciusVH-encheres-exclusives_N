@@ -18,6 +18,15 @@ app.secret_key = os.environ.get('SECRET_KEY')
 
 mongo = PyMongo(app)
 
+@app.before_request
+def before_request():
+  if request.is_secure:
+    return
+
+  url = request.url.replace("http://", "https://", 1)
+  code = 301
+  return redirect(url, code=code)
+
 
 # _____ INDEX _____ #
 
