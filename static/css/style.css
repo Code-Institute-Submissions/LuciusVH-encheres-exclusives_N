@@ -153,7 +153,7 @@ img.logo {
 }
 
 
-/* _____ CAROUSEL _____ */
+/* _____ SLIDER _____ */
 
 .glide__arrow {
   padding: 0;
@@ -168,13 +168,11 @@ img.logo {
 }
 
 .glide__arrow--left:hover,
-.glide__arrow--left:focus,
 .glide__arrow--left:active {
   transform: translateX(-0.2em);
 }
 
 .glide__arrow--right:hover,
-.glide__arrow--right:focus,
 .glide__arrow--right:active {
   transform: translateX(0.2em);
 }
