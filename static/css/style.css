@@ -153,7 +153,46 @@ img.logo {
 }
 
 
+/* _____ CAROUSEL _____ */
+
+.glide__arrow {
+  padding: 0;
+  border: 0;
+  font-size: 3rem;
+  vertical-align: middle;
+  transform: perspective(1px) translateZ(0);
+  transition-duration: 0.1s;
+  transform: translateZ(0);
+  transition-property: transform;
+  transition-timing-function: ease-out;
+}
+
+.glide__arrow--left:hover,
+.glide__arrow--left:focus,
+.glide__arrow--left:active {
+  transform: translateX(-0.2em);
+}
+
+.glide__arrow--right:hover,
+.glide__arrow--right:focus,
+.glide__arrow--right:active {
+  transform: translateX(0.2em);
+}
+
+.glide__arrow--left {
+  left: 0.2em;
+}
+
+.glide__arrow--right {
+  right: 0.2em;
+}
+
+
 /* _____ AUCTION _____ */
+
+.card {
+  height: 500px;
+}
 
 .card-img-bg {
   height: 40%;
@@ -175,7 +214,6 @@ img.logo {
   font-family: var(--font-title);
   font-size: calc(1.375rem + 1vw);
   line-height: 1.2;
-  text-align: center;
 }
 
 @media screen and (max-width: 576px) {

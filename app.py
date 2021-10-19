@@ -24,7 +24,8 @@ mongo = PyMongo(app)
 @app.route('/')
 @app.route('/index')
 def index():
-  return render_template('index.html')
+  items = mongo.db.items.find()
+  return render_template('index.html', items=items)
 
 
 # _____ CURRENT AUCTION _____ #
