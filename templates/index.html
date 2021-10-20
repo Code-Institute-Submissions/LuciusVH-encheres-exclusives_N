@@ -12,6 +12,7 @@
     </div>
   </header>
 
+  <!-- Auction details -->
   <section class="header-title bg-dark p-3 mb-3 mb-md-5">
     <div class="d-flex flex-column flex-md-row align-items-baseline text-md-start text-center">
       <div class="p-md-2 mx-auto">
@@ -26,11 +27,12 @@
     </div> 
   </section>
 
-  <section class="pb-3 pb-md-5">
+  <!-- Newest auction slider -->
+  <section>
     <div class="container px-4 mt-sm-5">
       <div class="row gx-4 gx-lg-5 justify-content-center">
         <!-- GlideJS slider -->
-        <div class="glide mb-5">
+        <div class="glide">
           <div class="glide__track" data-glide-el="track">
             <ul class="glide__slides">
               {% for item in items %}
@@ -73,5 +75,50 @@
       </div>
     </div>
   </section>
+
+  <section class="newsletter bg-dark">
+    <div class="container px-4 mt-sm-5">
+      <div class="row gx-4 gx-lg-5 py-4 text-center">
+        <h3 class="mb-4">Stay informed of our upcoming auctions</h3>
+        <div class="col-md-7 col-lg-5 col-xl-4 mx-auto">
+          <form method="POST" action="">
+            <div class="form-floating mx-auto mb-4">
+              <input id="email" name="email" type="email" class="form-control" placeholder="name@example.com" required>
+              <label for="email">Email</label>
+            </div>
+            <div class="row">
+              <div class="col-md-4 mb-4 mb-md-0">
+                <label for="title" class="visually-hidden">Title</label>
+                <select class="form-select" id="title" name="title" required>
+                  <option selected>Ms</option>
+                  <option>Miss</option>
+                  <option>Mrs</option>
+                  <option>Mr</option>
+                  <option>Dr</option>
+                  <option>Lady</option>
+                  <option>Sir</option>
+                </select>
+              </div>
+              <div class="form-floating col-md-8">
+                <input id="first_name" name="first_name" type="text" class="form-control" placeholder="First Name" required>
+                <label for="first_name">First Name</label>
+              </div>
+            </div>
+            <div class="form-floating mx-auto my-4">
+              <input id="last_name" name="last_name" type="text" class="form-control" placeholder="Last Name" required>
+              <label for="last_name">Last Name</label>
+            </div>
+            <div class="row">
+              <button type="submit" class="col-8 col-sm-6 mx-auto btn btn-bg-dark upper">
+                Submit
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider mx-auto">
   
 {% endblock %}
