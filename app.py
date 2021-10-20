@@ -24,8 +24,9 @@ mongo = PyMongo(app)
 @app.route('/')
 @app.route('/index')
 def index():
+  newest_auction = mongo.db.auctions.find().sort("date_start", -1)
   items = mongo.db.items.find()
-  return render_template('index.html', items=items)
+  return render_template('index.html', newest_auction=newest_auction[0], items=items)
 
 
 # _____ CURRENT AUCTION _____ #

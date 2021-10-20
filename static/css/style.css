@@ -20,15 +20,6 @@ body {
   background-color: var(--bg-light);
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: var(--font-title);
-}
-
 .bg-light {
   background-color: var(--bg-light)!important;
 }
@@ -39,6 +30,48 @@ h6 {
 
 .bg-color {
   background-color: var(--bg-highlight-darker);
+}
+
+
+/* _____ FONTS _____ */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-title);
+}
+
+h1,
+.h1 {
+  font-size: calc(1.375rem + 1.5vw);
+}
+
+h2,
+.h2 {
+  font-size: calc(1.325rem + 1vw);
+}
+
+h3,
+.h3 {
+  font-size: calc(1.3rem + 0.75vw);
+}
+
+h4,
+.h4 {
+  font-size: calc(1.275rem + 0.5vw);
+}
+
+h5,
+.h5 {
+  font-size: calc(1.25rem + 0.3vw);
+}
+
+h6,
+.h6 {
+  font-size: calc(1.10rem + 0.25vw);
 }
 
 
@@ -155,6 +188,10 @@ img.logo {
 
 /* _____ SLIDER _____ */
 
+.glide {
+  padding: 0;
+}
+
 .glide__arrow {
   padding: 0;
   border: 0;
@@ -189,7 +226,7 @@ img.logo {
 /* _____ AUCTION _____ */
 
 .card {
-  height: 500px;
+  height: 520px;
 }
 
 .card-img-bg {
@@ -202,21 +239,36 @@ img.logo {
 
 .card-img-top {
   object-fit: contain;
-  max-width: 100%;
-  max-height: 100%;
-  width: auto;
-  height: auto;
+  width: 100%;
+  height: 100%;
 }
 
 .item-title {
   font-family: var(--font-title);
-  font-size: calc(1.375rem + 1vw);
   line-height: 1.2;
+}
+
+.item-brand-artist {
+  font-size: 1.2rem;
+}
+
+.item-estimated-price {
+  font-size: 1rem;
+}
+
+.wrap-normal {
+  white-space: normal;
 }
 
 @media screen and (max-width: 576px) {
   .item-title {
-    font-size: calc(1.375rem + 3vw)
+    font-size: calc(1rem + 3vw)
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .card {
+    height: 600px;
   }
 }
 

@@ -29,6 +29,10 @@ function changeBgImg() {
   }
 }
 
+// Update copyright date
+
+document.querySelector('#copyright').text(new Date().getFullYear())
+
 // Show the password instructions when the user selects the password field when registering
 const passportField = document.querySelector('.password-register');
 const passportInstructions = document.querySelector('.password-instructions');
