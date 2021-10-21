@@ -79,10 +79,25 @@
   <section class="newsletter bg-dark">
     <div class="container px-4 mt-sm-5">
       <div class="row gx-4 gx-lg-5 py-4 text-center">
-        <h3 class="mb-4">Stay informed of our upcoming auctions</h3>
+        <h3 class="m-0">Stay informed of our upcoming auctions</h3>
         <div class="col-md-7 col-lg-5 col-xl-4 mx-auto">
-          <form method="POST" action="">
-            <div class="form-floating mx-auto mb-4">
+          <!-- Newsletter validation Flash message -->
+          <section id="flash_message">
+            {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                {% for message in messages %}
+                  <div class="row">
+                    <div class="mt-4 mb-sm-0 mx-auto bg-color rounded-3">
+                      <h4 class="text-center m-4">{{ message }}</h4>
+                    </div>
+                  </div>
+                {% endfor %}
+              {% endif %}
+            {% endwith %}
+          </section>
+
+          <form method="POST" action="{{ url_for('newsletter') }}">
+            <div class="form-floating mx-auto my-4">
               <input id="email" name="email" type="email" class="form-control" placeholder="name@example.com" required>
               <label for="email">Email</label>
             </div>
