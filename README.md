@@ -108,16 +108,7 @@ The *Delete* link opens up a Bootstrap "toast", playing the alert role (it is se
 
   <u>Solution:</u> N/A
 
-- **Resources requested over Http requests instead of https**
-
-  The landing page is requested by default over https, but the CSS stylesheets and JS scripts are requested through Flask url_for, by default over http. 
-
-  <p align="center">
-    <img src="https://github.com/LuciusVH/encheres-exclusives/blob/main/static/docs/readme-img/insecure-resources-requests.png" alt="Landing page charging without CSS stylesheets and JS scripts, due to http  instead of https requests"/>
-  </p>
-
-  <u>Solution:</u> adding [Talisman](https://github.com/GoogleCloudPlatform/flask-talisman) as a Flask extension. It allows only connects from specified sources & forces them to https.
-
+- 
 
 
 ## Features
@@ -126,7 +117,7 @@ The *Delete* link opens up a Bootstrap "toast", playing the alert role (it is se
 
 - **Register / Log In / Log Out / Edit / Delete functions**
 
-  The user must register and become a member in order to place bid and sold their item. They can log in their account, and log out. They can edit their data and delete it (delete the account).
+  The user must register and become a member in order to place a bid and sold their item(s). They can log in their account, and log out. They can edit their data and delete it (delete the account). From the register form (and updating form) they can opt in or out for the newsletter.
 
 - **Passport instructions**
 
@@ -139,6 +130,10 @@ The *Delete* link opens up a Bootstrap "toast", playing the alert role (it is se
 - **Profile data update**
 
   When updating their profile data, all data is prepopulated except the password. If they leave the field blank, the password remain unchanged, if they fill up the password field (with a correct input, matching the instructions) then it is updated. This feature is to avoid the user having to retype their password anytime they want to change something else.
+  
+- **Newsletter subscription**
+
+  The app offers the possibility to subscribe to the company's newsletter, without having to get an account. It checks in the newsletter collection if the email isn't already present, and warn the user if that's the case through a Flash message. 
 
 ### Features Left to Implement
 

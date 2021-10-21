@@ -284,7 +284,7 @@ select {
 }
 
 label[for="first_name"] {
-  left: unset;
+  left: 0.75rem;
 }
 
 label[for="newsletter"],

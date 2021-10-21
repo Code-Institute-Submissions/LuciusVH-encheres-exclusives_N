@@ -178,6 +178,28 @@ def delete_profile(user_id):
   return redirect(url_for('index'))
 
 
+# _____ NEWSLETTER _____ #
+@app.route('/newsletter', methods=["GET", "POST"])
+def newsletter():
+  if request.method == "POST":
+    existing_user = mongo.db.newsletter.find_one(
+      {"email": request.form.get("email").lower()}
+    )
+    if existing_user:
+      flash("Email already registered")
+      return redirect(url_for("index"))
+
+    subscription = {
+      "email": request.form.get("email").lower(),
+      "title": request.form.get("title").lower(),
+      "first_name": request.form.get("first_name").lower(),
+      "last_name": request.form.get("last_name").lower(),
+    }
+    mongo.db.newsletter.insert_one(subscription)
+    flash("Thank you, we stay in touch!")
+    return redirect(url_for("index"))
+  return render_template("index.html")
+
 # _____ LOCAL SERVER _____ #
 
 if __name__ == '__main__':
