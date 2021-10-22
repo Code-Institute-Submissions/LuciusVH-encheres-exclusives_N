@@ -137,6 +137,12 @@ img.logo {
   transition: all 0.5s ease-in-out;
 }
 
+@media screen and (min-width: 1200px) {
+  img.logo {
+    max-height: 60px;
+  }
+}
+
 .nav-link {
   text-transform: uppercase;
 }
@@ -150,18 +156,31 @@ img.logo {
   align-items: center;
 }
 
-.sign-in-up-links:first-child {
-  padding-right: 0;
+#navbar-sign-in-up-divider {
+  padding: 0 0.2rem;
 }
 
-.sign-in-up-links:last-child {
-  padding-left: 0;
+.dropdown-menu {
+  max-width: 950px;
+  min-width: fit-content;
+  width: 100%;
+  overflow: hidden;
 }
 
-@media screen and (min-width: 768px) {
-  img.logo {
-    max-height: 60px;
+@media screen and (min-width: 992px) {
+  .dropdown-menu {
+    width: 65vw;
   }
+}
+
+.dropdown-item {
+  white-space: normal;
+  word-break: break-word;
+}
+
+.nav-item-auction-date {
+  font-size: smaller;
+  align-self: center;
 }
 
 
