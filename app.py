@@ -1,13 +1,12 @@
 import os
-from flask import (
-  Flask, flash, render_template, redirect, request, session, url_for)
+from flask import (Flask, flash, render_template,
+   redirect, request, session, url_for, jsonify)
 from flask_pymongo import PyMongo
 import json
 from bson.objectid import ObjectId
 from bson import json_util
-from bson.json_util import loads, dumps
 from werkzeug.security import generate_password_hash, check_password_hash
-from datetime import datetime
+from datetime import datetime, timedelta
 if os.path.exists('env.py'):
   import env
 
@@ -22,45 +21,92 @@ app.secret_key = os.environ.get('SECRET_KEY')
 
 mongo = PyMongo(app)
 
-"""
-  Convert BSON data, coming from MongoDB, to JSON
-  Code snippet found on https://stackoverflow.com/questions/16586180/typeerror-objectid-is-not-json-serializable/18405626#18405626
-  
-"""
-def parse_json(data):
-  return json.loads(json_util.dumps(data))
-
 
 # _____ BASE _____ #
 
-@app.route('/')
+"""
+  Converts BSON data, coming from MongoDB, to JSON
+  Code snippet found on https://stackoverflow.com/a/65538552
+  
+"""
+
+class MyEncoder(json.JSONEncoder):
+  def default(self, obj):
+    if isinstance(obj, ObjectId):
+      return str(obj)
+    elif isinstance(obj, datetime):
+      return str(obj)
+    return super(MyEncoder, self).default(obj)
+
+app.json_encoder = MyEncoder
+
+"""
+  Global variables, to be used throughout the project
+
+"""
+current_auctions = []
+upcoming_auctions = []
+now = datetime.today()
+
 
 @app.context_processor
-def navlinks():
-  auctions = mongo.db.auctions.find().sort("date_start", -1)
-  current_auctions = []
-  upcoming_auctions = []
+def auctions_dispatch():
+
+  """
+  Maintain the current_auctions & upcoming_auctions dictionaries up-to-date.
+
+  """
+  auctions = mongo.db.auctions.find()
+  current_auctions.clear()
+  upcoming_auctions.clear()
 
   for auction in auctions:
-    today = datetime.today()
-
-    if auction["date_start"] <= today and auction["date_end"] >= today:
+    if auction["date_start"] <= now and now <= auction["date_end"]:
+      # Add the auction to the current_auctions list
       current_auctions.append(auction)
-    else: 
+    elif auction["date_start"] <= now and now >= auction["date_end"]:
+      # Updates the auction dates by incrementing date_start & date_end by as many weeks as there are auction categories
+      updated_dates = { 
+        "date_start" : auction['date_start'] + timedelta(
+          days=7*mongo.db.auctions.count_documents({})),
+        "date_end" : auction['date_end'] + timedelta(
+          days=7*mongo.db.auctions.count_documents({}))
+      }
+      updated_auction = mongo.db.auctions.update_one(
+        {'_id' : auction['_id'] }, 
+        { "$set": updated_dates}
+      )
+      # Add the newly updated auction to the upcoming_auctions list
+      upcoming_auctions.append(updated_auction)
+    else:
+      # Add the auction to the upcoming_auctions list
       upcoming_auctions.append(auction)
+  
+  return dict(current_auctions=current_auctions, upcoming_auctions=upcoming_auctions)
+
+
+def navlinks():
+  """
+    Use the current_auctions & upcoming_auctions lists to build the navbar Auctions links.
+
+  """
   return dict(current_auctions=current_auctions, 
               upcoming_auctions=upcoming_auctions)
 
+
 # _____ INDEX _____ #
 
-@app.route('/index')
+@app.route('/')
 def index():
-  newest_auction = mongo.db.auctions.find().sort("date_start", -1)
+  sorted_current_auctions = current_auctions.sort(
+    key=lambda item: item.get("date_start"))
+  newest_auction = sorted_current_auctions
+
   items = mongo.db.items.find()
-  return render_template('index.html', newest_auction=newest_auction[0], items=items)
+  return render_template('index.html', newest_auction=newest_auction, items=items)                          
 
 
-# _____ CURRENT AUCTION _____ #
+# _____ AUCTION _____ #
 
 @app.route('/auction')
 def auction():
