@@ -26,11 +26,10 @@ mongo = PyMongo(app)
 # _____ BASE _____ #
 
 """
-  Converts BSON data, coming from MongoDB, to JSON
+  Convert BSON data, coming from MongoDB, to JSON
   Code snippet found on https://stackoverflow.com/a/65538552
   
 """
-
 class MyEncoder(json.JSONEncoder):
   def default(self, obj):
     if isinstance(obj, ObjectId):
@@ -54,7 +53,7 @@ now = datetime.today()
 def auctions_dispatch():
 
   """
-  Maintain the current_auctions & upcoming_auctions dictionaries up-to-date.
+  Maintain the current_auctions & upcoming_auctions lists up-to-date.
 
   """
   global current_auctions
@@ -84,8 +83,6 @@ def auctions_dispatch():
     else:
       # Add the auction to the upcoming_auctions list
       upcoming_auctions.append(auction)
-  print("-------------------")
-  print(f"CURRENT AUCTIONS FROM DISPATCH: {current_auctions}")
   return dict(current_auctions=current_auctions, upcoming_auctions=upcoming_auctions)
 
 
@@ -103,7 +100,6 @@ def navlinks():
   Code snippet written by Sean, tutor help.
 
 """
-
 @app.template_filter()
 def date_end(dttm):
   t = dttm['date_end']
@@ -115,11 +111,6 @@ def date_end(dttm):
 
 @app.route('/')
 def index():
-  print("-------------------")
-  print(f"CURRENT AUCTIONS FROM INDEX: {current_auctions}")
-  # newest_auction = current_auctions[0]
-  # print("-------------------")
-  # print("NEWEST_AUCTION: ", newest_auction)
   items = mongo.db.items.find()
   return render_template('index.html', current_auctions=current_auctions, items=items)                       
 
