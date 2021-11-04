@@ -4,9 +4,10 @@ from flask import (Flask, flash, render_template,
 from flask_pymongo import PyMongo
 import json
 from bson.objectid import ObjectId
-from bson import json_util
+# from bson import json_util
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime, timedelta
+from operator import itemgetter
 if os.path.exists('env.py'):
   import env
 
@@ -56,7 +57,9 @@ def auctions_dispatch():
   Maintain the current_auctions & upcoming_auctions dictionaries up-to-date.
 
   """
-  auctions = mongo.db.auctions.find()
+  global current_auctions
+  global upcoming_auctions
+  auctions = list(mongo.db.auctions.find().sort('date_start', 1))
   current_auctions.clear()
   upcoming_auctions.clear()
 
@@ -81,7 +84,8 @@ def auctions_dispatch():
     else:
       # Add the auction to the upcoming_auctions list
       upcoming_auctions.append(auction)
-  
+  print("-------------------")
+  print(f"CURRENT AUCTIONS FROM DISPATCH: {current_auctions}")
   return dict(current_auctions=current_auctions, upcoming_auctions=upcoming_auctions)
 
 
@@ -94,16 +98,30 @@ def navlinks():
               upcoming_auctions=upcoming_auctions)
 
 
+"""
+  Access and formate nicely the end date of a running auction.
+  Code snippet written by Sean, tutor help.
+
+"""
+
+@app.template_filter()
+def date_end(dttm):
+  t = dttm['date_end']
+  t = t.strftime('%B %d, %Y ― %H:%M')
+  return t
+
+
 # _____ INDEX _____ #
 
 @app.route('/')
 def index():
-  sorted_current_auctions = current_auctions.sort(
-    key=lambda item: item.get("date_start"))
-  newest_auction = sorted_current_auctions
-
+  print("-------------------")
+  print(f"CURRENT AUCTIONS FROM INDEX: {current_auctions}")
+  # newest_auction = current_auctions[0]
+  # print("-------------------")
+  # print("NEWEST_AUCTION: ", newest_auction)
   items = mongo.db.items.find()
-  return render_template('index.html', newest_auction=newest_auction, items=items)                          
+  return render_template('index.html', current_auctions=current_auctions, items=items)                       
 
 
 # _____ AUCTION _____ #
