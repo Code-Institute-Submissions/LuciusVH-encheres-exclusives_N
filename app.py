@@ -83,6 +83,7 @@ def auctions_dispatch():
     else:
       # Add the auction to the upcoming_auctions list
       upcoming_auctions.append(auction)
+    
   return dict(current_auctions=current_auctions, upcoming_auctions=upcoming_auctions)
 
 
@@ -111,8 +112,11 @@ def date_end(dttm):
 
 @app.route('/')
 def index():
-  items = mongo.db.items.find()
-  return render_template('index.html', current_auctions=current_auctions, items=items)                       
+  auctions_dispatch()
+  newest_auction = current_auctions[0]
+  auction_category = newest_auction["category"]
+  items = mongo.db.items.find({"category": auction_category})
+  return render_template('index.html', newest_auction=newest_auction, items=items)                       
 
 
 # _____ AUCTION _____ #
