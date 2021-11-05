@@ -56,7 +56,7 @@ h2,
 
 h3,
 .h3 {
-  font-size: calc(1.3rem + 0.75vw);
+  font-size: calc(1.3rem + 0.70vw);
 }
 
 h4,
@@ -287,7 +287,7 @@ img.logo {
 
 @media screen and (min-width: 1200px) {
   .card {
-    height: 600px;
+    height: 620px;
   }
 }
 
