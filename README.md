@@ -62,7 +62,7 @@ Finally, a footer inviting the user to follow *Enchères Exclusives* on differen
 
 The navigation bar is pretty basic: the company's logo on the left, being a link to the homepage. Then 2 sections of links: on the left the company's related links with "Auctions", "About" & "Contact" ; On the right side, "Sign In / Sign Up" and a "Search" bar. All these links collapse on tablet & phone screen, under a hamburger icon, right-positioned. It opens up a dropdown menu, displaying all the same links. Finally, from a computer, the logo gets reduced by half once the user starts scrolling down the page (while it's automatically set to 30px height on phone & tablet screens), giving more space to the content, and a shadow appears under the navbar to create a separation between the navbar and the rest of the website, both having the same background color. 
 
-Auction link
+The <u>Auction link</u> dropdown menu is divided in two sections: the Current Auctions & the Upcoming Auctions. Each auction displays which category it belongs to (Art, Fashion & Jewels, Interior Design & Furniture, Watches, etc.) and either way when it starts if it's an upcoming auction, or when it ends if the auction is already running. Auctions are held for a fortnite and the turnover is encoded within the [`auction_dispatch()`]() function. **LINK TO BE UPDATED** 
 
 About link
 
@@ -219,6 +219,7 @@ You can find the deployed site [here](https://encheres-exclusives.herokuapp.com/
 ### Media
 
 - The hero pictures are both from Adobe Stock [[landscape](https://stock.adobe.com/images/panoramic-shot-of-auctioneer-talking-with-microphone-and-holding-picture-during-auction/325679020) & [portrait](https://stock.adobe.com/images/auctioneer-talking-with-microphone-and-holding-picture-during-auction/325679180)]. 
+- See the detailed media credits [here](https://github.com/LuciusVH/encheres-exclusives/blob/main/static/docs/media-credits.md).
 
 ### Acknowledgements
 
