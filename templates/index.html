@@ -35,7 +35,7 @@
         <div class="glide">
           <div class="glide__track" data-glide-el="track">
             <ul class="glide__slides">
-              {% for item in items %}
+              {% for item in items_card %}
                 <div class="card">
                   <!-- Item image-->
                   <div class="card-img-bg">
@@ -56,7 +56,11 @@
                   </div>
                   <!-- Product actions-->
                   <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                    <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Place Bid</a></div>
+                    <div class="text-center">
+                      <button class="btn btn-outline-dark mt-auto edit-modal-opener" data-bs-toggle="modal" data-bs-target="#modal-{{ item._id }}"> 
+                        Place Bid
+                      </button>
+                    </div>
                   </div>
                 </div>
               {% endfor %}
@@ -76,6 +80,47 @@
     </div>
   </section>
 
+  <!-- Bidding modal -->
+  {% for item in items_modal %}
+    <section class="modal fade" id="modal-{{ item._id }}" tabindex="-1" role="dialog" aria-labelledby="FormModal" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="exampleModalLabel">Are you ready to bid?</h4>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="row modal-body justify-content-center">
+            <div class="col-12 col-sm-8 col-lg-4 modal-item-img">
+              <div class="card-img-bg">
+                <img class="card-img-top" src="{{ item.image_url }}" alt="{{ item.title }} from {{ item.brand_artist }}" />
+              </div>
+            </div>
+            <div class="modal-item-details col-12 col-sm-6 col-lg-4 align-self-center">
+              <p><strong>Item details</strong></p>
+              <p>Title: {{ item.title }}</p>
+              <p>Artist/Brand: {{ item.brand_artist }}</p>
+              <p>Estimated price: {{ item.estimated_price }}€</p>
+            </div>
+            <div class="modal-bidding-area col-12 col-sm-6 col-lg-4 align-self-center">
+              <form class="form" method="POST" action="">
+                <p><strong>Bidding area</strong></p>
+                <p>Actual bid: {{ item.actual_bid }}€</p>
+                <p><strong>
+                  <label for="user_bid_item-{{ item._id }}">Your bid:</label>
+                  <input type="text" name="user_bid" id="user_bid_item-{{ item._id }}"> € 
+                </strong></p>
+                <div>
+                  <button id="submit" type="submit" class="btn btn-bg-dark upper">Place bid</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  {% endfor %}
+
+  <!-- Newsletter subscription -->
   <section class="newsletter bg-dark">
     <div class="container px-4 mt-sm-5">
       <div class="row gx-4 gx-lg-5 py-4 text-center">

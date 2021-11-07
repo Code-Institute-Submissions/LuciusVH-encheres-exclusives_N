@@ -96,6 +96,10 @@ def navlinks():
               upcoming_auctions=upcoming_auctions)
 
 
+def place_bid(item_id):
+  print(item_id)
+  return item_id
+
 """
   Access and formate nicely the end date of a running auction.
   Code snippet written by Sean, tutor help.
@@ -115,8 +119,9 @@ def index():
   auctions_dispatch()
   newest_auction = current_auctions[0]
   auction_category = newest_auction["category"]
-  items = mongo.db.items.find({"category": auction_category})
-  return render_template('index.html', newest_auction=newest_auction, items=items)                       
+  items_card = mongo.db.items.find({"category": auction_category})
+  items_modal = mongo.db.items.find({"category": auction_category})
+  return render_template('index.html', newest_auction=newest_auction, items_card=items_card, items_modal=items_modal)
 
 
 # _____ AUCTION _____ #
