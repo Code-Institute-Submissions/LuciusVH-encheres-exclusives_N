@@ -30,23 +30,9 @@ function changeBgImg() {
 }
 
 // Update copyright date
-
-document.querySelector('#copyright').text(new Date().getFullYear())
-
-// Show the password instructions when the user selects the password field when registering
-const passportField = document.querySelector('.password-register');
-const passportInstructions = document.querySelector('.password-instructions');
-
-passportField.addEventListener('focus', showInstructions);
-passportField.addEventListener('blur', hideInstructions);
-
-function showInstructions() {
-  passportInstructions.style.display = 'block';
-}
-
-function hideInstructions() {
-  passportInstructions.style.display = 'none';
-}
+$(document).ready(function() {
+  $('#copyright').text(new Date().getFullYear());
+})
 
 
 // Target the Delete link on profile page to toggle the delete profile confirmation toast
