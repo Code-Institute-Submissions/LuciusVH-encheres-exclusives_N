@@ -292,6 +292,46 @@ img.logo {
 }
 
 
+/* _____ MODAL _____ */
+
+.modal-item-img {
+  max-height: 30vh;
+}
+
+.modal .card-img-bg {
+  height: 100%;
+  max-height: 300px;
+}
+
+.modal-item-details,
+.modal-bidding-area {
+  padding: 1rem;
+  padding-bottom: 0;
+}
+
+.modal input {
+  width: 100px;
+}
+
+@media (min-width: 768px) {
+  .modal-dialog {
+    max-width: 700px;
+  }
+}
+
+@media (min-width: 992px) {
+  .modal-dialog {
+    max-width: 90%;
+  }
+}
+
+@media (min-width: 1200px) {
+  .modal-dialog {
+    max-width: 1100px;
+  }
+}
+
+
 /* _____ REGISTER _____ */
 
 .upper {
