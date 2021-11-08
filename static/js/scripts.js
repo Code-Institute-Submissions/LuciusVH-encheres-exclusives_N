@@ -46,3 +46,20 @@ function deleteToast() {
   const toast = new bootstrap.Toast(deleteProfileToast, options)
   toast.show()
 }
+
+// Custom error input when the user wants to bid a lower price than required
+let userInput = document.querySelectorAll('input[name="user_bid"]');
+userInput.forEach((el) => {
+  el.addEventListener('change', bidInput);
+});
+
+function bidInput(event) {
+  let input = event.target;
+  let minValue = parseInt(input.getAttribute('min'));
+
+  if (input.validity.rangeUnderflow) {
+    input.setCustomValidity(`Your bid cannot be lower than ${minValue + 1}€`);
+  } else {
+    input.setCustomValidity('');
+  }
+}

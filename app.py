@@ -95,11 +95,6 @@ def navlinks():
   return dict(current_auctions=current_auctions, 
               upcoming_auctions=upcoming_auctions)
 
-
-def place_bid(item_id):
-  print(item_id)
-  return item_id
-
 """
   Access and formate nicely the end date of a running auction.
   Code snippet written by Sean, tutor help.
@@ -114,7 +109,7 @@ def date_end(dttm):
 
 # _____ INDEX _____ #
 
-@app.route('/')
+@app.route('/', methods=["GET", "POST"])
 def index():
   auctions_dispatch()
   newest_auction = current_auctions[0]
@@ -130,6 +125,30 @@ def index():
 def auction():
   items = mongo.db.items.find()
   return render_template('auction.html', items=items)
+
+# _____ PLACE BID _____ #
+
+@app.route('/place_bid/<item_id>', methods=["GET", "POST"])
+def place_bid(item_id):
+  if request.method == "POST":
+    user_bid = int(request.form.get("user_bid"))
+    item = mongo.db.items.find_one(
+    {"_id": ObjectId(item_id)} 
+  )
+    starting_price = item['starting_price']
+    actual_bid = item['actual_bid']
+    if user_bid > int(actual_bid) > int(starting_price):
+      bid_placed = {
+        "actual_bid": user_bid,
+        "actual_bidder": session["user"]
+      }
+      mongo.db.items.update_one(
+        {"_id": ObjectId(item_id)},
+        {"$set": bid_placed})
+      return redirect(url_for("index"))
+    else:
+      return redirect(url_for("index"))
+  return render_template('index.html')
 
 
 # _____ REGISTER _____ #
