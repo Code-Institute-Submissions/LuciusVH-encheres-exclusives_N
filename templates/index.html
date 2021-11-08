@@ -47,11 +47,16 @@
                     <h3 class="item-title fw-bolder">{{ item.title }}</h3>
                     <!-- Brand / Artist -->
                     <p class="item-brand-artist">{{ item.brand_artist }}</p>
-                    <!-- Actual bid -->
-                    <p class="item-actual-bid">Actual bid<br>
+                    <!-- Actual bid or Starting price -->
+                    {% if item.actual_bid != 0 %}
+                    <p class="item-actual-bid h6">Actual bid<br>
                     <span class="h4 fw-bolder">{{ item.actual_bid }}€</span></p>
+                    {% else %}
+                    <p class="item-starting-price h6">Starting price<br>
+                    <span class="h4 fw-bolder">{{ item.starting_price }}€</span></p>
+                    {% endif %}
                     <!-- Estimated price-->
-                    <p class="item-estimated-price h6">Estimated price<br>
+                    <p class="item-estimated-price">Estimated price<br>
                     <span>{{ item.estimated_price }}€</span></p>
                   </div>
                   <!-- Product actions-->
@@ -102,7 +107,7 @@
               <p>Estimated price: {{ item.estimated_price }}€</p>
             </div>
             <div class="modal-bidding-area col-12 col-sm-6 col-lg-4 align-self-center">
-              <form class="form" method="POST" action="">
+              <form class="form" method="POST" action="{{ url_for('place_bid', item_id=item._id) }}">
                 <p><strong>Bidding area</strong></p>
                 <p>Actual bid: {{ item.actual_bid }}€</p>
                 <p><strong>
