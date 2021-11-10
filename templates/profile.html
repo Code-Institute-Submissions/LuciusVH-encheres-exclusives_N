@@ -9,6 +9,7 @@
     </div> 
   </header>
 
+  <!-- User's details -->
   <section class="pb-3 pb-md-5">
     <div class="container px-4 mt-sm-5">
       <div class="row user-details">
@@ -24,11 +25,13 @@
           <br>
           *********
         </p>
+        <!-- User's profile actions -->
         <p class="user-details-actions"><a href="{{ url_for('edit_profile', user_id=user_id)}}">Edit</a> / <a href="#" onclick="deleteToast()">Delete</a></p>
       </div>
     </div>
   </section>
 
+  <!-- Profile deletion confirmation -->
   <section id="delete-profile-confirmation" class="toast p-3" role="alert" aria-live="assertive" aria-atomic="true">
     <div class="toast-header">
       <i class="fas fa-exclamation-triangle"></i>
@@ -45,6 +48,83 @@
           <button type="button" class="btn btn-danger btn-sm upper">Delete</button>
         </a>
         <button type="button" class="btn btn-bg-light btn-sm upper" data-bs-dismiss="toast">Cancel</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- User's lots to be sold -->
+  <section id="profile-my-lots">
+    <div class="header-title bg-dark p-3 mb-3 mb-md-5">
+      <div class="d-flex flex-column flex-md-row align-items-baseline text-md-start text-center">
+        <div class="p-md-2 mx-auto">
+          <h2 class="fw-bolder m-0">My Lots</h2>
+        </div>
+      </div> 
+    </div>
+    <div class="pb-3 pb-md-5">
+      <div class="container px-4 mt-sm-5">
+        <div class="row">
+          {% if user_items.count() > 0 %}
+            <!-- GlideJS slider -->
+            <div class="glide">
+              <div class="glide__track" data-glide-el="track">
+                <ul class="glide__slides">
+                  {% for item in user_items %}
+                    <div class="card">
+                      <!-- Item image-->
+                      <div class="card-img-bg">
+                        <img class="card-img-top" src="{{ item.image_url }}" alt="{{ item.title }} from {{ item.brand_artist }}" />
+                      </div>
+                      <!-- Item details-->
+                      <div class="card-body wrap-normal text-center p-3">
+                        <!-- Title -->
+                        <h3 class="item-title fw-bolder">{{ item.title }}</h3>
+                        <!-- Brand / Artist -->
+                        <p class="item-brand-artist">{{ item.brand_artist }}</p>
+                        <!-- Actual bid or Starting price -->
+                        {% if item.actual_bid != 0 %}
+                        <p class="item-actual-bid h6">Actual bid<br>
+                        <span class="h4 fw-bolder">{{ item.actual_bid }}€</span></p>
+                        {% else %}
+                        <p class="item-starting-price h6">Starting price<br>
+                        <span class="h4 fw-bolder">{{ item.starting_price }}€</span></p>
+                        {% endif %}
+                        <!-- Estimated price-->
+                        <p class="item-estimated-price">Estimated price<br>
+                        <span>{{ item.estimated_price }}€</span></p>
+                      </div>
+                      <!-- Product actions-->
+                      <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                        <div class="text-center">
+                          <button class="btn btn-outline-dark btn-bg-dark upper mt-auto edit-modal-opener" data-bs-toggle="modal" data-bs-target="#modal-{{ item._id }}"> 
+                            Place Bid
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  {% endfor %}
+                </ul>
+              </div>
+              <!-- Glide controllers -->
+              <div class="glide__arrows" data-glide-el="controls">
+                <button class="glide__arrow glide__arrow--left" data-glide-dir="<" role="navigation" alt="Go back to left slide">
+                  <i class="fas fa-chevron-circle-left"></i>
+                </button>
+                <button class="glide__arrow glide__arrow--right" data-glide-dir=">" role="navigation" alt="Go to right slide">
+                  <i class="fas fa-chevron-circle-right"></i>
+                </button>
+              </div>
+            </div>
+          {% endif %}
+          <div class="row">
+            <p>Do you want to sell something?<br>
+              <a href="#" class="link">Discover how it works</a> or 
+              <a href="#" class="btn btn-outline-dark btn-bg-dark mt-auto">
+                <i class="fas fa-plus"></i>Propose a lot
+              </a>
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
