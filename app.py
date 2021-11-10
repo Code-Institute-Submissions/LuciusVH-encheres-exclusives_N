@@ -227,6 +227,10 @@ def profile(user_id):
   user = mongo.db.users.find_one(
     {"_id": ObjectId(session["user"])}
   )
+  # Retrieve the user's items to be sold
+  user_items = mongo.db.items.find(
+    {"created_by": ObjectId(session["user"])} 
+  )
 
   if session["user"]:
     return render_template('profile.html', 
@@ -234,7 +238,8 @@ def profile(user_id):
                             email=user["email"], 
                             title=user["title"], 
                             first_name=user["first_name"], 
-                            last_name=user["last_name"])
+                            last_name=user["last_name"],
+                            user_items=user_items)
 
   return redirect(url_for("login"))
 

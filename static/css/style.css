@@ -292,7 +292,7 @@ img.logo {
 }
 
 
-/* _____ MODAL _____ */
+/* _____ BIDDING MODAL _____ */
 
 .modal-item-img {
   max-height: 30vh;
@@ -440,6 +440,14 @@ label[for="newsletter"],
   .toast {
     width: fit-content;
   }
+}
+
+.fa-plus {
+  margin-right: 12px;
+}
+
+#profile-my-lots p:last-child {
+  margin-bottom: 0;
 }
 
 
