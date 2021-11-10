@@ -62,9 +62,24 @@
                   <!-- Product actions-->
                   <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                     <div class="text-center">
-                      <button class="btn btn-outline-dark btn-bg-dark upper mt-auto edit-modal-opener" data-bs-toggle="modal" data-bs-target="#modal-{{ item._id }}"> 
-                        Place Bid
-                      </button>
+                      {% if session.user %}
+                        {% if session.user == item.created_by %}
+                          <button class="btn btn-actions btn-edit" data-bs-toggle="modal" data-bs-target="#edit-modal-{{ item._id }}" aria-label="Edit your item {{ item.title }} by {{ item.brand_artist }}">
+                            <i class="far fa-edit"></i>
+                          </button>
+                          <button class="btn btn-actions btn-delete" aria-label="Delete your item {{ item.title }} by {{ item.brand_artist }}">
+                            <i class="far fa-trash-alt"></i>
+                          </button>
+                        {% else %}
+                        <a class="btn btn-outline-dark btn-bg-dark upper mt-auto edit-modal-opener" data-bs-toggle="modal" data-bs-target="#bidding-modal-{{ item._id }}"> 
+                          Place Bid
+                        </a>
+                        {% endif %}
+                      {% else %}
+                        <a href="{{ url_for('login') }}" class="btn btn-outline-dark btn-bg-dark upper mt-auto edit-modal-opener"> 
+                          Place Bid
+                        </a>
+                      {% endif %}
                     </div>
                   </div>
                 </div>
@@ -87,7 +102,7 @@
 
   <!-- Bidding modal -->
   {% for item in items_modal %}
-    <section class="modal fade" id="modal-{{ item._id }}" tabindex="-1" role="dialog" aria-labelledby="FormModal" aria-hidden="true">
+    <section class="modal fade" id="bidding-modal-{{ item._id }}" tabindex="-1" role="dialog" aria-labelledby="FormModal" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
           <div class="modal-header">

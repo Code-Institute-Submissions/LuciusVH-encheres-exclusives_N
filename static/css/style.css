@@ -113,7 +113,8 @@ h6,
 }
 
 .btn-actions {
-  padding: auto 1rem;
+  margin: auto 16px;
+  width: 70px;
 }
 
 .btn-edit {
