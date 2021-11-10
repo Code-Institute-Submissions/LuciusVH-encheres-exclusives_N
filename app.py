@@ -229,7 +229,7 @@ def profile(user_id):
   )
   # Retrieve the user's items to be sold
   user_items = mongo.db.items.find(
-    {"created_by": ObjectId(session["user"])} 
+    {"created_by": session["user"]} 
   )
 
   if session["user"]:
