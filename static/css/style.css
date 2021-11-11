@@ -10,8 +10,13 @@
   --bg-grey-darker: hsl(0, 0%, 60%);
   --color-text: hsl(0, 0%, 20%);
   --bg-highlight-dark: hsl(221, 60%, 34%);
+  --bg-highlight-dark-hover: hsl(221, 60%, 34%, 0.8);
   --bg-highlight-darker: hsl(221, 60%, 23%);
   --bg-highlight-light: hsl(221, 60%, 50%);
+  --bg-alert: hsl(37, 100%, 50%);
+  --bg-alert-hover: hsla(37, 100%, 50%, 0.8);
+  --bg-warning: hsl(20, 100%, 37%);
+  --bg-warning-hover: hsl(20, 100%, 37%, 0.8);
 }
 
 body {
@@ -77,16 +82,24 @@ h6,
 
 /* _____ BUTTONS _____ */
 
-.btn-bg-dark {
-  background-color: var(--bg-highlight-dark);
-  border-color: var(--bg-highlight-darker);
+.btn {
+  border-color: hsl(210, 11%, 15%);
   color: white;
 }
 
-.btn-bg-dark:hover {
+.btn:focus {
+  box-shadow: 0 0 0 0.25rem hsl(221, 60%, 34%, 0.25);
+}
+
+.btn-bg-dark {
+  background-color: var(--bg-highlight-dark);
+  border-color: var(--bg-highlight-darker);
+}
+
+.btn-bg-dark:hover,
+.btn-bg-dark:active {
+  background-color: var(--bg-highlight-dark-hover);
   color: white;
-  /* font-weight: bolder; */
-  background-color: var(--bg-highlight-light);
 }
 
 .btn-bg-light {
@@ -94,8 +107,34 @@ h6,
   border-color: var(--color-text);
 }
 
-.btn-bg-light:hover {
+.btn-bg-light:hover,
+.btn-bg-light:active {
   background-color: var(--bg-grey-darker);
+}
+
+.btn-actions {
+  margin: auto 16px;
+  width: 70px;
+}
+
+.btn-edit {
+  background-color: var(--bg-alert);
+}
+
+.btn-edit:hover,
+.btn-edit:active {
+  background-color: var(--bg-alert-hover);
+  color: white;
+}
+
+.btn-delete {
+  background-color: var(--bg-warning);
+}
+
+.btn-delete:hover,
+.btn-delete:active {
+  background-color: var(--bg-warning-hover);
+  color: white;
 }
 
 
@@ -110,9 +149,24 @@ h6,
   text-shadow: 1px 1px var(--bg-light), 1px -1px var(--bg-light), -1px 1px var(--bg-light), -1px -1px var(--bg-light);
 }
 
-.link:hover {
+.link:hover,
+.link:active {
   color: var(--bg-highlight-darker);
   border-bottom: solid var(--bg-highlight-light) 0.3rem;
+}
+
+
+/* _____ INPUTS _____ */
+
+.form-check-input:checked {
+  background-color: var(--bg-highlight-dark);
+  border-color: var(--bg-highlight-dark);
+}
+
+.form-control:focus,
+.form-select:focus {
+  box-shadow: 0 0 0 0.25rem hsl(221, 60%, 34%, 0.25);
+  border-color: hsl(221, 60%, 34%, 0.25);
 }
 
 
@@ -422,7 +476,7 @@ label[for="newsletter"],
 }
 
 .toast-header i {
-  color: var(--bs-danger);
+  color: var(--bg-warning);
   padding-right: 10px;
 }
 

@@ -33,7 +33,7 @@
               <label for="email">Email</label>
             </div>
             <div class="form-floating mx-auto my-4 password-instructions-rel">
-              <input id="password" name="password" type="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}" class="form-control password-register" placeholder="Password">
+              <input id="password" name="password" type="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}" class="form-control password-register" placeholder="Password" required>
               <label for="password">Password</label>
               <div class="password-instructions">
                 <i class="fas fa-lock"></i>The password must be 6 to 20 characters and contain at least one digit, one uppercase and one lowercase letter. 
@@ -87,6 +87,5 @@
     </div>
   </section> 
 
-  <scriptsrc="{{ url_for('static', filename='js/password-rules.js') }}"></script>
-
+  <script src="{{ url_for('static', filename='js/password-rules.js') }}"></script>
 {% endblock %}

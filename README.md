@@ -22,7 +22,6 @@ You can find the deployed site [here](https://encheres-exclusives.herokuapp.com/
 1. [UX](https://github.com/LuciusVH/encheres-exclusives#ux)
    1. [Structure & Design](https://github.com/LuciusVH/encheres-exclusives#structure--design)
    2. [User Stories](https://github.com/LuciusVH/encheres-exclusives#user-stories)
-   3. [Bugs](https://github.com/LuciusVH/encheres-exclusives#bugs)
 2. [Features](https://github.com/LuciusVH/encheres-exclusives#features)
    1. [Existing Features](https://github.com/LuciusVH/encheres-exclusives#existing-features)
    2. [Features Left to Implement](https://github.com/LuciusVH/encheres-exclusives#features-left-to-implement)
@@ -60,9 +59,9 @@ Next comes a section inviting the user to subscribe to the company's newsletter.
 
 Finally, a footer inviting the user to follow *Enchères Exclusives* on different social medias: Twitter, Facebook, Instagram, YouTube & Weibo. A discreet copyright mention is positioned under it, being aligned with the "Follow us" on desktop, or centered from a smaller screen. 
 
-The navigation bar is pretty basic: the company's logo on the left, being a link to the homepage. Then 2 sections of links: on the left the company's related links with "Auctions", "About" & "Contact" ; On the right side, "Sign In / Sign Up" and a "Search" bar. All these links collapse on tablet & phone screen, under a hamburger icon, right-positioned. It opens up a dropdown menu, displaying all the same links. Finally, from a computer, the logo gets reduced by half once the user starts scrolling down the page (while it's automatically set to 30px height on phone & tablet screens), giving more space to the content, and a shadow appears under the navbar to create a separation between the navbar and the rest of the website, both having the same background color. 
+The navigation bar is pretty basic: the company's logo on the left, being a link to the homepage. Then 2 sections of links: on the left the company's related links with "Auctions", "About" & "Contact" ; On the right side, "Sign In / Sign Up" for a guest user, or "Profile / Log Out" for a registered user, and a "Search" bar. All these links collapse on tablet & phone screen, under a hamburger icon, right-positioned. It opens up a dropdown menu, displaying all the same links. Finally, from a computer, the logo gets reduced by half once the user starts scrolling down the page (while it's automatically set to 30px height on phone & tablet screens), giving more space to the content, and a shadow appears under the navbar to create a separation between the navbar and the rest of the website, both having the same background color. 
 
-The <u>Auction link</u> dropdown menu is divided in two sections: the Current Auctions & the Upcoming Auctions. Each auction displays which category it belongs to (Art, Fashion & Jewels, Interior Design & Furniture, Watches, etc.) and either way when it starts if it's an upcoming auction, or when it ends if the auction is already running. Auctions are held for a fortnite and the turnover is encoded within the [`auction_dispatch()`]() function. **LINK TO BE UPDATED** 
+The <u>Auction link</u> dropdown menu is divided in two sections: the Current Auctions & the Upcoming Auctions. Each auction displays which category it belongs to (Art, Fashion & Jewels, Interior Design & Furniture, Watches, etc.) and either way when it starts if it's an upcoming auction, or when it ends if the auction is already running. 
 
 About link
 
@@ -74,13 +73,13 @@ The <u>Login page</u> is also pretty simple: a form with 2 input fields (email &
 
 The <u>Profile page</u> display a personalized welcoming message followed by the user's data: full name (title, first name & last name), the email and "* * * * * *" as password. Below these are two links, allowing the user to *Edit* or *Delete* their profile. The links are discreet, as I did not want them to be so obviously visible as buttons or icons can be. Although it's a nice feature, I did not wanted it to take too much focus. 
 
-Clicking on *Edit* leads the user to the <u>Edit Profile page</u>, of course, which is a copy of the Register page. The form is already populated with the user data registered in the database. As of now, I have an issue to prepopulate the title dropdown with the correct content (more on this in the [bugs](https://github.com/LuciusVH/encheres-exclusives#bugs) section).
+Clicking on *Edit* leads the user to the <u>Edit Profile page</u>, of course, which is a copy of the Register page. The form is already populated with the user data registered in the database. As of now, I have an issue to prepopulate the title dropdown with the correct content (more on this in the [bugs](https://github.com/LuciusVH/encheres-exclusives#spotted-bugs--errors) section).
 
 The *Delete* link opens up a Bootstrap "toast", playing the alert role (it is set up by aria attributes, for screen-readers): it asks the user for confirmation that they really want to delete their account, informing them that all data will be deleted with no possibility to cancel this action. 
 
 ### User stories
 
-- As a buyer, I want to find new items my collections. 
+- As a buyer, I want to find new items for my collections. 
 - As a user, I want to find information about the actual & upcoming sales. 
 - As a seller & member, I want to resell some of my items. 
 - As a buyer & member, I want to see my bids.
@@ -92,52 +91,20 @@ The *Delete* link opens up a Bootstrap "toast", playing the alert role (it is se
 - As a user, I want to subscribe to the newsletter.
 - As a user, I want to learn more about the auction world.
 
-### Bugs
 
-- **Edit page form "title" dropdown prepopulation**
-
-  The form is supposed to be populated with all user's data. It works fine with other fields, but I can't seem to get this dropdown to display the correct title. The "*selected*" attribute is set to "Ms", as it is the first option in the list.
-
-  <p align="center">
-    <img src="https://github.com/LuciusVH/encheres-exclusives/blob/main/static/docs/readme-img/dropdown-prepopulated.png" alt="Bug with dropdown list selected option"/>
-  </p>
-
-  <p align="center">
-    <img src="https://github.com/LuciusVH/encheres-exclusives/blob/main/static/docs/readme-img/dropdown-prepopulated2.png" alt="Not matching the database data"/>
-  </p>
-
-  <u>Solution:</u> N/A
-
-- 
 
 
 ## Features
 
 ### Existing Features
 
-- **Register / Log In / Log Out / Edit / Delete functions**
-
-  The user must register and become a member in order to place a bid and sold their item(s). They can log in their account, and log out. They can edit their data and delete it (delete the account). From the register form (and updating form) they can opt in or out for the newsletter.
-
-- **Passport instructions**
-
-  The passport instructions (6 to 20 characters long, must contain one digit, one lower and one uppercase letter) are displayed in a popup, only when the passport field is focused, on the registration form. 
-
-  <p align="center">
-    <img src="https://github.com/LuciusVH/encheres-exclusives/blob/main/static/docs/readme-img/password-instructions.gif" alt="gif showing off the passport instructions popup"/>
-  </p>
-
-- **Profile data update**
-
-  When updating their profile data, all data is prepopulated except the password. If they leave the field blank, the password remain unchanged, if they fill up the password field (with a correct input, matching the instructions) then it is updated. This feature is to avoid the user having to retype their password anytime they want to change something else.
-  
-- **Newsletter subscription**
-
-  The app offers the possibility to subscribe to the company's newsletter, without having to get an account. It checks in the newsletter collection if the email isn't already present, and warn the user if that's the case through a Flash message. 
+To see the whole list of features, please read the [Detailed Existing Features report](https://github.com/LuciusVH/encheres-exclusives/blob/main/static/docs/).
 
 ### Features Left to Implement
 
-- Password lost function
+- Password lost function.
+- Password verification.
+- Picture upload input, instead of URL.
 
 
 
@@ -163,7 +130,7 @@ The *Delete* link opens up a Bootstrap "toast", playing the alert role (it is se
 - [Start Bootstrap](https://startbootstrap.com/)
   - The website basic [template](https://startbootstrap.com/template/shop-homepage) was downloaded from **Start Bootstrap** and customized.
 - [Typora](https://typora.io/)
-  - **Typora** was used to write this README file.
+  - **Typora** was used to write this README file & its annexes.
 - [Balsamiq](https://balsamiq.com/)
   - **Balsamiq** was used to create the wireframes. 
 - [Inskcape](https://inkscape.org/)
@@ -194,7 +161,22 @@ The website has been tested automatically through W3C HTML & CSS validators, Jav
 
 #### Spotted bugs & errors:
 
+- **Edit page form "title" dropdown prepopulation**
 
+  The form is supposed to be populated with all user's data. It works fine with other fields, but I can't seem to get this dropdown to display the correct title. The "*selected*" attribute is set to "Ms", as it is the first option in the list.
+
+  <p align="center">
+    <img src="https://github.com/LuciusVH/encheres-exclusives/blob/main/static/docs/readme-img/dropdown-prepopulated.png" alt="Bug with dropdown list selected option"/>
+  </p>
+
+
+  <p align="center">
+    <img src="https://github.com/LuciusVH/encheres-exclusives/blob/main/static/docs/readme-img/dropdown-prepopulated2.png" alt="Not matching the database data"/>
+  </p>
+
+  <u>Solution:</u> N/A
+
+- 
 
 #### Tested user stories:
 
