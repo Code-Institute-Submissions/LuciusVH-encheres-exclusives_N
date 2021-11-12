@@ -136,11 +136,11 @@
                   <div class="toast-body">
                     {% if category == "valid" %}
                       <i class="far fa-check-circle"></i>
-                    {% elif flash_icon == "error" %}
+                    {% elif category == "error" %}
                       <i class="fas fa-exclamation-circle"></i>
-                    {% elif flash_icon == "deleted" %}
+                    {% elif category == "deleted" %}
                       <i class="fas fa-trash"></i>
-                    {% elif flash_icon == "bye" %}
+                    {% elif category == "bye" %}
                       <i class="fas fa-hand-peace"></i>
                     {% else %}
                     {% endif %}
