@@ -1,6 +1,7 @@
 import os
 from flask import (Flask, flash, render_template,
    redirect, request, session, url_for, jsonify)
+from flask.scaffold import F
 from flask_pymongo import PyMongo
 import json
 from bson.objectid import ObjectId
@@ -114,9 +115,8 @@ def index():
   auctions_dispatch()
   newest_auction = current_auctions[0]
   auction_category = newest_auction["category"]
-  items_card = mongo.db.items.find({"category": auction_category})
-  items_modal = mongo.db.items.find({"category": auction_category})
-  return render_template('index.html', newest_auction=newest_auction, items_card=items_card, items_modal=items_modal)
+  items = list(mongo.db.items.find({"category": auction_category}))
+  return render_template('index.html', newest_auction=newest_auction, items=items)
 
 
 # _____ AUCTION _____ #
@@ -161,7 +161,7 @@ def register():
       {"email": request.form.get("email").lower()}
     )
     if existing_user:
-      flash("Email already registered")
+      flash("Email already registered", "error")
       return redirect(url_for("register"))
 
     newsletter = "yes" if request.form.get("newsletter") else "no"
@@ -202,11 +202,11 @@ def login():
           return redirect(url_for("profile", user_id=session["user"]))
       else:
         # Invalid password
-        flash("Incorrect email and/or password.")
+        flash("Incorrect email and/or password", "error")
         return redirect(url_for("login"))
     else:
       # Email not registered
-      flash("Incorrect email and/or password.")
+      flash("Incorrect email and/or password", "error")
       return redirect(url_for("login"))
   return render_template('login.html')
 
@@ -216,7 +216,7 @@ def login():
 def logout():
   # Remove the user from the session cookie
   session.pop("user")
-  flash("You've been logged out. Come back soon!")
+  flash("You've been logged out. Come back soon!", "bye")
   return redirect(url_for("login"))
 
 # _____ PROFILE _____ #
@@ -228,18 +228,12 @@ def profile(user_id):
     {"_id": ObjectId(session["user"])}
   )
   # Retrieve the user's items to be sold
-  user_items = mongo.db.items.find(
+  user_items = list(mongo.db.items.find(
     {"created_by": session["user"]} 
-  )
+  ))
 
   if session["user"]:
-    return render_template('profile.html', 
-                            user_id=user["_id"], 
-                            email=user["email"], 
-                            title=user["title"], 
-                            first_name=user["first_name"], 
-                            last_name=user["last_name"],
-                            user_items=user_items)
+    return render_template('profile.html', user=user, user_items=user_items)
 
   return redirect(url_for("login"))
 
@@ -278,15 +272,10 @@ def edit_profile(user_id):
     mongo.db.users.update_one(
       {"_id": ObjectId(user_id)},
       {"$set": updated_password})
-
-    flash("Profile Updated")
+    flash("Profile Updated", "valid")
+    return redirect(url_for('profile', user_id=session["user"]))
   
-  return render_template('edit_profile.html', 
-                          user_id=user["_id"], 
-                          email=user["email"], 
-                          title=user["title"], 
-                          first_name=user["first_name"], 
-                          last_name=user["last_name"])
+  return render_template('edit_profile.html', user=user)
 
 
 # _____ DELETE PROFILE _____ #
@@ -297,6 +286,15 @@ def delete_profile(user_id):
   return redirect(url_for('index'))
 
 
+# _____ DELETE ITEM _____ #
+
+@app.route('/delete_item/<item_id>')
+def delete_item(item_id):
+  mongo.db.items.remove({'_id': ObjectId(item_id)})
+  flash("Your item has been deleted", "deleted")
+  return redirect(url_for('profile', user_id=session["user"]))
+
+
 # _____ NEWSLETTER _____ #
 @app.route('/newsletter', methods=["GET", "POST"])
 def newsletter():
@@ -305,7 +303,7 @@ def newsletter():
       {"email": request.form.get("email").lower()}
     )
     if existing_user:
-      flash("Email already registered")
+      flash("Email already registered", "error")
       return redirect(url_for("index"))
 
     subscription = {
@@ -315,7 +313,7 @@ def newsletter():
       "last_name": request.form.get("last_name").lower(),
     }
     mongo.db.newsletter.insert_one(subscription)
-    flash("Thank you, we stay in touch!")
+    flash("Thank you, we stay in touch!", "valid")
     return redirect(url_for("index"))
   return render_template("index.html")
 

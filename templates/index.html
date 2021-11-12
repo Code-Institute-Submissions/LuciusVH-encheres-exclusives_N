@@ -35,7 +35,7 @@
         <div class="glide">
           <div class="glide__track" data-glide-el="track">
             <ul class="glide__slides">
-              {% for item in items_card %}
+              {% for item in items %}
                 <div class="card">
                   <!-- Item image-->
                   <div class="card-img-bg">
@@ -101,53 +101,55 @@
   </section>
 
   <!-- Bidding modal -->
-  {% for item in items_modal %}
-    <section class="modal fade" id="bidding-modal-{{ item._id }}" tabindex="-1" role="dialog" aria-labelledby="FormModal" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title" id="exampleModalLabel">Are you ready to bid?</h4>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="row modal-body justify-content-center">
-            <div class="col-12 col-sm-8 col-lg-4 modal-item-img">
-              <div class="card-img-bg">
-                <img class="card-img-top" src="{{ item.image_url }}" alt="{{ item.title }} from {{ item.brand_artist }}" />
-              </div>
+  <section id="bidding-modal">
+    {% for item in items %}
+      <div class="modal fade" id="bidding-modal-{{ item._id }}" tabindex="-1" role="dialog" aria-labelledby="FormModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title" id="exampleModalLabel">Are you ready to bid?</h4>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-item-details col-12 col-sm-6 col-lg-4 align-self-center">
-              <p><strong>Item details</strong></p>
-              <p>Title: {{ item.title }}</p>
-              <p>Artist/Brand: {{ item.brand_artist }}</p>
-              <p>Estimated price: {{ item.estimated_price }}€</p>
-            </div>
-            <div class="modal-bidding-area col-12 col-sm-6 col-lg-4 align-self-center">
-              <form class="form" method="POST" action="{{ url_for('place_bid', item_id=item._id) }}">
-                <p><strong>Bidding area</strong></p>
-                {% if item.actual_bid != 0 %}
-                <p>Actual bid: <strong>{{ item.actual_bid }}€</strong></p>
-                {% else %}
-                <p>Starting price: <strong>{{ item.starting_price }}€</strong></p>
-                {% endif %}
-                <p><strong>
-                  <label for="user_bid_item-{{ item._id }}">Your bid:</label>
-                  {% if item.actual_bid != 0 %}
-                  <input type="number" name="user_bid" id="user_bid_item-{{ item._id }}" min="{{ item.actual_bid }}" required> € 
-                  {% else %}
-                  <input type="number" name="user_bid" id="user_bid_item-{{ item._id }}" min="{{ item.starting_price }}" required> € 
-                  {% endif %}
-                </strong></p>
-                <p id="bid-input"></p>
-                <div>
-                  <button id="submit" type="submit" class="btn btn-bg-dark upper">Place bid</button>
+            <div class="row modal-body justify-content-center">
+              <div class="col-12 col-sm-8 col-lg-4 modal-item-img">
+                <div class="card-img-bg">
+                  <img class="card-img-top" src="{{ item.image_url }}" alt="{{ item.title }} from {{ item.brand_artist }}" />
                 </div>
-              </form>
+              </div>
+              <div class="modal-item-details col-12 col-sm-6 col-lg-4 align-self-center">
+                <p><strong>Item details</strong></p>
+                <p>Title: {{ item.title }}</p>
+                <p>Artist/Brand: {{ item.brand_artist }}</p>
+                <p>Estimated price: {{ item.estimated_price }}€</p>
+              </div>
+              <div class="modal-bidding-area col-12 col-sm-6 col-lg-4 align-self-center">
+                <form class="form" method="POST" action="{{ url_for('place_bid', item_id=item._id) }}">
+                  <p><strong>Bidding area</strong></p>
+                  {% if item.actual_bid != 0 %}
+                  <p>Actual bid: <strong>{{ item.actual_bid }}€</strong></p>
+                  {% else %}
+                  <p>Starting price: <strong>{{ item.starting_price }}€</strong></p>
+                  {% endif %}
+                  <p><strong>
+                    <label for="user_bid_item-{{ item._id }}">Your bid:</label>
+                    {% if item.actual_bid != 0 %}
+                    <input type="number" name="user_bid" id="user_bid_item-{{ item._id }}" min="{{ item.actual_bid }}" required> € 
+                    {% else %}
+                    <input type="number" name="user_bid" id="user_bid_item-{{ item._id }}" min="{{ item.starting_price }}" required> € 
+                    {% endif %}
+                  </strong></p>
+                  <p id="bid-input"></p>
+                  <div>
+                    <button id="submit" type="submit" class="btn btn-bg-dark upper">Place bid</button>
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </section>
-  {% endfor %}
+    {% endfor %}
+  </section>
 
   <!-- Newsletter subscription -->
   <section class="newsletter bg-dark">
@@ -155,21 +157,6 @@
       <div class="row gx-4 gx-lg-5 py-4 text-center">
         <h3 class="m-0">Stay informed of our upcoming auctions</h3>
         <div class="col-md-7 col-lg-5 col-xl-4 mx-auto">
-          <!-- Newsletter validation Flash message -->
-          <section id="flash_message">
-            {% with messages = get_flashed_messages() %}
-              {% if messages %}
-                {% for message in messages %}
-                  <div class="row">
-                    <div class="mt-4 mb-sm-0 mx-auto bg-color rounded-3">
-                      <h4 class="text-center m-4">{{ message }}</h4>
-                    </div>
-                  </div>
-                {% endfor %}
-              {% endif %}
-            {% endwith %}
-          </section>
-
           <form method="POST" action="{{ url_for('newsletter') }}">
             <div class="form-floating mx-auto my-4">
               <input id="email" name="email" type="email" class="form-control" placeholder="name@example.com" required>

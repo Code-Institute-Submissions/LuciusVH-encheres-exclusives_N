@@ -36,15 +36,30 @@ $(document).ready(function() {
 
 
 // Target the Delete link on profile page to toggle the delete profile confirmation toast
+const deleteToastSwitch = document.querySelectorAll('.delete-toast');
+deleteToastSwitch.forEach((el) => {
+  el.addEventListener('click', deleteToast);
+});
+
 function deleteToast() {
+  let toastClicked = this.id
+  let item_id = toastClicked.substr(12)
+  console.log(item_id)
+
   const options = {
     autohide: false,
     animation: true
   }
 
-  const deleteProfileToast = document.querySelector('#delete-profile-confirmation')
-  const toast = new bootstrap.Toast(deleteProfileToast, options)
-  toast.show()
+  if (toastClicked == "delete-profile") {
+    const deleteProfileToast = document.querySelector('#delete-profile-confirmation')
+    const deleteProfileToastBuild = new bootstrap.Toast(deleteProfileToast, options)
+    deleteProfileToastBuild.show()
+  } else if (toastClicked == `delete-item-${item_id}`) {
+    const deleteItemToast = document.querySelector(`#delete-item-confirmation-${item_id}`)
+    const deleteItemToastBuild = new bootstrap.Toast(deleteItemToast, options)
+    deleteItemToastBuild.show()
+  }
 }
 
 // Custom error input when the user wants to bid a lower price than required

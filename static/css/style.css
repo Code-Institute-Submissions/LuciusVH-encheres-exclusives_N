@@ -17,6 +17,7 @@
   --bg-alert-hover: hsla(37, 100%, 50%, 0.8);
   --bg-warning: hsl(20, 100%, 37%);
   --bg-warning-hover: hsl(20, 100%, 37%, 0.8);
+  --bg-validation: hsl(105, 100%, 37%);
 }
 
 body {
@@ -167,6 +168,36 @@ h6,
 .form-select:focus {
   box-shadow: 0 0 0 0.25rem hsl(221, 60%, 34%, 0.25);
   border-color: hsl(221, 60%, 34%, 0.25);
+}
+
+
+/* _____ TOASTS _____ */
+
+.toast-container {
+  position: fixed;
+  z-index: 999;
+}
+
+.toast-flash-messages {
+  left: 50%;
+  bottom: 0;
+  transform: translate(-50%, -50%);
+  background-color: var(--bg-highlight-dark);
+  box-shadow: 0px 0px 5px 1px var(--bg-light);
+}
+
+.toast {
+  position: fixed;
+  z-index: 998;
+}
+
+.toast a {
+  text-decoration: none;
+}
+
+.toast-header {
+  font-family: var(--font-title);
+  font-size: 1.5rem;
 }
 
 
@@ -456,42 +487,31 @@ label[for="newsletter"],
   color: var(--bg-highlight-dark);
 }
 
-.toast {
-  position: absolute;
+.toast-delete {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
   width: 90%;
-  z-index: 999;
   background-color: hsl(0, 0%, 100%, 100%);
 }
 
-.toast a {
-  text-decoration: none;
-}
-
-.toast-header {
-  font-family: var(--font-title);
-  font-size: 1.5rem;
-}
-
-.toast-header i {
+.toast-delete .toast-header i {
   color: var(--bg-warning);
   padding-right: 10px;
 }
 
-.toast button:last-child {
+.toast-delete .toast button:last-child {
   margin-right: 0.5rem;
 }
 
 @media screen and (min-width: 768px) {
-  .toast {
+  .toast-delete {
     width: 70%;
   }
 }
 
 @media screen and (min-width: 992px) {
-  .toast {
+  .toast-delete {
     width: fit-content;
   }
 }
@@ -553,4 +573,25 @@ label[for="newsletter"],
 
 #flash_message {
   color: white;
+}
+
+#flash_message .far {
+  font-size: 1.2rem;
+  padding-right: 0.5rem;
+}
+
+#flash_message .fa-check-circle {
+  color: var(--bg-validation);
+}
+
+#flash_message .fa-exclamation-circle {
+  color: var(--bg-alert);
+}
+
+#flash_message .fa-trash {
+  color: var(--bg-warning);
+}
+
+#flash_message .fa-hand-peace {
+  color: var(--bg-grey);
 }
