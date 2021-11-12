@@ -223,16 +223,15 @@ def logout():
 
 @app.route('/profile/<user_id>', methods=["GET", "POST"])
 def profile(user_id):
-  # Grab the session's user details from database
-  user = mongo.db.users.find_one(
-    {"_id": ObjectId(session["user"])}
-  )
-  # Retrieve the user's items to be sold
-  user_items = list(mongo.db.items.find(
-    {"created_by": session["user"]} 
-  ))
-
   if session["user"]:
+    # Grab the session's user details from database
+    user = mongo.db.users.find_one(
+      {"_id": ObjectId(session["user"])}
+    )
+    # Retrieve the user's items to be sold
+    user_items = list(mongo.db.items.find(
+      {"created_by": session["user"]} 
+    ))
     return render_template('profile.html', user=user, user_items=user_items)
 
   return redirect(url_for("login"))
@@ -283,6 +282,8 @@ def edit_profile(user_id):
 @app.route('/delete_profile/<user_id>')
 def delete_profile(user_id):
   mongo.db.users.remove({'_id': ObjectId(user_id)})
+  session.pop("user")
+  flash("Account Deleted", "deleted")
   return redirect(url_for('index'))
 
 
