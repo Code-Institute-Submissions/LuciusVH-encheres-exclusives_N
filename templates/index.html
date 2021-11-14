@@ -133,9 +133,9 @@
                   <p><strong>
                     <label for="user_bid_item-{{ item._id }}">Your bid:</label>
                     {% if item.actual_bid != 0 %}
-                    <input type="number" name="user_bid" id="user_bid_item-{{ item._id }}" min="{{ item.actual_bid }}" required> € 
+                    <input class="input-bid" type="number" name="user_bid" id="user_bid_item-{{ item._id }}" min="{{ item.actual_bid }}" required> € 
                     {% else %}
-                    <input type="number" name="user_bid" id="user_bid_item-{{ item._id }}" min="{{ item.starting_price }}" required> € 
+                    <input class="input-bid" type="number" name="user_bid" id="user_bid_item-{{ item._id }}" min="{{ item.starting_price }}" required> € 
                     {% endif %}
                   </strong></p>
                   <p id="bid-input"></p>
