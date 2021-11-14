@@ -124,6 +124,37 @@
     {% block content %}
     {% endblock %}
 
+    <!-- Flash messages -->
+    <section id="flash_message">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div aria-live="polite" aria-atomic="true" class="position-relative">
+              <div class="toast-container" id="toastPlacement">
+                <div class="toast toast-flash-messages align-items-center border-0 show fade" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="d-flex">
+                  <div class="toast-body">
+                    {% if category == "valid" %}
+                      <i class="far fa-check-circle"></i>
+                    {% elif category == "error" %}
+                      <i class="fas fa-exclamation-circle"></i>
+                    {% elif category == "deleted" %}
+                      <i class="fas fa-trash"></i>
+                    {% elif category == "bye" %}
+                      <i class="fas fa-hand-peace"></i>
+                    {% else %}
+                    {% endif %}
+                    {{ message }}
+                  </div>
+                  <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+    </section>
+
     <!-- Footer -->
     <footer class="py-3 bg-dark copy-rel-sm">
       <div class="container">

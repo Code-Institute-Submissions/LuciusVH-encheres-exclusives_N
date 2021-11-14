@@ -9,20 +9,6 @@
     </div> 
   </header>
 
-  <section id="flash_message">
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        {% for message in messages %}
-          <div class="row">
-            <div class="col-sm-8 col-md-6 col-lg-4 mb-4 mb-sm-0 mx-auto bg-color rounded-3">
-              <p class="text-center fs-5 m-4">{{ message }}</p>
-            </div>
-          </div>
-        {% endfor %}
-      {% endif %}
-    {% endwith %}
-  </section>
-
   <section class="pb-3 pb-md-5">
     <div class="container px-4 mt-sm-5">
       <div class="row gx-4 gx-lg-5">
