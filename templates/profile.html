@@ -154,7 +154,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
       </div>
       <div class="toast-body">
-        <p>Dear {{ title|capitalize }} {{ last_name|title }},</p>
+        <p>Dear {{ user.title|capitalize }} {{ user.last_name|title }},</p>
         <p>Are you sure you want to delete this lot?</p>
         <p>Lot: {{ item.title }} by {{ item.brand_artist }}</p>
         <p>All the lot data will be deleted, which includes potential bids.</p>
