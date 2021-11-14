@@ -223,7 +223,7 @@ def logout():
 
 @app.route('/profile/<user_id>', methods=["GET", "POST"])
 def profile(user_id):
-  if session["user"]:
+  if session:
     # Grab the session's user details from database
     user = mongo.db.users.find_one(
       {"_id": ObjectId(session["user"])}
@@ -235,8 +235,9 @@ def profile(user_id):
     # Retrieve the different auctions categories
     categories = list(mongo.db.auctions.find().sort("category", 1))
     return render_template('profile.html', user=user, user_items=user_items, categories=categories)
-
-  return redirect(url_for("login"))
+  else:
+    return redirect(url_for("login")) 
+  
 
 
 # _____ EDIT PROFILE _____ #
