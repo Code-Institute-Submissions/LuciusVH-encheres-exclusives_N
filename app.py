@@ -130,6 +130,7 @@ def auction():
 
 @app.route('/place_bid/<item_id>', methods=["GET", "POST"])
 def place_bid(item_id):
+  # Collect data from the user's input on the form to update the items collection
   if request.method == "POST":
     user_bid = int(request.form.get("user_bid"))
     item = mongo.db.items.find_one(
@@ -137,6 +138,7 @@ def place_bid(item_id):
   )
     starting_price = item['starting_price']
     actual_bid = item['actual_bid']
+    # Check that the user's input is greater than actual_bid, if there's, or than the starting price otherwise
     if user_bid > int(actual_bid) > int(starting_price):
       bid_placed = {
         "actual_bid": user_bid,
@@ -162,7 +164,7 @@ def register():
     )
     if existing_user:
       flash("Email already registered", "error")
-      return redirect(url_for("register"))
+      return redirect(url_for("login"))
 
     newsletter = "yes" if request.form.get("newsletter") else "no"
     register = {
@@ -195,7 +197,7 @@ def login():
     )
 
     if existing_user:
-      # Check if the hashed password matches the user input
+      # Check if the hashed password matches the user's input
       if check_password_hash(
         existing_user["password"], request.form.get("password")):
           session["user"] = str(existing_user["_id"])
@@ -223,7 +225,8 @@ def logout():
 
 @app.route('/profile/<user_id>', methods=["GET", "POST"])
 def profile(user_id):
-  if session["user"]:
+  # Forbid access to non logged-in users
+  if session:
     # Grab the session's user details from database
     user = mongo.db.users.find_one(
       {"_id": ObjectId(session["user"])}
@@ -234,21 +237,25 @@ def profile(user_id):
     ))
     # Retrieve the different auctions categories
     categories = list(mongo.db.auctions.find().sort("category", 1))
-    return render_template('profile.html', user=user, user_items=user_items, categories=categories)
-
-  return redirect(url_for("login"))
+    return render_template('profile.html', 
+                            user=user,
+                            user_items=user_items,
+                            categories=categories)
+  else:
+    return redirect(url_for("login"))
+  
 
 
 # _____ EDIT PROFILE _____ #
 
 @app.route('/edit_profile/<user_id>', methods=["GET", "POST"])
 def edit_profile(user_id):
-  # Grab the session's user details from database
-  user = mongo.db.users.find_one(
-    {"_id": ObjectId(user_id)} 
-  )
+  # Forbid access to non logged-in users
+  if not session:
+    return redirect(url_for("login"))
 
-  if request.method == "POST":
+  # Collect data from the user's inputs on the form to update the users collection
+  elif request.method == "POST":
     newsletter = "yes" if request.form.get("newsletter") else "no"
     updated_profile = { 
       "email": request.form.get("email").lower(),
@@ -274,25 +281,44 @@ def edit_profile(user_id):
       {"_id": ObjectId(user_id)},
       {"$set": updated_password})
     flash("Profile Updated", "valid")
-    return redirect(url_for('profile', user_id=session["user"]))
-  
-  return render_template('edit_profile.html', user=user)
+    return redirect(url_for('profile', user_id=user_id)) 
+
+  #Forbid access to logged-in users who aren't the owner of the account
+  elif session["user"] == user_id:
+    # Grab the session's user details from database
+    user = mongo.db.users.find_one(
+      {"_id": ObjectId(user_id)} 
+    )
+    return render_template('edit_profile.html', user=user)
+  else:
+    flash("This is not your profile to edit...", "error")
+    return redirect(url_for('profile', user_id=user_id))
 
 
 # _____ DELETE PROFILE _____ #
 
 @app.route('/delete_profile/<user_id>')
 def delete_profile(user_id):
-  mongo.db.users.remove({'_id': ObjectId(user_id)})
-  session.pop("user")
-  flash("Account Deleted", "deleted")
-  return redirect(url_for('index'))
+  # Forbid access to non logged-in users
+  if session:
+    # Forbid access to logged-in users who aren't the owner of the account
+    if session["user"] == user_id:
+      mongo.db.users.remove({'_id': ObjectId(user_id)})
+      session.pop("user")
+      flash("Account Deleted", "deleted")
+      return redirect(url_for('index'))
+    else:
+      flash("This is not your profile to delete...", "error")
+      return redirect(url_for('profile', user_id=session["user"]))
+  else:
+    return redirect(url_for("login"))
 
 
-# _____ REGISTER _____ #
+# _____ ADD A LOT _____ #
 
 @app.route('/add_lot', methods=["GET", "POST"])
 def add_lot():
+  # Collect data from the user's inputs on the form to insert the entry on the items collection
   if request.method == "POST":
     starting_price = int(request.form.get("addlot-estimatedprice")) // 10
     new_item = {
@@ -315,18 +341,31 @@ def add_lot():
 
 @app.route('/delete_item/<item_id>')
 def delete_item(item_id):
-  mongo.db.items.remove({'_id': ObjectId(item_id)})
-  flash("Your item has been deleted", "deleted")
-  return redirect(url_for('profile', user_id=session["user"]))
-
+  # Forbid access to non logged-in users
+  if session:
+    users_item = mongo.db.items.find_one({'_id': ObjectId(item_id)})
+    print(users_item)
+    user_id = users_item["created_by"]
+    # Forbid access to logged-in users who aren't the owner of the item
+    if session["user"] == user_id:
+      mongo.db.items.remove({'_id': ObjectId(item_id)})
+      flash("Your item has been deleted", "deleted")
+      return redirect(url_for('profile', user_id=user_id))
+    else:
+      flash("This is not your item to delete...", "error")
+      return redirect(url_for('profile', user_id=user_id))
+  else:
+    return redirect(url_for("login"))
 
 # _____ NEWSLETTER _____ #
 @app.route('/newsletter', methods=["GET", "POST"])
 def newsletter():
+  # Collect data from the user's inputs on the form to insert the entry on the newsletter collection
   if request.method == "POST":
     existing_user = mongo.db.newsletter.find_one(
       {"email": request.form.get("email").lower()}
     )
+    
     if existing_user:
       flash("Email already registered", "error")
       return redirect(url_for("index"))
