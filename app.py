@@ -232,7 +232,9 @@ def profile(user_id):
     user_items = list(mongo.db.items.find(
       {"created_by": session["user"]} 
     ))
-    return render_template('profile.html', user=user, user_items=user_items)
+    # Retrieve the different auctions categories
+    categories = list(mongo.db.auctions.find().sort("category", 1))
+    return render_template('profile.html', user=user, user_items=user_items, categories=categories)
 
   return redirect(url_for("login"))
 
@@ -285,6 +287,28 @@ def delete_profile(user_id):
   session.pop("user")
   flash("Account Deleted", "deleted")
   return redirect(url_for('index'))
+
+
+# _____ REGISTER _____ #
+
+@app.route('/add_lot', methods=["GET", "POST"])
+def add_lot():
+  if request.method == "POST":
+    starting_price = int(request.form.get("addlot-estimatedprice")) // 10
+    new_item = {
+      "category": request.form.get("addlot-category"),
+      "title": request.form.get("addlot-title").title(),
+      "brand_artist": request.form.get("addlot-artistbrand").title(),
+      "estimated_price": int(request.form.get("addlot-estimatedprice")),
+      "starting_price": starting_price,
+      "image_url": request.form.get("addlot-imageurl"),
+      "created_by": session["user"],
+      "actual_bid": 0
+    }
+    mongo.db.items.insert_one(new_item)
+    flash("Your item has been added to the auction", "valid")
+    return redirect(url_for("profile", user_id=session["user"]))
+  return render_template('profile.html', user_id=session["user"])
 
 
 # _____ DELETE ITEM _____ #
