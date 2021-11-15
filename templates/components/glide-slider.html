@@ -29,7 +29,7 @@
           <button class="btn btn-actions btn-edit" data-bs-toggle="modal" data-bs-target="#edit-modal-{{ item._id }}" aria-label="Edit your item {{ item.title }} by {{ item.brand_artist }}">
             <i class="far fa-edit"></i>
           </button>
-          <button class="btn btn-actions btn-delete" aria-label="Delete your item {{ item.title }} by {{ item.brand_artist }}">
+          <button class="btn btn-actions btn-delete delete-toast" id="delete-item-{{ item._id }}" aria-label="Delete your item {{ item.title }} by {{ item.brand_artist }}">
             <i class="far fa-trash-alt"></i>
           </button>
         {% else %}
