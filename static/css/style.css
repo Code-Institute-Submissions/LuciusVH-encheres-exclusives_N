@@ -306,24 +306,27 @@ img.logo {
   transform: translateZ(0);
   transition-property: transform;
   transition-timing-function: ease-out;
+  opacity: 0.75;
+  color: var(--bg-highlight-dark);
+  box-shadow: none;
 }
 
 .glide__arrow--left:hover,
 .glide__arrow--left:active {
-  transform: translateX(-0.2em);
+  transform: translateX(-0.15em);
 }
 
 .glide__arrow--right:hover,
 .glide__arrow--right:active {
-  transform: translateX(0.2em);
+  transform: translateX(0.15em);
 }
 
 .glide__arrow--left {
-  left: 0.2em;
+  left: -0.1em;
 }
 
 .glide__arrow--right {
-  right: 0.2em;
+  right: -0.1em;
 }
 
 
