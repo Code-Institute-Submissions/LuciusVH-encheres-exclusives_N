@@ -117,7 +117,7 @@ function imageLoad() {
 
       // Otherwise, allow the user to submit their completed form
       imagePreview.onload = () => {
-        if (imagePreview.src == 'https://encheres-exclusives.herokuapp.com/static/img/no_pic.jpg') {
+        if (imagePreview.src.endsWith('/static/img/no_pic.jpg')) {
           submitBtn.disabled = true;
         } else {
           submitBtn.disabled = false;
