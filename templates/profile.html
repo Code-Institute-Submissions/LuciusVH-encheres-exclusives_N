@@ -41,11 +41,11 @@
     <div class="toast-body">
       <p>Dear {{ title|capitalize }} {{ last_name|title }},</p>
       <p>Are you sure you want to delete your profile?</p>
-      <p>All your data will be deleted, which includes your potential bids and items to be sold.</p>
+      <p>All your data will be deleted, which includes <u>your potential bids</u> and <u>lots to be sold</u>.</p>
       <p>This action is irrevocable.</p>
       <div class="mt-2 pt-2 border-top">
         <button type="button" class="btn btn-bg-light btn-sm upper" data-bs-dismiss="toast">Cancel</button>
-        <a href="{{ url_for('delete_profile', user_id=user._id) }}">
+        <a href="{{ url_for('delete_profile') }}">
           <button type="button" class="btn btn-delete btn-sm upper">Delete</button>
         </a>
       </div>
