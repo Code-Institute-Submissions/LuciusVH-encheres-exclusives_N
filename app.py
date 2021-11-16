@@ -198,6 +198,7 @@ def login():
       return redirect(url_for("login"))
   return render_template('login.html')
 
+
 # _____ LOGOUT _____ #
 
 @app.route('/logout')
@@ -207,10 +208,11 @@ def logout():
   flash("You've been logged out. Come back soon!", "bye")
   return redirect(url_for("login"))
 
+
 # _____ PROFILE _____ #
 
-@app.route('/profile/<user_id>', methods=["GET", "POST"])
-def profile(user_id):
+@app.route('/profile', methods=["GET", "POST"])
+def profile():
   # Forbid access to non logged-in users
   if session:
     # Grab the session's user details from database
@@ -219,11 +221,11 @@ def profile(user_id):
     )
     # Retrieve the user's items to be sold
     user_items = list(mongo.db.items.find(
-      {"created_by": session["user"]} 
+      {"created_by": session["user"]}
     ))
     # Retrieve the different auctions categories
     categories = list(mongo.db.auctions.find().sort("category", 1))
-    return render_template('profile.html', 
+    return render_template('profile.html',
                             user=user,
                             user_items=user_items,
                             categories=categories)
