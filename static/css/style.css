@@ -138,6 +138,11 @@ h6,
   color: white;
 }
 
+.btn-bg-dark:disabled {
+  background-color: var(--bg-grey);
+  color: var(--color-text);
+}
+
 
 /* _____ LINKS _____ */
 
@@ -198,6 +203,18 @@ h6,
 .toast-header {
   font-family: var(--font-title);
   font-size: 1.5rem;
+}
+
+
+/* _____ TOOLTIPS _____ */
+
+.tooltip-inner {
+  background-color: var(--bg-highlight-dark);
+  border-color: var(--bg-highlight-darker);
+}
+
+.bs-tooltip-top .tooltip-arrow::before {
+  border-top-color: var(--bg-highlight-dark);
 }
 
 

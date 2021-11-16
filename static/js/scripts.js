@@ -61,6 +61,12 @@ function deleteToast() {
   }
 }
 
+// Enable Bootstrap tooltips
+var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+  return new bootstrap.Tooltip(tooltipTriggerEl)
+})
+
 // Custom error input when the user wants to bid a lower price than required
 let userInput = document.querySelectorAll('input[name="user_bid"]');
 userInput.forEach((el) => {
