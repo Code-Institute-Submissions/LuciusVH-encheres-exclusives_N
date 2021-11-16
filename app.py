@@ -270,7 +270,7 @@ def edit_profile():
   else:
     user = mongo.db.users.find_one(
         {"_id": ObjectId(session["user"])}
-      )
+    )
     user_id = user["_id"]
     # Collect data from the user's inputs on the form to update the users collection
     if request.method == "POST":
@@ -305,19 +305,37 @@ def edit_profile():
 
 # _____ DELETE PROFILE _____ #
 
-@app.route('/delete_profile/<user_id>')
-def delete_profile(user_id):
+@app.route('/delete_profile')
+def delete_profile():
   # Forbid access to non logged-in users
   if session:
-    # Forbid access to logged-in users who aren't the owner of the account
-    if session["user"] == user_id:
-      mongo.db.users.remove({'_id': ObjectId(user_id)})
-      session.pop("user")
-      flash("Account Deleted", "deleted")
-      return redirect(url_for('index'))
-    else:
-      flash("This is not your profile to delete...", "error")
-      return redirect(url_for('profile', user_id=session["user"]))
+    # If the user's bid is the highest bid on some items, delete this bid and switch back to the previous highest bidder
+    current_bids = list(mongo.db.items.find(
+      {"actual_bidder": session["user"]}
+    ))
+    if current_bids:
+      for lot in current_bids:
+        actual_bidder = lot['previous_bids_details'][-1]['previous_bidder']
+        bid_time = lot['previous_bids_details'][-1]['previous_bid_time']
+        actual_bid = lot['previous_bids_details'][-1]['previous_bid']
+        back_to_previous_bid = {
+          "actual_bid": actual_bid,
+          "actual_bidder": actual_bidder,
+          "bid_time": bid_time
+        }
+        mongo.db.items.update_one(
+          {"_id": ObjectId(lot['_id'])},
+          {"$set": back_to_previous_bid, 
+          "$pop": {"previous_bids_details": 1}}
+        )
+    # Delete the user's items
+    mongo.db.items.delete_many({'created_by': session["user"]})
+    # Delete the user's data
+    mongo.db.users.delete_one({'_id': ObjectId(session["user"])})
+    session.pop("user")
+    flash("Account, lot(s) & bid(s) deleted", "deleted")
+    return redirect(url_for('index'))
+
   else:
     return redirect(url_for("login"))
 
