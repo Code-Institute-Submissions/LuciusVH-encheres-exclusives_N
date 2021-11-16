@@ -96,10 +96,10 @@ def date_end(dttm):
 
 # _____ INDEX _____ #
 
-@app.route('/', methods=["GET", "POST"])
+@app.route('/', methods=["GET"])
 def index():
-  auctions_dispatch()
-  newest_auction = current_auctions[0]
+  dispatch_data = auctions_dispatch()
+  newest_auction = dispatch_data["current_auctions"][0]
   auction_category = newest_auction["category"]
   items = list(mongo.db.items.find({"category": auction_category}))
   return render_template('index.html', newest_auction=newest_auction, items=items)
