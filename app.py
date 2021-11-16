@@ -112,6 +112,7 @@ def auction():
   items = mongo.db.items.find()
   return render_template('auction.html', items=items)
 
+
 # _____ PLACE BID _____ #
 
 @app.route('/place_bid/<item_id>', methods=["GET", "POST"])
@@ -119,22 +120,47 @@ def place_bid(item_id):
   # Collect data from the user's input on the form to update the items collection
   if request.method == "POST":
     user_bid = int(request.form.get("user_bid"))
-    item = mongo.db.items.find_one(
-    {"_id": ObjectId(item_id)} 
-  )
-    starting_price = item['starting_price']
-    actual_bid = item['actual_bid']
-    # Check that the user's input is greater than actual_bid, if there's, or than the starting price otherwise
-    if user_bid > int(actual_bid) > int(starting_price):
-      bid_placed = {
-        "actual_bid": user_bid,
-        "actual_bidder": session["user"]
-      }
-      mongo.db.items.update_one(
-        {"_id": ObjectId(item_id)},
-        {"$set": bid_placed})
-      return redirect(url_for("index"))
-    else:
+    try:
+      item = mongo.db.items.find_one({"_id": ObjectId(item_id)})
+      starting_price = int(item['starting_price'])
+      actual_bid = int(item['actual_bid'])
+      
+      # Check that the user's input is greater than actual_bid, if there's, or than the starting price otherwise
+      if user_bid > actual_bid and user_bid > starting_price:
+        # Retrieve the data of the soon-to-be previous bid and store it under "previous_bids_details"
+        bid_placed = {
+          "actual_bid": user_bid,
+          "actual_bidder": session["user"],
+          "bid_time": datetime.now()
+        }
+        print("************", bid_placed)
+        if actual_bid != 0:
+          actual_bidder = item['actual_bidder']
+          bid_time = item['bid_time']
+          previous_bid = {
+          "previous_bids_details" : {
+              "$each": [
+                {
+                  "previous_bidder": actual_bidder,
+                  "previous_bid": actual_bid,
+                  "previous_bid_time": bid_time
+                }
+              ]
+            }
+          }
+          mongo.db.items.update_one(
+            {"_id": ObjectId(item_id)},
+            {"$set": bid_placed, "$push": previous_bid}
+          )
+        else:
+          mongo.db.items.update_one(
+            {"_id": ObjectId(item_id)},
+            {"$set": bid_placed}
+          )
+        return redirect(url_for("index"))
+      else:
+        return redirect(url_for("index"))
+    except:
       return redirect(url_for("index"))
   return render_template('index.html')
 
