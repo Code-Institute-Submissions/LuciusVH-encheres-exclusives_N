@@ -92,6 +92,10 @@ def date_end(dttm):
   t = t.strftime('%B %d, %Y ― %H:%M')
   return t
 
+@app.template_filter()
+def price_format(price):
+  return format(int(price), ',d')
+
 
 # _____ INDEX _____ #
 
