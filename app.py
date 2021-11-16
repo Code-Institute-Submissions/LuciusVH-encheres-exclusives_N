@@ -367,23 +367,23 @@ def add_lot():
 
 # _____ DELETE ITEM _____ #
 
-@app.route('/delete_item/<item_id>')
-def delete_item(item_id):
+@app.route('/lot/<lot_id>/delete')
+def delete_item(lot_id):
   # Forbid access to non logged-in users
   if session:
-    users_item = mongo.db.items.find_one({'_id': ObjectId(item_id)})
-    print(users_item)
+    users_item = mongo.db.items.find_one({'_id': ObjectId(lot_id)})
     user_id = users_item["created_by"]
     # Forbid access to logged-in users who aren't the owner of the item
     if session["user"] == user_id:
-      mongo.db.items.remove({'_id': ObjectId(item_id)})
+      mongo.db.items.delete_one({'_id': ObjectId(lot_id)})
       flash("Your item has been deleted", "deleted")
-      return redirect(url_for('profile', user_id=user_id))
+      return redirect(url_for('profile'))
     else:
       flash("This is not your item to delete...", "error")
-      return redirect(url_for('profile', user_id=user_id))
+      return redirect(url_for('profile'))
   else:
     return redirect(url_for("login"))
+
 
 # _____ NEWSLETTER _____ #
 @app.route('/newsletter', methods=["GET", "POST"])
@@ -393,7 +393,7 @@ def newsletter():
     existing_user = mongo.db.newsletter.find_one(
       {"email": request.form.get("email").lower()}
     )
-    
+
     if existing_user:
       flash("Email already registered", "error")
       return redirect(url_for("index"))
