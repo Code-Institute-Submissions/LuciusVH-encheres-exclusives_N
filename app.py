@@ -185,7 +185,8 @@ def register():
       "title": request.form.get("title").lower(),
       "first_name": request.form.get("first_name").lower(),
       "last_name": request.form.get("last_name").lower(),
-      "newsletter_subscribed": newsletter
+      "newsletter_subscribed": newsletter,
+      "registration_time": datetime.now()
     }
     mongo.db.users.insert_one(register)
 
@@ -342,7 +343,7 @@ def delete_profile():
 
 # _____ ADD A LOT _____ #
 
-@app.route('/add_lot', methods=["GET", "POST"])
+@app.route('/lot/add', methods=["GET", "POST"])
 def add_lot():
   # Collect data from the user's inputs on the form to insert the entry on the items collection
   if request.method == "POST":
@@ -353,14 +354,15 @@ def add_lot():
       "brand_artist": request.form.get("addlot-artistbrand").title(),
       "estimated_price": int(request.form.get("addlot-estimatedprice")),
       "starting_price": starting_price,
+      "actual_bid": 0,
       "image_url": request.form.get("addlot-imageurl"),
       "created_by": session["user"],
-      "actual_bid": 0
+      "creation_time": datetime.now()
     }
     mongo.db.items.insert_one(new_item)
     flash("Your item has been added to the auction", "valid")
-    return redirect(url_for("profile", user_id=session["user"]))
-  return render_template('profile.html', user_id=session["user"])
+    return redirect(url_for("profile"))
+  return render_template('profile.html')
 
 
 # _____ DELETE ITEM _____ #
