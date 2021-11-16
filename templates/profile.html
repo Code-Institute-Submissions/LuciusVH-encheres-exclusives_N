@@ -90,9 +90,9 @@
     </div>
   </section>
 
-  <!-- lot actions -->
+  <!-- Lot actions -->
   <section>
-    <!-- lot edit modal -->
+    <!-- Lot edit modal -->
     {% for lot in user_lots %}
       <section class="modal fade" id="edit-modal-{{ lot._id }}" tabindex="-1" role="dialog" aria-labelledby="FormModal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -110,7 +110,7 @@
                   <p class="addlot-rules">Image preview</p>
                 </div>
                 <div class="modal-lot-details col-12 col-lg-8 align-self-center">
-                  <p><strong>lot details</strong></p>
+                  <p><strong>Lot details</strong></p>
                   <div class="row">
                     <div class="col-12 col-sm-6">
                       <div class="form-floating">
@@ -179,7 +179,7 @@
         </div>
       </section>
     {% endfor %}
-    <!-- lot deletion confirmation -->
+    <!-- Lot deletion confirmation -->
     {% for lot in user_lots %}
       {% include 'components/delete-lot-confirmation.html' %}
     {% endfor %}
@@ -202,7 +202,7 @@
               <p class="addlot-rules">Image preview</p>
             </div>
             <div class="modal-lot-details col-12 col-lg-8 align-self-center">
-              <p><strong>lot details</strong></p>
+              <p><strong>Lot details</strong></p>
               <div class="row">
                 <div class="col-12 col-sm-6">
                   <div class="form-floating">
