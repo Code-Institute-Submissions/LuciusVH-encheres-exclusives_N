@@ -29,8 +29,9 @@ mongo = PyMongo(app)
 """
   Convert BSON data, coming from MongoDB, to JSON
   Code snippet found on https://stackoverflow.com/a/65538552
-  
+
 """
+
 class MyEncoder(json.JSONEncoder):
   def default(self, obj):
     if isinstance(obj, ObjectId):
@@ -41,14 +42,6 @@ class MyEncoder(json.JSONEncoder):
 
 app.json_encoder = MyEncoder
 
-"""
-  Global variables, to be used throughout the project
-
-"""
-current_auctions = []
-upcoming_auctions = []
-now = datetime.today()
-
 
 @app.context_processor
 def auctions_dispatch():
@@ -57,11 +50,12 @@ def auctions_dispatch():
   Maintain the current_auctions & upcoming_auctions lists up-to-date.
 
   """
-  global current_auctions
-  global upcoming_auctions
   auctions = list(mongo.db.auctions.find().sort('date_start', 1))
+  current_auctions = []
+  upcoming_auctions = []
   current_auctions.clear()
   upcoming_auctions.clear()
+  now = datetime.today()
 
   for auction in auctions:
     if auction["date_start"] <= now and now <= auction["date_end"]:
@@ -69,14 +63,14 @@ def auctions_dispatch():
       current_auctions.append(auction)
     elif auction["date_start"] <= now and now >= auction["date_end"]:
       # Updates the auction dates by incrementing date_start & date_end by as many weeks as there are auction categories
-      updated_dates = { 
+      updated_dates = {
         "date_start" : auction['date_start'] + timedelta(
           days=7*mongo.db.auctions.count_documents({})),
         "date_end" : auction['date_end'] + timedelta(
           days=7*mongo.db.auctions.count_documents({}))
       }
       updated_auction = mongo.db.auctions.update_one(
-        {'_id' : auction['_id'] }, 
+        {'_id' : auction['_id'] },
         { "$set": updated_dates}
       )
       # Add the newly updated auction to the upcoming_auctions list
@@ -84,17 +78,9 @@ def auctions_dispatch():
     else:
       # Add the auction to the upcoming_auctions list
       upcoming_auctions.append(auction)
-    
+
   return dict(current_auctions=current_auctions, upcoming_auctions=upcoming_auctions)
 
-
-def navlinks():
-  """
-    Use the current_auctions & upcoming_auctions lists to build the navbar Auctions links.
-
-  """
-  return dict(current_auctions=current_auctions, 
-              upcoming_auctions=upcoming_auctions)
 
 """
   Access and formate nicely the end date of a running auction.
