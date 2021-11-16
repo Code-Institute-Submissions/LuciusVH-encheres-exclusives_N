@@ -6,7 +6,7 @@
     <div class="container px-4 px-lg-5 my-5">
       <div class="text-center text-white">
         <h1 class="display-4 fw-bolder">Buy and sell with us</h1>
-        <p class="lead fw-normal text-white-50 mb-0">Fine art, high-end items, luxury goods, real estate properties...</p>
+        <p class="lead fw-normal text-white-50 mb-0">Fine art, high-end lots, luxury goods, real estate properties...</p>
         <p class="lead fw-normal text-white-50 mb-0">Trust our expertise.</p>
       </div>
     </div>
@@ -14,7 +14,7 @@
 
   <!-- Auction details -->
   <section class="header-title bg-dark p-3 mb-3 mb-md-5">
-    <div class="d-flex flex-column flex-md-row align-items-baseline text-md-start text-center">
+    <div class="d-flex flex-column flex-md-row align-lots-baseline text-md-start text-center">
       <div class="p-md-2 mx-auto">
         <h2 class="fw-bolder mb-md-0">Newest Auction<span class="d-none d-md-inline"> |</span></h2>
       </div>
@@ -35,7 +35,7 @@
         <div class="glide">
           <div class="glide__track" data-glide-el="track">
             <ul class="glide__slides">
-              {% for item in items %}
+              {% for lot in lots %}
                 {% include 'components/glide-slider.html' %}
               {% endfor %}
             </ul>
@@ -48,8 +48,8 @@
 
   <!-- Bidding modal -->
   <section id="bidding-modal">
-    {% for item in items %}
-      <div class="modal fade" id="bidding-modal-{{ item._id }}" tabindex="-1" role="dialog" aria-labelledby="FormModal" aria-hidden="true">
+    {% for lot in lots %}
+      <div class="modal fade" id="bidding-modal-{{ lot._id }}" tabindex="-1" role="dialog" aria-labelledby="FormModal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
           <div class="modal-content">
             <div class="modal-header">
@@ -57,31 +57,31 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="row modal-body justify-content-center">
-              <div class="col-12 col-sm-8 col-lg-4 modal-item-img">
+              <div class="col-12 col-sm-8 col-lg-4 modal-lot-img">
                 <div class="card-img-bg">
-                  <img class="card-img-top" src="{{ item.image_url }}" alt="{{ item.title }} from {{ item.brand_artist }}" />
+                  <img class="card-img-top" src="{{ lot.image_url }}" alt="{{ lot.title }} from {{ lot.brand_artist }}" />
                 </div>
               </div>
-              <div class="modal-item-details col-12 col-sm-6 col-lg-4 align-self-center">
-                <p><strong>Item details</strong></p>
-                <p>Title: {{ item.title }}</p>
-                <p>Artist/Brand: {{ item.brand_artist }}</p>
-                <p>Estimated price: {{ item.estimated_price }}€</p>
+              <div class="modal-lot-details col-12 col-sm-6 col-lg-4 align-self-center">
+                <p><strong>lot details</strong></p>
+                <p>Title: {{ lot.title }}</p>
+                <p>Artist/Brand: {{ lot.brand_artist }}</p>
+                <p>Estimated price: {{ lot.estimated_price }}€</p>
               </div>
               <div class="modal-bidding-area col-12 col-sm-6 col-lg-4 align-self-center">
-                <form class="form" method="POST" action="{{ url_for('place_bid', item_id=item._id) }}">
+                <form class="form" method="POST" action="{{ url_for('place_bid', lot_id=lot._id) }}">
                   <p><strong>Bidding area</strong></p>
-                  {% if item.actual_bid != 0 %}
-                  <p>Actual bid: <strong>{{ item.actual_bid }}€</strong></p>
+                  {% if lot.actual_bid != 0 %}
+                  <p>Actual bid: <strong>{{ lot.actual_bid }}€</strong></p>
                   {% else %}
-                  <p>Starting price: <strong>{{ item.starting_price }}€</strong></p>
+                  <p>Starting price: <strong>{{ lot.starting_price }}€</strong></p>
                   {% endif %}
                   <p><strong>
-                    <label for="user_bid_item-{{ item._id }}">Your bid:</label>
-                    {% if item.actual_bid != 0 %}
-                    <input class="input-bid" type="number" name="user_bid" id="user_bid_item-{{ item._id }}" min="{{ item.actual_bid }}" required> € 
+                    <label for="user_bid_lot-{{ lot._id }}">Your bid:</label>
+                    {% if lot.actual_bid != 0 %}
+                    <input class="input-bid" type="number" name="user_bid" id="user_bid_lot-{{ lot._id }}" min="{{ lot.actual_bid }}" required> € 
                     {% else %}
-                    <input class="input-bid" type="number" name="user_bid" id="user_bid_item-{{ item._id }}" min="{{ item.starting_price }}" required> € 
+                    <input class="input-bid" type="number" name="user_bid" id="user_bid_lot-{{ lot._id }}" min="{{ lot.starting_price }}" required> € 
                     {% endif %}
                   </strong></p>
                   <p id="bid-input"></p>

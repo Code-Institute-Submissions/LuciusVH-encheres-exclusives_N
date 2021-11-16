@@ -138,6 +138,11 @@ h6,
   color: white;
 }
 
+.btn-bg-dark:disabled {
+  background-color: var(--bg-grey);
+  color: var(--color-text);
+}
+
 
 /* _____ LINKS _____ */
 
@@ -201,6 +206,18 @@ h6,
 }
 
 
+/* _____ TOOLTIPS _____ */
+
+.tooltip-inner {
+  background-color: var(--bg-highlight-dark);
+  border-color: var(--bg-highlight-darker);
+}
+
+.bs-tooltip-top .tooltip-arrow::before {
+  border-top-color: var(--bg-highlight-dark);
+}
+
+
 /* _____ DIVIDERS _____ */
 
 .divider {
@@ -258,12 +275,12 @@ img.logo {
   }
 }
 
-.dropdown-item {
+.dropdown-lot {
   white-space: normal;
   word-break: break-word;
 }
 
-.nav-item-auction-date {
+.nav-lot-auction-date {
   font-size: smaller;
   align-self: center;
 }
@@ -350,16 +367,16 @@ img.logo {
   height: 100%;
 }
 
-.item-title {
+.lot-title {
   font-family: var(--font-title);
   line-height: 1.2;
 }
 
-.item-brand-artist {
+.lot-brand-artist {
   font-size: 1.2rem;
 }
 
-.item-estimated-price {
+.lot-estimated-price {
   font-size: 1rem;
 }
 
@@ -368,7 +385,7 @@ img.logo {
 }
 
 @media screen and (max-width: 576px) {
-  .item-title {
+  .lot-title {
     font-size: calc(1rem + 3vw)
   }
 }
@@ -382,7 +399,7 @@ img.logo {
 
 /* _____ BIDDING MODAL _____ */
 
-.modal-item-img {
+.modal-lot-img {
   max-height: 30vh;
 }
 
@@ -391,7 +408,7 @@ img.logo {
   max-height: 300px;
 }
 
-.modal-item-details,
+.modal-lot-details,
 .modal-bidding-area {
   padding: 1rem;
   padding-bottom: 0;

@@ -47,13 +47,13 @@ The world of auctions known for selling famous artworks and extremely expensive 
 
 ### 	Structure & Design
 
-Designed as a multipage website, built with Flask, it allows the user to browse the different collections, create an account to bid on some items of their liking, and sold some of their own. *Enchères Exclusives* also gives some precious information about the auction business, in order to familiarize the user and sort of demystify this world. 
+Designed as a multipage website, built with Flask, it allows the user to browse the different collections, create an account to bid on some lots of their liking, and sold some of their own. *Enchères Exclusives* also gives some precious information about the auction business, in order to familiarize the user and sort of demystify this world. 
 
-I wanted the general design to stay clean and sleek, to allow the user to focus on the items. The color panel is really neutral with Ghost White (#F8F8FF) and Gray80 (#CCCCCC) as background color when an element needs a bit more attention (like for a title banner). The global text color is also a gray, Gray20 (#333333). To highlight some elements, I used different shades of *Enchères Exclusives*'s indigo (#23448D). All contrast ratios were tested using [WebAIM.org contrast checker](https://webaim.org/resources/contrastchecker/). 
+I wanted the general design to stay clean and sleek, to allow the user to focus on the lots. The color panel is really neutral with Ghost White (#F8F8FF) and Gray80 (#CCCCCC) as background color when an element needs a bit more attention (like for a title banner). The global text color is also a gray, Gray20 (#333333). To highlight some elements, I used different shades of *Enchères Exclusives*'s indigo (#23448D). All contrast ratios were tested using [WebAIM.org contrast checker](https://webaim.org/resources/contrastchecker/). 
 
 The <u>Home page</u> displays a hero image, the image being different depending on the viewport's width, to ensure a nice rendering on any screen. 
 
-Below this, the latest auction is exposed, showing off the items in a carousel, each item presented in a card. The number of cards depends on the width available: from 1 to 4. 
+Below this, the latest auction is exposed, showing off the lots in a carousel, each lot presented in a card. The number of cards depends on the width available: from 1 to 4. 
 
 Next comes a section inviting the user to subscribe to the company's newsletter. This section is shown only if the user hasn't subscribed already.
 
@@ -85,7 +85,7 @@ The *Delete* link opens up a Bootstrap "toast", playing the alert role (it is se
 - As a buyer & member, I want to see my bids.
 - As a user, I want to find information about the company's offices.
 - As a buyer/seller, I want to find information about the whole process & how this works.
-- As a seller & member, I want to be able to add my item to be sold, edit or delete them.
+- As a seller & member, I want to be able to add my lot to be sold, edit or delete them.
 - As a member, I want to be able to edit or delete my profile.
 - As a new user, I want to be able to create an account.
 - As a user, I want to subscribe to the newsletter.
@@ -104,7 +104,8 @@ To see the whole list of features, please read the [Detailed Existing Features r
 
 - Password lost function.
 - Password verification.
-- Picture upload input, instead of URL.
+- Picture upload input, instead of URL & picture storage in db.
+- Time display based on local timezone.
 
 
 
