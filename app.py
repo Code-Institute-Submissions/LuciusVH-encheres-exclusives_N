@@ -152,14 +152,14 @@ def register():
       flash("Email already registered", "error")
       return redirect(url_for("login"))
 
-    newsletter = "yes" if request.form.get("newsletter") else "no"
+    newsletter = True if request.form.get("newsletter") else False
     register = {
       "email": request.form.get("email").lower(),
       "password": generate_password_hash(request.form.get("password")),
       "title": request.form.get("title").lower(),
       "first_name": request.form.get("first_name").lower(),
       "last_name": request.form.get("last_name").lower(),
-      "newsletter": newsletter
+      "newsletter_subscribed": newsletter
     }
     mongo.db.users.insert_one(register)
 
