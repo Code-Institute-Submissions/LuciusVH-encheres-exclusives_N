@@ -262,51 +262,45 @@ def profile():
 
 # _____ EDIT PROFILE _____ #
 
-@app.route('/edit_profile/<user_id>', methods=["GET", "POST"])
-def edit_profile(user_id):
+@app.route('/edit_profile', methods=["GET", "POST"])
+def edit_profile():
   # Forbid access to non logged-in users
   if not session:
     return redirect(url_for("login"))
-
-  # Collect data from the user's inputs on the form to update the users collection
-  elif request.method == "POST":
-    newsletter = "yes" if request.form.get("newsletter") else "no"
-    updated_profile = { 
-      "email": request.form.get("email").lower(),
-      "title": request.form.get("title").lower(),
-      "first_name": request.form.get("first_name").lower(),
-      "last_name": request.form.get("last_name").lower(),
-      "newsletter": newsletter 
-    }
-    
-    mongo.db.users.update_one(
-      {"_id": ObjectId(user_id)},
-      {"$set": updated_profile}) 
-
-    # Check if the password field has been updated too
-    updated_password = {}
-    if len(request.form.get("password")) != 0:
-      updated_password_data = {
-        "password": generate_password_hash(request.form.get("password"))
-      }
-      updated_password = updated_password_data
-
-    mongo.db.users.update_one(
-      {"_id": ObjectId(user_id)},
-      {"$set": updated_password})
-    flash("Profile Updated", "valid")
-    return redirect(url_for('profile', user_id=user_id)) 
-
-  #Forbid access to logged-in users who aren't the owner of the account
-  elif session["user"] == user_id:
-    # Grab the session's user details from database
-    user = mongo.db.users.find_one(
-      {"_id": ObjectId(user_id)} 
-    )
-    return render_template('edit_profile.html', user=user)
   else:
-    flash("This is not your profile to edit...", "error")
-    return redirect(url_for('profile', user_id=user_id))
+    user = mongo.db.users.find_one(
+        {"_id": ObjectId(session["user"])}
+      )
+    user_id = user["_id"]
+    # Collect data from the user's inputs on the form to update the users collection
+    if request.method == "POST":
+      newsletter = True if request.form.get("newsletter") else False
+      updated_profile = {
+        "email": request.form.get("email").lower(),
+        "title": request.form.get("title").lower(),
+        "first_name": request.form.get("first_name").lower(),
+        "last_name": request.form.get("last_name").lower(),
+        "newsletter": newsletter
+      }
+
+      mongo.db.users.update_one(
+        {"_id": ObjectId(user_id)},
+        {"$set": updated_profile})
+
+      # Check if the password field has been updated too
+      updated_password = {}
+      if len(request.form.get("password")) != 0:
+        updated_password_data = {
+          "password": generate_password_hash(request.form.get("password"))
+        }
+        updated_password = updated_password_data
+
+      mongo.db.users.update_one(
+        {"_id": ObjectId(user_id)},
+        {"$set": updated_password})
+      flash("Profile Updated", "valid")
+      return redirect(url_for('profile'))
+    return render_template('edit_profile.html', user=user)
 
 
 # _____ DELETE PROFILE _____ #
