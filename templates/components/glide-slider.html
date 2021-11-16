@@ -1,46 +1,46 @@
 <div class="card">
-  <!-- Item image-->
+  <!-- lot image-->
   <div class="card-img-bg">
-    <img class="card-img-top" src="{{ item.image_url }}" alt="{{ item.title }} from {{ item.brand_artist }}" />
+    <img class="card-img-top" src="{{ lot.image_url }}" alt="{{ lot.title }} from {{ lot.brand_artist }}" />
   </div>
-  <!-- Item details-->
+  <!-- lot details-->
   <div class="card-body wrap-normal text-center p-3">
     <!-- Title -->
-    <h3 class="item-title fw-bolder">{{ item.title }}</h3>
+    <h3 class="lot-title fw-bolder">{{ lot.title }}</h3>
     <!-- Brand / Artist -->
-    <p class="item-brand-artist">{{ item.brand_artist }}</p>
+    <p class="lot-brand-artist">{{ lot.brand_artist }}</p>
     <!-- Actual bid or Starting price -->
-    {% if item.actual_bid != 0 %}
-    <p class="item-actual-bid h6">Actual bid<br>
-    <span class="h4 fw-bolder">{{ item.actual_bid }}€</span></p>
+    {% if lot.actual_bid != 0 %}
+    <p class="lot-actual-bid h6">Actual bid<br>
+    <span class="h4 fw-bolder">{{ lot.actual_bid }}€</span></p>
     {% else %}
-    <p class="item-starting-price h6">Starting price<br>
-    <span class="h4 fw-bolder">{{ item.starting_price }}€</span></p>
+    <p class="lot-starting-price h6">Starting price<br>
+    <span class="h4 fw-bolder">{{ lot.starting_price }}€</span></p>
     {% endif %}
     <!-- Estimated price-->
-    <p class="item-estimated-price">Estimated price<br>
-    <span>{{ item.estimated_price }}€</span></p>
+    <p class="lot-estimated-price">Estimated price<br>
+    <span>{{ lot.estimated_price }}€</span></p>
   </div>
   <!-- Product actions-->
   <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
     <div class="text-center">
       {% if session.user %}
-        {% if session.user == item.created_by %}
-          <button class="btn btn-actions btn-edit" data-bs-toggle="modal" data-bs-target="#edit-modal-{{ item._id }}" aria-label="Edit your item {{ item.title }} by {{ item.brand_artist }}">
+        {% if session.user == lot.created_by %}
+          <button class="btn btn-actions btn-edit" data-bs-toggle="modal" data-bs-target="#edit-modal-{{ lot._id }}" aria-label="Edit your lot {{ lot.title }} by {{ lot.brand_artist }}">
             <i class="far fa-edit"></i>
           </button>
-          <button class="btn btn-actions btn-delete delete-toast" id="delete-item-{{ item._id }}" aria-label="Delete your item {{ item.title }} by {{ item.brand_artist }}">
+          <button class="btn btn-actions btn-delete delete-toast" id="delete-lot-{{ lot._id }}" aria-label="Delete your lot {{ lot.title }} by {{ lot.brand_artist }}">
             <i class="far fa-trash-alt"></i>
           </button>
         {% else %}
-          {% if session.user == item.actual_bidder %}
+          {% if session.user == lot.actual_bidder %}
             <span class="d-inline-block" tabindex="0" data-bs-toggle="tooltip" title="You can't outbid yourself &#128521;">
               <button class="btn btn-bg-dark upper mt-auto edit-modal-opener" disabled> 
                 Place Bid
               </button>
             </span>
           {% else %}
-            <a class="btn btn-bg-dark upper mt-auto edit-modal-opener" data-bs-toggle="modal" data-bs-target="#bidding-modal-{{ item._id }}"> 
+            <a class="btn btn-bg-dark upper mt-auto edit-modal-opener" data-bs-toggle="modal" data-bs-target="#bidding-modal-{{ lot._id }}"> 
               Place Bid
             </a>
           {% endif %}

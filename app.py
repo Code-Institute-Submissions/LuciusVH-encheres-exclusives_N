@@ -8,7 +8,6 @@ from bson.objectid import ObjectId
 # from bson import json_util
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime, timedelta
-from operator import itemgetter
 if os.path.exists('env.py'):
   import env
 
@@ -101,29 +100,29 @@ def index():
   dispatch_data = auctions_dispatch()
   newest_auction = dispatch_data["current_auctions"][0]
   auction_category = newest_auction["category"]
-  items = list(mongo.db.items.find({"category": auction_category}))
-  return render_template('index.html', newest_auction=newest_auction, items=items)
+  lots = list(mongo.db.lots.find({"category": auction_category}))
+  return render_template('index.html', newest_auction=newest_auction, lots=lots)
 
 
 # _____ AUCTION _____ #
 
 @app.route('/auction')
 def auction():
-  items = mongo.db.items.find()
-  return render_template('auction.html', items=items)
+  lots = mongo.db.lots.find()
+  return render_template('auction.html', lots=lots)
 
 
 # _____ PLACE BID _____ #
 
-@app.route('/place_bid/<item_id>', methods=["GET", "POST"])
-def place_bid(item_id):
-  # Collect data from the user's input on the form to update the items collection
+@app.route('/place_bid/<lot_id>', methods=["GET", "POST"])
+def place_bid(lot_id):
+  # Collect data from the user's input on the form to update the lots collection
   if request.method == "POST":
     user_bid = int(request.form.get("user_bid"))
     try:
-      item = mongo.db.items.find_one({"_id": ObjectId(item_id)})
-      starting_price = int(item['starting_price'])
-      actual_bid = int(item['actual_bid'])
+      lot = mongo.db.lots.find_one({"_id": ObjectId(lot_id)})
+      starting_price = int(lot['starting_price'])
+      actual_bid = int(lot['actual_bid'])
       
       # Check that the user's input is greater than actual_bid, if there's, or than the starting price otherwise
       if user_bid > actual_bid and user_bid > starting_price:
@@ -135,8 +134,8 @@ def place_bid(item_id):
         }
         print("************", bid_placed)
         if actual_bid != 0:
-          actual_bidder = item['actual_bidder']
-          bid_time = item['bid_time']
+          actual_bidder = lot['actual_bidder']
+          bid_time = lot['bid_time']
           previous_bid = {
           "previous_bids_details" : {
               "$each": [
@@ -148,13 +147,13 @@ def place_bid(item_id):
               ]
             }
           }
-          mongo.db.items.update_one(
-            {"_id": ObjectId(item_id)},
+          mongo.db.lots.update_one(
+            {"_id": ObjectId(lot_id)},
             {"$set": bid_placed, "$push": previous_bid}
           )
         else:
-          mongo.db.items.update_one(
-            {"_id": ObjectId(item_id)},
+          mongo.db.lots.update_one(
+            {"_id": ObjectId(lot_id)},
             {"$set": bid_placed}
           )
         return redirect(url_for("index"))
@@ -246,15 +245,15 @@ def profile():
     user = mongo.db.users.find_one(
       {"_id": ObjectId(session["user"])}
     )
-    # Retrieve the user's items to be sold
-    user_items = list(mongo.db.items.find(
+    # Retrieve the user's lots to be sold
+    user_lots = list(mongo.db.lots.find(
       {"created_by": session["user"]}
     ))
     # Retrieve the different auctions categories
     categories = list(mongo.db.auctions.find().sort("category", 1))
     return render_template('profile.html',
                             user=user,
-                            user_items=user_items,
+                            user_lots=user_lots,
                             categories=categories)
   else:
     return redirect(url_for("login"))
@@ -310,8 +309,8 @@ def edit_profile():
 def delete_profile():
   # Forbid access to non logged-in users
   if session:
-    # If the user's bid is the highest bid on some items, delete this bid and switch back to the previous highest bidder
-    current_bids = list(mongo.db.items.find(
+    # If the user's bid is the highest bid on some lots, delete this bid and switch back to the previous highest bidder
+    current_bids = list(mongo.db.lots.find(
       {"actual_bidder": session["user"]}
     ))
     if current_bids:
@@ -324,13 +323,13 @@ def delete_profile():
           "actual_bidder": actual_bidder,
           "bid_time": bid_time
         }
-        mongo.db.items.update_one(
+        mongo.db.lots.update_one(
           {"_id": ObjectId(lot['_id'])},
           {"$set": back_to_previous_bid, 
           "$pop": {"previous_bids_details": 1}}
         )
-    # Delete the user's items
-    mongo.db.items.delete_many({'created_by': session["user"]})
+    # Delete the user's lots
+    mongo.db.lots.delete_many({'created_by': session["user"]})
     # Delete the user's data
     mongo.db.users.delete_one({'_id': ObjectId(session["user"])})
     session.pop("user")
@@ -345,10 +344,10 @@ def delete_profile():
 
 @app.route('/lot/add', methods=["GET", "POST"])
 def add_lot():
-  # Collect data from the user's inputs on the form to insert the entry on the items collection
+  # Collect data from the user's inputs on the form to insert the entry on the lots collection
   if request.method == "POST":
     starting_price = int(request.form.get("addlot-estimatedprice")) // 10
-    new_item = {
+    new_lot = {
       "category": request.form.get("addlot-category"),
       "title": request.form.get("addlot-title").title(),
       "brand_artist": request.form.get("addlot-artistbrand").title(),
@@ -359,27 +358,27 @@ def add_lot():
       "created_by": session["user"],
       "creation_time": datetime.now()
     }
-    mongo.db.items.insert_one(new_item)
-    flash("Your item has been added to the auction", "valid")
+    mongo.db.lots.insert_one(new_lot)
+    flash("Your lot has been added to the auction", "valid")
     return redirect(url_for("profile"))
   return render_template('profile.html')
 
 
-# _____ DELETE ITEM _____ #
+# _____ DELETE LOT _____ #
 
 @app.route('/lot/<lot_id>/delete')
-def delete_item(lot_id):
+def delete_lot(lot_id):
   # Forbid access to non logged-in users
   if session:
-    users_item = mongo.db.items.find_one({'_id': ObjectId(lot_id)})
-    user_id = users_item["created_by"]
-    # Forbid access to logged-in users who aren't the owner of the item
+    users_lot = mongo.db.lots.find_one({'_id': ObjectId(lot_id)})
+    user_id = users_lot["created_by"]
+    # Forbid access to logged-in users who aren't the owner of the lot
     if session["user"] == user_id:
-      mongo.db.items.delete_one({'_id': ObjectId(lot_id)})
-      flash("Your item has been deleted", "deleted")
+      mongo.db.lots.delete_one({'_id': ObjectId(lot_id)})
+      flash("Your lot has been deleted", "deleted")
       return redirect(url_for('profile'))
     else:
-      flash("This is not your item to delete...", "error")
+      flash("This is not your lot to delete...", "error")
       return redirect(url_for('profile'))
   else:
     return redirect(url_for("login"))

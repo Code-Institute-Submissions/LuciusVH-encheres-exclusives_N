@@ -43,7 +43,7 @@ deleteToastSwitch.forEach((el) => {
 
 function deleteToast() {
   let toastClicked = this.id;
-  let item_id = toastClicked.substr(12);
+  let lot_id = toastClicked.substr(12);
 
   const options = {
     autohide: false,
@@ -54,10 +54,10 @@ function deleteToast() {
     const deleteProfileToast = document.querySelector('#delete-profile-confirmation');
     const deleteProfileToastBuild = new bootstrap.Toast(deleteProfileToast, options);
     deleteProfileToastBuild.show();
-  } else if (toastClicked == `delete-item-${item_id}`) {
-    const deleteItemToast = document.querySelector(`#delete-item-confirmation-${item_id}`);
-    const deleteItemToastBuild = new bootstrap.Toast(deleteItemToast, options);
-    deleteItemToastBuild.show();
+  } else if (toastClicked == `delete-lot-${lot_id}`) {
+    const deletelotToast = document.querySelector(`#delete-lot-confirmation-${lot_id}`);
+    const deletelotToastBuild = new bootstrap.Toast(deletelotToast, options);
+    deletelotToastBuild.show();
   }
 }
 
@@ -139,6 +139,6 @@ function imageLoad() {
     // Keep the default pic otherwise & inform the user they didn't set a correct image format
     imagePreview.setAttribute('src', '/static/img/no_pic.jpg');
     imagePreview.setAttribute('alt', "Question mark drawing, as there's no picture input yet");
-    alert('You have to upload a picture of your item');
+    alert('You have to upload a picture of your lot');
   }
 }

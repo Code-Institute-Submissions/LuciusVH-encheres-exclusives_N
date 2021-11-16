@@ -30,21 +30,21 @@
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-            <li class="nav-item dropdown">
+            <li class="nav-lot dropdown">
               <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Auctions</a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <div class="row">
                   <div class="col-12 col-md-6">
-                    <li><h5 class="dropdown-item">Current Auctions</h5></li>
+                    <li><h5 class="dropdown-lot">Current Auctions</h5></li>
                     <li><hr class="dropdown-divider" /></li>
                     {% for auction in current_auctions %}
                       <li>
-                        <a class="dropdown-item" href="#!">
-                          <div class="row align-items-center">
+                        <a class="dropdown-lot" href="#!">
+                          <div class="row align-lots-center">
                             <div class="col-12 col-sm-5 pe-0">
                               {{ auction.category }}
                             </div>
-                            <div class="col-12 col-sm-7 pe-0 nav-item-auction-date">
+                            <div class="col-12 col-sm-7 pe-0 nav-lot-auction-date">
                               | Ends: {{ auction.date_end.strftime('%B %d, %Y') }}
                             </div>
                           </div>
@@ -53,16 +53,16 @@
                     {% endfor %}
                   </div>
                   <div class="col-12 col-md-6">
-                    <li><h5 class="dropdown-item mt-3 mt-sm-0">Upcoming Auctions</h5></li>
+                    <li><h5 class="dropdown-lot mt-3 mt-sm-0">Upcoming Auctions</h5></li>
                     <li><hr class="dropdown-divider" /></li>
                     {% for auction in upcoming_auctions %}
                       <li>
-                        <a class="dropdown-item" href="#!">
-                          <div class="row align-items-center">
+                        <a class="dropdown-lot" href="#!">
+                          <div class="row align-lots-center">
                             <div class="col-12 col-sm-5 pe-0">
                               {{ auction.category }}
                             </div>
-                            <div class="col-12 col-sm-7 pe-0 nav-item-auction-date">
+                            <div class="col-12 col-sm-7 pe-0 nav-lot-auction-date">
                               | Starts: {{ auction.date_start.strftime('%B %d, %Y') }}
                             </div>
                           </div>
@@ -73,39 +73,39 @@
                 </div>
               </ul>
             </li>
-            <li class="nav-item dropdown">
+            <li class="nav-lot dropdown">
               <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">About</a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <div class="row">
                   <div class="col-12 col-md-6">
-                    <li><a class="dropdown-item" href="#!"><h5>Our History</h5></a></li>
+                    <li><a class="dropdown-lot" href="#!"><h5>Our History</h5></a></li>
                     <li><hr class="dropdown-divider" /></li>
-                    <li><a class="dropdown-item" href="#!"><h5>Locations</h5></a></li>
-                    <li><a class="dropdown-item" href="#!">Paris</a></li>
-                    <li><a class="dropdown-item" href="#!">Rome</a></li>
-                    <li><a class="dropdown-item" href="#!">New York</a></li>
-                    <li><a class="dropdown-item" href="#!">Tokyo</a></li>
+                    <li><a class="dropdown-lot" href="#!"><h5>Locations</h5></a></li>
+                    <li><a class="dropdown-lot" href="#!">Paris</a></li>
+                    <li><a class="dropdown-lot" href="#!">Rome</a></li>
+                    <li><a class="dropdown-lot" href="#!">New York</a></li>
+                    <li><a class="dropdown-lot" href="#!">Tokyo</a></li>
                   </div>
                   <div class="col-12 col-md-6">
-                    <li><a class="dropdown-item  mt-3 mt-sm-0" href="#!"><h5>How does it work?</h5></a></li>
+                    <li><a class="dropdown-lot  mt-3 mt-sm-0" href="#!"><h5>How does it work?</h5></a></li>
                     <li><hr class="dropdown-divider" /></li>
-                    <li><a class="dropdown-item" href="#!"><h5>Auction Glossary</h5></a></li>
+                    <li><a class="dropdown-lot" href="#!"><h5>Auction Glossary</h5></a></li>
                   </div>
                 </div>
               </ul>
             </li>
-            <li class="nav-item"><a class="nav-link" aria-current="page" href="#!">Contact</a></li>
+            <li class="nav-lot"><a class="nav-link" aria-current="page" href="#!">Contact</a></li>
           </ul>
           <div class="d-flex">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
               {% if session.user %}
-                <li class="nav-item sign-in-up-links"><a class="nav-link" aria-current="page" href="{{ url_for('profile') }}">Profile</a> | <a class="nav-link" aria-current="page" href="{{ url_for('logout') }}">Log Out</a></li>
+                <li class="nav-lot sign-in-up-links"><a class="nav-link" aria-current="page" href="{{ url_for('profile') }}">Profile</a> | <a class="nav-link" aria-current="page" href="{{ url_for('logout') }}">Log Out</a></li>
               {% else %}
-                <li class="nav-item sign-in-up-links"><a class="nav-link" aria-current="page" href="{{ url_for('login') }}">Sign In</a>
+                <li class="nav-lot sign-in-up-links"><a class="nav-link" aria-current="page" href="{{ url_for('login') }}">Sign In</a>
                 <span id="navbar-sign-in-up-divider">|</span>
                 <a class="nav-link" aria-current="page" href="{{ url_for('register') }}">Sign Up</a></li>
               {% endif %}
-              <li class="nav-item"><a class="nav-link" aria-current="page" href="#!"><i class="bi bi-search"></i> Search</a></li>
+              <li class="nav-lot"><a class="nav-link" aria-current="page" href="#!"><i class="bi bi-search"></i> Search</a></li>
             </ul>
           </div>
         </div>
@@ -122,7 +122,7 @@
           {% for category, message in messages %}
             <div aria-live="polite" aria-atomic="true" class="position-relative">
               <div class="toast-container" id="toastPlacement">
-                <div class="toast toast-flash-messages align-items-center border-0 show fade" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast toast-flash-messages align-lots-center border-0 show fade" role="alert" aria-live="assertive" aria-atomic="true">
                 <div class="d-flex">
                   <div class="toast-body">
                     {% if category == "valid" %}
@@ -152,7 +152,7 @@
         <div class="container social">
           <span class="copy-rel d-block d-md-none text-center">Follow us
           </span>
-          <div class="d-flex justify-content-around align-items-center">
+          <div class="d-flex justify-content-around align-lots-center">
             <span class="copy-rel-md d-none d-md-block">Follow us
               <p class="m-0 copyright">Copyright &copy; Enchères Exclusives 2021</p>
             </span>

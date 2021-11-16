@@ -2,7 +2,7 @@
 {% block content %}
 
   <header class="header-title bg-dark p-3 mb-3 mb-md-5">
-    <div class="d-flex flex-column flex-md-row align-items-baseline text-md-start text-center">
+    <div class="d-flex flex-column flex-md-row align-lots-baseline text-md-start text-center">
       <div class="p-md-2 mx-auto">
         <h2 class="fw-bolder m-0">Welcome {{ user.title|capitalize }} {{ user.last_name|title }}</h2>
       </div>
@@ -55,7 +55,7 @@
   <!-- User's lots to be sold -->
   <section id="profile-my-lots">
     <div class="header-title bg-dark p-3 mb-3 mb-md-5">
-      <div class="d-flex flex-column flex-md-row align-items-baseline text-md-start text-center">
+      <div class="d-flex flex-column flex-md-row align-lots-baseline text-md-start text-center">
         <div class="p-md-2 mx-auto">
           <h2 class="fw-bolder m-0">My Lots</h2>
         </div>
@@ -64,12 +64,12 @@
     <div class="pb-3 pb-md-5">
       <div class="container px-4 mt-sm-5">
         <div class="row">
-          {% if user_items|length > 0 %}
+          {% if user_lots|length > 0 %}
             <!-- GlideJS slider -->
             <div class="glide">
               <div class="glide__track" data-glide-el="track">
                 <ul class="glide__slides">
-                  {% for item in user_items %}
+                  {% for lot in user_lots %}
                     {% include 'components/glide-slider.html' %}
                   {% endfor %}
                 </ul>
@@ -90,11 +90,11 @@
     </div>
   </section>
 
-  <!-- Item actions -->
+  <!-- lot actions -->
   <section>
-    <!-- Item edit modal -->
-    {% for item in user_items %}
-      <section class="modal fade" id="edit-modal-{{ item._id }}" tabindex="-1" role="dialog" aria-labelledby="FormModal" aria-hidden="true">
+    <!-- lot edit modal -->
+    {% for lot in user_lots %}
+      <section class="modal fade" id="edit-modal-{{ lot._id }}" tabindex="-1" role="dialog" aria-labelledby="FormModal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
@@ -103,14 +103,14 @@
             </div>
             <form class="form" method="POST" action="">
               <div class="row modal-body justify-content-center">
-                <div class="col-12 col-sm-8 col-lg-4 modal-item-img">
+                <div class="col-12 col-sm-8 col-lg-4 modal-lot-img">
                   <div class="card-img-bg">
-                    <img id="addlot-imagepreview" class="card-img-top" src="{{ item.image_url }}" alt="{{ item.title }} by {{ item.brand_artist }}" />
+                    <img id="addlot-imagepreview" class="card-img-top" src="{{ lot.image_url }}" alt="{{ lot.title }} by {{ lot.brand_artist }}" />
                   </div>
                   <p class="addlot-rules">Image preview</p>
                 </div>
-                <div class="modal-item-details col-12 col-lg-8 align-self-center">
-                  <p><strong>Item details</strong></p>
+                <div class="modal-lot-details col-12 col-lg-8 align-self-center">
+                  <p><strong>lot details</strong></p>
                   <div class="row">
                     <div class="col-12 col-sm-6">
                       <div class="form-floating">
@@ -179,9 +179,9 @@
         </div>
       </section>
     {% endfor %}
-    <!-- Item deletion confirmation -->
-    {% for item in user_items %}
-      {% include 'components/delete-item-confirmation.html' %}
+    <!-- lot deletion confirmation -->
+    {% for lot in user_lots %}
+      {% include 'components/delete-lot-confirmation.html' %}
     {% endfor %}
   </section>
 
@@ -195,14 +195,14 @@
         </div>
         <form class="form" method="POST" action="{{ url_for('add_lot') }}">
           <div class="row modal-body justify-content-center">
-            <div class="col-12 col-sm-8 col-lg-4 modal-item-img">
+            <div class="col-12 col-sm-8 col-lg-4 modal-lot-img">
               <div class="card-img-bg">
                 <img id="addlot-imagepreview" class="card-img-top" src="{{ url_for('static', filename='img/no_pic.jpg')}}" alt="Question mark drawing, as there's no picture input yet" />
               </div>
               <p class="addlot-rules">Image preview</p>
             </div>
-            <div class="modal-item-details col-12 col-lg-8 align-self-center">
-              <p><strong>Item details</strong></p>
+            <div class="modal-lot-details col-12 col-lg-8 align-self-center">
+              <p><strong>lot details</strong></p>
               <div class="row">
                 <div class="col-12 col-sm-6">
                   <div class="form-floating">
