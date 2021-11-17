@@ -52,6 +52,36 @@
     </div>
   </section>
 
+  <!-- Lots on which the user has bid -->
+  <section id="profile-my-bids">
+    <div class="header-title bg-dark p-3 mb-3 mb-md-5">
+      <div class="d-flex flex-column flex-md-row align-lots-baseline text-md-start text-center">
+        <div class="p-md-2 mx-auto">
+          <h2 class="fw-bolder m-0">My Bids</h2>
+        </div>
+      </div> 
+    </div>
+    <div class="pb-3 pb-md-5">
+      <div class="container px-4 mt-sm-5">
+        <div class="row">
+          {% if user_bids|length > 0 %}
+            <!-- GlideJS slider -->
+            <div class="glide">
+              <div class="glide__track" data-glide-el="track">
+                <ul class="glide__slides">
+                  {% for lot in user_bids %}
+                    {% include 'components/glide_slider.html' %}
+                  {% endfor %}
+                </ul>
+              </div>
+              {% include 'components/glide_controllers.html' %}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- User's lots to be sold -->
   <section id="profile-my-lots">
     <div class="header-title bg-dark p-3 mb-3 mb-md-5">
