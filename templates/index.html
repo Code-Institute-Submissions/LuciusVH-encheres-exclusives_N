@@ -47,53 +47,9 @@
   </section>
 
   <!-- Bidding modal -->
-  <section id="bidding-modal">
+  <section id="index-bidding-modal">
     {% for lot in lots %}
-      <div class="modal fade" id="bidding-modal-{{ lot._id }}" tabindex="-1" role="dialog" aria-labelledby="FormModal" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title" id="exampleModalLabel">Are you ready to bid?</h4>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="row modal-body justify-content-center">
-              <div class="col-12 col-sm-8 col-lg-4 modal-lot-img">
-                <div class="card-img-bg">
-                  <img class="card-img-top" src="{{ lot.image_url }}" alt="{{ lot.title }} from {{ lot.brand_artist }}" />
-                </div>
-              </div>
-              <div class="modal-lot-details col-12 col-sm-6 col-lg-4 align-self-center">
-                <p><strong>lot details</strong></p>
-                <p>Title: {{ lot.title }}</p>
-                <p>Artist/Brand: {{ lot.brand_artist }}</p>
-                <p>Estimated price: {{ lot.estimated_price }}€</p>
-              </div>
-              <div class="modal-bidding-area col-12 col-sm-6 col-lg-4 align-self-center">
-                <form class="form" method="POST" action="{{ url_for('place_bid', lot_id=lot._id) }}">
-                  <p><strong>Bidding area</strong></p>
-                  {% if lot.actual_bid != 0 %}
-                  <p>Actual bid: <strong>{{ lot.actual_bid }}€</strong></p>
-                  {% else %}
-                  <p>Starting price: <strong>{{ lot.starting_price }}€</strong></p>
-                  {% endif %}
-                  <p><strong>
-                    <label for="user_bid_lot-{{ lot._id }}">Your bid:</label>
-                    {% if lot.actual_bid != 0 %}
-                    <input class="input-bid" type="number" name="user_bid" id="user_bid_lot-{{ lot._id }}" min="{{ lot.actual_bid }}" required> € 
-                    {% else %}
-                    <input class="input-bid" type="number" name="user_bid" id="user_bid_lot-{{ lot._id }}" min="{{ lot.starting_price }}" required> € 
-                    {% endif %}
-                  </strong></p>
-                  <p id="bid-input"></p>
-                  <div>
-                    <button id="submit" type="submit" class="btn btn-bg-dark upper">Place bid</button>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      {% include 'components/bidding_modal.html' %}
     {% endfor %}
   </section>
 
