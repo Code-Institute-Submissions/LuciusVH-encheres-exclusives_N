@@ -378,7 +378,7 @@ def edit_lot(lot_id):
     # Collect data from the user's inputs on the form to update the users collection
     if request.method == "POST":
       updated_lot = {
-        "category": request.form.get("addlot-category"),
+        "category": request.form.get("editlot-category"),
         "title": request.form.get("editlot-title").title(),
         "brand_artist": request.form.get("editlot-artistbrand").title(),
         "image_url": request.form.get("editlot-imageurl")
