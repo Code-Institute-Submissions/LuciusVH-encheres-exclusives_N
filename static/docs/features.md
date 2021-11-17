@@ -8,7 +8,7 @@
 
   - **Security**
 
-    A user cannot access, edit or delete another user's profile, even if they may have the other user's ID. I have chosen to use MongoDB automatically set ID instead of username to increase security. It's obviously much harder to find than a simple username. Furthermore, each accessing/editing/deleting function verifies first that the user is logged-in (otherwise returning them to the <u>Login page</u>) and then that the logged-in user matches with the profile's ID they are trying to perform an action on.
+    A user cannot access, edit or delete another user's profile. These functions are linked to the user logged-in via `session`.
 
   - **Passport instructions**
 
@@ -21,6 +21,12 @@
   - **Profile data update**
 
     When updating their profile data, all data is prepopulated except the password. If they leave the field blank, the password remain unchanged, if they fill up the password field (with a correct input, matching the instructions) then it is updated. This feature is to avoid the user having to retype their password anytime they want to change something else.
+
+  - **Profile deletion**
+
+    A user can delete their profile, using the *Delete* link on the <u>Profile page</u>. This will prompt up a confirmation alert, informing them that they are about to delete their profile, which includes their potential bid(s) & lot(s). If they choose to proceed, before to actually delete their entry from the `users` collection, the function will indeed suppress their items from the `lots` collection, and run through the same collection to proceed eventual changes in the bids order. 
+
+    If the user holds the current highest bid, this bid is then deleted and the function pulls up the previous bidder's details instead from the `previous_bidds_details` array.
 
   - **Newsletter subscription**
 
@@ -46,10 +52,9 @@
 
     <p align="center">
       <img src="https://github.com/LuciusVH/encheres-exclusives/blob/main/static/docs/readme-img/auction-dates-keys.png" alt="Picture of how the auctions are organised in the database."/>
-    </p>
-
-  
-    When an auction is dispatched the `upcoming_auctions` list, the function also updates its date by incrementing them of 1 week * as many weeks auction categories there are. It's currently set to 70 days, since there are 7 days per week * 10 different auction categories. 
+    </p> 
+    
+    When an auction is dispatched the `upcoming_auctions` list, the function also updates its date by incrementing them of 1 week * as many weeks auction categories there are. It's currently set to 70 days, since there are 7 days per week * 10 different auction categories.
   
   - **Newest Auction slider**
   
@@ -74,3 +79,7 @@
     The *Image Preview* allows the user to visualize their chosen image, mostly to verify if they did not make a mistake in their URL. 
   
     The *Submit button* is disabled until the user has provided a correct image (JPEG or PNG + URL being valid).
+    
+  - **Edit or Delete a lot**
+  
+    A user can obviously only edit/delete their own lot. The *Edit* button opens up the <u>Edit lot modal</u>, which is basically a copy of the <u>Add lot modal</u> (see above). The *Delete* button opens a "Toast", asking for the user's confirmation before to delete the lot.
