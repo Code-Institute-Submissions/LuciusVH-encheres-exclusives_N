@@ -138,7 +138,7 @@ h6,
   color: white;
 }
 
-.btn-bg-dark:disabled {
+.btn:disabled {
   background-color: var(--bg-grey);
   color: var(--color-text);
 }

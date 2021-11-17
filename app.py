@@ -44,9 +44,9 @@ app.json_encoder = MyEncoder
 
 @app.context_processor
 def auctions_dispatch():
-
   """
   Maintain the current_auctions & upcoming_auctions lists up-to-date.
+  Maintain the currently_auctioned field on each lot up-to-date.
 
   """
   auctions = list(mongo.db.auctions.find().sort('date_start', 1))
@@ -78,23 +78,43 @@ def auctions_dispatch():
       # Add the auction to the upcoming_auctions list
       upcoming_auctions.append(auction)
 
+    # Reset all items to currently_auctioned: False
+  mongo.db.lots.update_many(
+    {'currently_auctioned': True},
+    {"$set": {'currently_auctioned': False}})
+
+  # Check which two auction categories are currently running & update all lots matching these categories
+  running_categories = []
+  for auction in current_auctions:
+    running_categories.append(auction["category"])
+  mongo.db.lots.update_many(
+    {"$or": [{"category": running_categories[0]}, 
+      {"category": running_categories[1]}]},
+    {"$set": {'currently_auctioned': True}})
+      
   return dict(current_auctions=current_auctions, upcoming_auctions=upcoming_auctions)
 
 
 """
-  Access and formate nicely the end date of a running auction.
-  Code snippet written by Sean, tutor help.
+  Access and formate nicely the dates of an auction, or the prices displayed.
 
 """
 @app.template_filter()
-def date_end(dttm):
-  t = dttm['date_end']
+def date_start(dttm):
+  t = dttm['date_start']
   t = t.strftime('%B %d, %Y ― %H:%M')
   return t
 
 @app.template_filter()
 def price_format(price):
   return format(int(price), ',d')
+
+# Code snippet written by Sean, tutor help.
+@app.template_filter()
+def date_end(dttm):
+  t = dttm['date_end']
+  t = t.strftime('%B %d, %Y ― %H:%M')
+  return t
 
 
 # _____ INDEX _____ #
