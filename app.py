@@ -136,7 +136,6 @@ def place_bid(lot_id):
           "actual_bidder": session["user"],
           "bid_time": datetime.now()
         }
-        print("************", bid_placed)
         if actual_bid != 0:
           actual_bidder = lot['actual_bidder']
           bid_time = lot['bid_time']

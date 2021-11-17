@@ -16,24 +16,10 @@ function scrollCheck() {
   }
 }
 
-// Adapts the hero img depending on the size of the header
-window.onresize = changeBgImg;
-
-function changeBgImg() {
-  let header = document.querySelector('.hero-section');
-
-  if (window.innerWidth <= 650) {
-    header.className = "hero-section bg-dark py-5 hero-img-portrait";
-  } else {
-    header.className = "hero-section bg-dark py-5 hero-img-landscape";
-  }
-}
-
 // Update copyright date
 $(document).ready(function() {
   $('#copyright').text(new Date().getFullYear());
 })
-
 
 // Target the Delete link on profile page to toggle the delete profile confirmation toast
 // or the delete button on profile page to toggle the delete item confirmation toast
