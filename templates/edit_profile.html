@@ -13,7 +13,7 @@
     <div class="container px-4 mt-sm-5">
       <div class="row gx-4 gx-lg-5">
         <div class="col-md-7 col-lg-5 col-xl-4 mx-auto">
-          <form method="POST" action="{{ url_for('edit_profile', user_id=user._id) }}">
+          <form method="POST" action="{{ url_for('edit_profile') }}">
             <div class="form-floating mx-auto mb-4">
               <input id="email" name="email" type="email" class="form-control" placeholder="name@example.com" value="{{ user.email }}">
               <label for="email">Email</label>

@@ -544,7 +544,7 @@ label[for="newsletter"],
   margin-bottom: 0;
 }
 
-.modal-addlot-actions button[type="submit"] {
+.modal-lot-actions button[type="submit"] {
   margin-right: 2%;
 }
 

@@ -1,9 +1,9 @@
 <div class="card">
-  <!-- lot image-->
+  <!-- Lot image-->
   <div class="card-img-bg">
     <img class="card-img-top" src="{{ lot.image_url }}" alt="{{ lot.title }} from {{ lot.brand_artist }}" />
   </div>
-  <!-- lot details-->
+  <!-- Lot details-->
   <div class="card-body wrap-normal text-center p-3">
     <!-- Title -->
     <h3 class="lot-title fw-bolder">{{ lot.title }}</h3>
@@ -12,14 +12,14 @@
     <!-- Actual bid or Starting price -->
     {% if lot.actual_bid != 0 %}
     <p class="lot-actual-bid h6">Actual bid<br>
-    <span class="h4 fw-bolder">{{ lot.actual_bid }}€</span></p>
+    <span class="h4 fw-bolder">{{ lot.actual_bid|price_format }}€</span></p>
     {% else %}
     <p class="lot-starting-price h6">Starting price<br>
-    <span class="h4 fw-bolder">{{ lot.starting_price }}€</span></p>
+    <span class="h4 fw-bolder">{{ lot.starting_price|price_format }}€ </span></p>
     {% endif %}
     <!-- Estimated price-->
     <p class="lot-estimated-price">Estimated price<br>
-    <span>{{ lot.estimated_price }}€</span></p>
+    <span>{{ lot.estimated_price|price_format }}€</span></p>
   </div>
   <!-- Product actions-->
   <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
