@@ -90,11 +90,18 @@
     </div>
   </section>
 
+  <!-- Bidding modal -->
+  <section id="profile-bidding-modal">
+    {% for lot in user_bids %}
+      {% include 'components/bidding_modal.html' %}
+    {% endfor %}
+  </section>
+
   <!-- Lot actions -->
-  <section>
+  <section id="profile-lot-actions">
     <!-- Lot edit modal -->
     {% for lot in user_lots %}
-      {% include 'components/edit_lot.html' %}      
+      {% include 'components/edit_lot.html' %}
     {% endfor %}
     <!-- Lot deletion confirmation -->
     {% for lot in user_lots %}
@@ -188,4 +195,5 @@
     </div>
   </section>
 
+  <script src="{{ url_for('static', filename='js/add-lot-img-preview.js') }}"></script>
 {% endblock %}

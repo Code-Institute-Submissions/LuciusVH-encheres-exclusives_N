@@ -53,6 +53,18 @@
     {% endfor %}
   </section>
 
+  <!-- Lot actions -->
+  <section id="index-lot-actions">
+    <!-- Lot edit modal -->
+    {% for lot in user_lots %}
+      {% include 'components/edit_lot.html' %}
+    {% endfor %}
+    <!-- Lot deletion confirmation -->
+    {% for lot in user_lots %}
+      {% include 'components/delete_lot_confirmation.html' %}
+    {% endfor %}
+  </section>
+
   <!-- Newsletter subscription -->
   <section class="newsletter bg-dark">
     <div class="container px-4 mt-sm-5">

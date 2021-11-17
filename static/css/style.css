@@ -367,7 +367,6 @@ img.logo {
 
 .card-img-top {
   object-fit: contain;
-  width: 100%;
   height: 100%;
 }
 
@@ -409,7 +408,13 @@ img.logo {
 
 .modal .card-img-bg {
   height: 100%;
-  max-height: 300px;
+  max-height: 250px;
+}
+
+@media screen and (min-width: 1200px) {
+  .modal .card-img-bg {
+    height: 250px;
+  }
 }
 
 .modal-lot-details,
@@ -555,6 +560,10 @@ label[for="newsletter"],
 .addlot-rules {
   color: var(--bg-grey-darker);
   font-style: italic;
+}
+
+.image-preview {
+  text-align: right;
 }
 
 .euro-currency {
