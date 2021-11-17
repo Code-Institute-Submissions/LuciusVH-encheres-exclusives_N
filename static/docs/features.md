@@ -40,9 +40,13 @@
       <img src="https://github.com/LuciusVH/encheres-exclusives/blob/main/static/docs/readme-img/flash-messages.png" alt="Different Flash messages."/>
     </p>
 
+  - **My Bids**
+
+    A slider displays all the lots on which the user has bidden, while they has been outbidden or not. Way to keep track on your bids! 
+
   - **My Lots**
 
-    A slider displays all the user own lots, to be sold. Since they are the user's lots, the usual *Place Bid* button is replaced by two buttons: *Edit* & *Delete*, for each lot. The *Edit* button opens up the <u>Edit lot modal</u>, which is basically a copy of the <u>Add lot modal</u> (see below). The *Delete* button opens a "Toast", asking for the user's confirmation before to delete the lot.
+    A slider displays all the user own lots, to be sold. Since they are the user's lots, the usual *Place Bid* button is replaced by two buttons: *Edit* & *Delete*, for each lot. The *Edit* button opens up the <u>Edit lot modal</u>, which is basically a copy of the <u>Add lot modal</u> (see below). The *Delete* button opens a "Toast", asking for the user's confirmation before to delete the lot. These buttons are disabled if the auction's category to which the lot belongs has started already. 
 
 - ##### Auctions features
 
@@ -82,4 +86,8 @@
     
   - **Edit or Delete a lot**
   
-    A user can obviously only edit/delete their own lot. The *Edit* button opens up the <u>Edit lot modal</u>, which is basically a copy of the <u>Add lot modal</u> (see above). The *Delete* button opens a "Toast", asking for the user's confirmation before to delete the lot.
+    A user can obviously only edit/delete their own lot. The *Edit* button opens up the <u>Edit lot modal</u>, which is basically a copy of the <u>Add lot modal</u> (see above). The *Delete* button opens a "Toast", asking for the user's confirmation before to delete the lot. These buttons are only available as the auction's category they belong to has not started yet. Otherwise, they are disabled:
+  
+    <p align="center">
+      <img src="https://github.com/LuciusVH/encheres-exclusives/blob/main/static/docs/readme-img/disabled-action-buttons.png" alt="Disabled Edit/Delete buttons on the user's lots."/>
+    </p>
