@@ -169,15 +169,24 @@ The website has been tested automatically through W3C HTML & CSS validators, Jav
   <p align="center">
     <img src="https://github.com/LuciusVH/encheres-exclusives/blob/main/static/docs/readme-img/dropdown-prepopulated.png" alt="Bug with dropdown list selected option"/>
   </p>
+  
+  
 
-
-  <p align="center">
+<p align="center">
     <img src="https://github.com/LuciusVH/encheres-exclusives/blob/main/static/docs/readme-img/dropdown-prepopulated2.png" alt="Not matching the database data"/>
   </p>
 
-  <u>Solution:</u> N/A
+<u>Solution:</u> N/A
 
-- 
+- Grid issue when two sliders on the same page
+
+  When two sliders from GlideJS are used on the same page, the grid of the 2nd slider seems off, as you can see in the picture below:
+
+  <p align="center">
+    <img src="https://github.com/LuciusVH/encheres-exclusives/blob/main/static/docs/readme-img/multiple-sliders.jpg" alt="Issue with the 2nd slider's grid when two sliders are on the same page"/>
+  </p>
+
+   <u>Solution:</u> To map the creation of each slider. This solution has been found in an [answer](https://github.com/glidejs/glide/issues/59#issuecomment-529124814) to this GlideJS known issue.
 
 #### Tested user stories:
 

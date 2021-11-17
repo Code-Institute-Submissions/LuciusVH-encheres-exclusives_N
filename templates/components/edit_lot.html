@@ -11,7 +11,7 @@
             <div class="card-img-bg">
               <img id="editlot-imagepreview-{{ lot._id }}" class="card-img-top" src="{{ lot.image_url }}" alt="{{ lot.title }} by {{ lot.brand_artist }}" />
             </div>
-            <p class="addlot-rules">Image preview</p>
+            <p class="addlot-rules image-preview">Image preview</p>
           </div>
           <div class="modal-lot-details col-12 col-lg-8 align-self-center">
             <p><strong>Lot details</strong></p>
@@ -62,3 +62,6 @@
     </div>
   </div>
 </section>
+
+<!-- Script to enable img preview & control the availability of submit btn -->
+<script src="{{ url_for('static', filename='js/edit-lot-img-preview.js') }}"></script>
