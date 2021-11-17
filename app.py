@@ -101,11 +101,26 @@ def price_format(price):
 
 @app.route('/', methods=["GET"])
 def index():
-  dispatch_data = auctions_dispatch()
+  dispatch_data = auctions_dispatch()  
+  # Isolate the newest auction, its data & its lots
   newest_auction = dispatch_data["current_auctions"][0]
   auction_category = newest_auction["category"]
   lots = list(mongo.db.lots.find({"category": auction_category}))
-  return render_template('index.html', newest_auction=newest_auction, lots=lots)
+  if session:
+    # Grab the session's user details from database
+    user = mongo.db.users.find_one(
+      {"_id": ObjectId(session["user"])}
+    )
+    # Retrieve the user's lots to be sold
+    user_lots = list(mongo.db.lots.find({"created_by": session["user"]}))
+    # Retrieve the different auctions categories
+    categories = list(mongo.db.auctions.find().sort("category", 1))
+  return render_template('index.html', 
+                          newest_auction=newest_auction, 
+                          lots=lots, 
+                          user=user, 
+                          user_lots=user_lots, 
+                          categories=categories)
 
 
 # _____ AUCTION _____ #
@@ -216,7 +231,7 @@ def login():
       if check_password_hash(
         existing_user["password"], request.form.get("password")):
           session["user"] = str(existing_user["_id"])
-          return redirect(url_for("profile", user_id=session["user"]))
+          return redirect(url_for("profile"))
       else:
         # Invalid password
         flash("Incorrect email and/or password", "error")
@@ -248,6 +263,11 @@ def profile():
     user = mongo.db.users.find_one(
       {"_id": ObjectId(session["user"])}
     )
+    # Retrieve lots for which the user holds the highest bid or has bid before but is now outbidden
+    user_bids = list(mongo.db.lots.find(
+      {"$or": [{"actual_bidder": session["user"]},
+      {"previous_bids_details.previous_bidder": session["user"]}]}
+    ))
     # Retrieve the user's lots to be sold
     user_lots = list(mongo.db.lots.find(
       {"created_by": session["user"]}
@@ -256,6 +276,7 @@ def profile():
     categories = list(mongo.db.auctions.find().sort("category", 1))
     return render_template('profile.html',
                             user=user,
+                            user_bids=user_bids,
                             user_lots=user_lots,
                             categories=categories)
   else:
