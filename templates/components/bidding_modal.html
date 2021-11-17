@@ -15,15 +15,15 @@
           <p><strong>Lot details</strong></p>
           <p>Title: {{ lot.title }}</p>
           <p>Artist/Brand: {{ lot.brand_artist }}</p>
-          <p>Estimated price: {{ lot.estimated_price }}€</p>
+          <p>Estimated price: {{ lot.estimated_price|price_format }}€</p>
         </div>
         <div class="modal-bidding-area col-12 col-sm-6 col-lg-4 align-self-center">
           <form class="form" method="POST" action="{{ url_for('place_bid', lot_id=lot._id) }}">
             <p><strong>Bidding area</strong></p>
             {% if lot.actual_bid != 0 %}
-            <p>Actual bid: <strong>{{ lot.actual_bid }}€</strong></p>
+            <p>Actual bid: <strong>{{ lot.actual_bid|price_format }}€</strong></p>
             {% else %}
-            <p>Starting price: <strong>{{ lot.starting_price }}€</strong></p>
+            <p>Starting price: <strong>{{ lot.starting_price|price_format }}€</strong></p>
             {% endif %}
             <p><strong>
               <label for="user_bid_lot-{{ lot._id }}">Your bid:</label>
