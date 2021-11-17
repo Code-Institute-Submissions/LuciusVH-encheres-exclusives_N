@@ -275,12 +275,12 @@ img.logo {
   }
 }
 
-.dropdown-lot {
+.dropdown-item {
   white-space: normal;
   word-break: break-word;
 }
 
-.nav-lot-auction-date {
+.nav-item-auction-date {
   font-size: smaller;
   align-self: center;
 }
