@@ -70,11 +70,11 @@
               <div class="glide__track" data-glide-el="track">
                 <ul class="glide__slides">
                   {% for lot in user_lots %}
-                    {% include 'components/glide-slider.html' %}
+                    {% include 'components/glide_slider.html' %}
                   {% endfor %}
                 </ul>
               </div>
-              {% include 'components/glide-controllers.html' %}
+              {% include 'components/glide_controllers.html' %}
             </div>
           {% endif %}
           <div class="row">
@@ -94,94 +94,11 @@
   <section>
     <!-- Lot edit modal -->
     {% for lot in user_lots %}
-      <section class="modal fade" id="edit-modal-{{ lot._id }}" tabindex="-1" role="dialog" aria-labelledby="FormModal" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title">Edit your lot</h4>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form class="form" method="POST" action="">
-              <div class="row modal-body justify-content-center">
-                <div class="col-12 col-sm-8 col-lg-4 modal-lot-img">
-                  <div class="card-img-bg">
-                    <img id="addlot-imagepreview" class="card-img-top" src="{{ lot.image_url }}" alt="{{ lot.title }} by {{ lot.brand_artist }}" />
-                  </div>
-                  <p class="addlot-rules">Image preview</p>
-                </div>
-                <div class="modal-lot-details col-12 col-lg-8 align-self-center">
-                  <p><strong>Lot details</strong></p>
-                  <div class="row">
-                    <div class="col-12 col-sm-6">
-                      <div class="form-floating">
-                        <input id="addlot-title" name="addlot-title" type="text" maxlenght="50" class="form-control" placeholder="Title" required>
-                        <label for="addlot-title">Title</label>
-                        <p class="addlot-rules">Max 50 characters</p>
-                      </div>
-                    </div>
-                    <div class="col-12 col-sm-6">
-                      <div class="form-floating">
-                        <input id="addlot-artistbrand" name="addlot-artistbrand" type="text" maxlenght="50" class="form-control" placeholder="Artist or Brand" required>
-                        <label for="addlot-artistbrand">Artist or Brand</label>
-                        <p class="addlot-rules">Max 50 characters</p>
-                      </div>
-                    </div>
-                    <div class="col-12 col-sm-6">
-                      <div class="row">
-                        <div class="col-11">
-                          <div class="form-floating">
-                            <input id="addlot-estimatedprice" name="addlot-estimatedprice" type="number" maxlenght="12" class="form-control" placeholder="Estimated Price" step="10" required>
-                            <label for="addlot-estimatedprice">Estimated Price</label>
-                          </div>
-                        </div>
-                        <div class="col-1 euro-currency">€</div>
-                        <p class="addlot-rules">Max 12 digits, multiple of 10</p>
-                      </div>
-                    </div>
-                    <div class="col-12 col-sm-6">
-                      <div class="row">
-                        <div class="col-11">
-                          <div class="form-floating">
-                            <input id="addlot-startingprice" name="addlot-startingprice" type="number" class="form-control" placeholder="Starting Price" disabled readonly>
-                            <label for="addlot-startingprice">Starting Price</label>
-                          </div>
-                        </div>
-                        <div class="col-1 euro-currency">€</div>
-                        <p class="addlot-rules">Set to 10% of the Estimated Price</p>
-                      </div>
-                    </div>
-                    <div class="col-12 col-sm-8">
-                      <div class="form-floating">
-                        <input id="addlot-imageurl" name="addlot-imageurl" type="url" class="form-control" placeholder="Image URL" required>
-                        <label for="addlot-imageurl">Image URL</label>
-                        <p class="addlot-rules">JPEG or PNG images only</p>
-                      </div>
-                    </div>
-                    <div class="col-12 col-sm-4">
-                      <label for="addlot-category" class="visually-hidden">Auction's Category</label>
-                      <select class="form-select" id="addlot-category" name="addlot-category" required>
-                        <option disabled>Category</option>
-                        {% for category in categories %}
-                          <option>{{ category.category }}</option>
-                        {% endfor %}
-                      </select>
-                      <p class="addlot-rules">Choose the lot's category</p>
-                    </div>
-                    <div class="modal-addlot-actions">
-                      <button type="submit" class="btn btn-bg-dark upper" disabled>Submit your lot</button>
-                      <button type="button" class="btn btn-bg-light upper" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
-      </section>
+      {% include 'components/edit_lot.html' %}      
     {% endfor %}
     <!-- Lot deletion confirmation -->
     {% for lot in user_lots %}
-      {% include 'components/delete-lot-confirmation.html' %}
+      {% include 'components/delete_lot_confirmation.html' %}
     {% endfor %}
   </section>
 
@@ -259,8 +176,8 @@
                   </select>
                   <p class="addlot-rules">Choose the lot's category</p>
                 </div>
-                <div class="modal-addlot-actions">
-                  <button type="submit" class="btn btn-bg-dark upper" disabled>Submit your lot</button>
+                <div class="modal-lot-actions">
+                  <button type="submit" id="addlot-submit-btn" class="btn btn-bg-dark upper" disabled>Submit your lot</button>
                   <button type="button" class="btn btn-bg-light upper" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
                 </div>
               </div>

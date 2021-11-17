@@ -263,7 +263,6 @@ def profile():
     return redirect(url_for("login"))
   
 
-
 # _____ EDIT PROFILE _____ #
 
 @app.route('/edit_profile', methods=["GET", "POST"])
@@ -366,6 +365,30 @@ def add_lot():
     flash("Your lot has been added to the auction", "valid")
     return redirect(url_for("profile"))
   return render_template('profile.html')
+
+
+# _____ EDIT LOT _____ #
+
+@app.route('/lot/<lot_id>/edit', methods=["GET", "POST"])
+def edit_lot(lot_id):
+  # Forbid access to non logged-in users
+  if not session:
+    return redirect(url_for("login"))
+  else:
+    # Collect data from the user's inputs on the form to update the users collection
+    if request.method == "POST":
+      updated_lot = {
+        "category": request.form.get("addlot-category"),
+        "title": request.form.get("editlot-title").title(),
+        "brand_artist": request.form.get("editlot-artistbrand").title(),
+        "image_url": request.form.get("editlot-imageurl")
+      }
+      mongo.db.lots.update_one(
+        {"_id": ObjectId(lot_id)},
+        {"$set": updated_lot})
+      flash("Lot Updated", "valid")
+      return redirect(url_for('profile'))
+    return render_template('edit_lot.html', lot_id=lot_id)
 
 
 # _____ DELETE LOT _____ #
