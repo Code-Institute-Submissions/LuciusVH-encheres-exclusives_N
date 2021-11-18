@@ -348,11 +348,22 @@ img.logo {
 .lot-title {
   font-family: var(--font-title);
   font-size: 1.5rem;
+  line-height: 1.1;
 }
 
 .lot-brand-artist {
   font-size: 1.1rem;
   line-height: 1.1;
+}
+
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  .lot-title {
+    font-size: 1.3rem;
+  }
+  .lot-brand-artist {
+    font-size: 1rem;
+    line-height: 1.1;
+  }
 }
 
 .lot-estimated-price {
