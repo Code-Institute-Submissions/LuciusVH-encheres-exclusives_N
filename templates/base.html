@@ -39,7 +39,7 @@
                     <li><hr class="dropdown-divider" /></li>
                     {% for auction in current_auctions %}
                       <li>
-                        <a class="dropdown-item" href="#!">
+                        <a class="dropdown-item" href="{{ url_for('auction', category=auction.category) }}">
                           <div class="row align-items-center">
                             <div class="col-12 col-sm-5 pe-0">
                               {{ auction.category }}
@@ -57,7 +57,7 @@
                     <li><hr class="dropdown-divider" /></li>
                     {% for auction in upcoming_auctions %}
                       <li>
-                        <a class="dropdown-item" href="#!">
+                        <a class="dropdown-item" href="{{ url_for('auction', category=auction.category) }}">
                           <div class="row align-items-center">
                             <div class="col-12 col-sm-5 pe-0">
                               {{ auction.category }}

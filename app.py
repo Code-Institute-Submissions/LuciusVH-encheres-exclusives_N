@@ -145,9 +145,9 @@ def index():
 
 # _____ AUCTION _____ #
 
-@app.route('/auction')
-def auction():
-  lots = mongo.db.lots.find()
+@app.route('/auction/<category>', methods=["GET"])
+def auction(category):
+  lots = list(mongo.db.lots.find({"category": category}))
   return render_template('auction.html', lots=lots)
 
 
