@@ -485,6 +485,31 @@ def delete_lot(lot_id):
     return redirect(url_for("login"))
 
 
+# _____ SEARCH _____ #
+
+@app.route('/search', methods=["GET", "POST"])
+def search():
+  query = request.args.get('search-query')
+  lots = list(mongo.db.lots.find({"$text": {"$search": query}}))
+  if session:
+    # Grab the session's user details from database
+    user = mongo.db.users.find_one(
+      {"_id": ObjectId(session["user"])}
+    )
+    # Retrieve the user's lots to be sold
+    user_lots = list(mongo.db.lots.find({"created_by": session["user"]}))
+    # Retrieve the different auctions categories
+    categories = list(mongo.db.auctions.find().sort("category", 1))
+  else:
+    return render_template('search_result.html', 
+                            lots=lots)
+  return render_template('search_result.html', 
+                          lots=lots,
+                          user=user,
+                          user_lots=user_lots,
+                          categories=categories)
+
+
 # _____ NEWSLETTER _____ #
 @app.route('/newsletter', methods=["GET", "POST"])
 def newsletter():

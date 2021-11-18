@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <header class="header-title bg-dark p-3 mb-3 mb-md-5">
+    <div class="d-flex flex-column flex-md-row align-items-baseline text-md-start text-center">
+      <div class="p-md-2 mx-auto">
+          <h2 class="fw-bolder mb-md-0">Search Result<span class="d-none d-md-inline"> |</span></h2>
+      </div>
+    </div> 
+  </header>
+
+  <section class="pb-3 pb-md-5">
+    <div class="container px-4 mt-sm-5">
+      <div class="row gx-4 gx-lg-5 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+      {% for lot in lots %}
+        <div class="col mb-4 auction-card-padding">
+          {% include 'components/lot_card.html' %}
+        </div>
+      {% endfor %}
+      </div>
+    </div>
+  </section>
+
+    <!-- Bidding modal -->
+  <section id="auction-bidding-modal">
+    {% for lot in lots %}
+      {% include 'components/bidding_modal.html' %}
+    {% endfor %}
+  </section>
+
+  <!-- Lot actions -->
+  <section id="auction-lot-actions">
+    <!-- Lot edit modal -->
+    {% for lot in user_lots %}
+      {% include 'components/edit_lot.html' %}
+    {% endfor %}
+    <!-- Lot deletion confirmation -->
+    {% for lot in user_lots %}
+      {% include 'components/delete_lot_confirmation.html' %}
+    {% endfor %}
+  </section>
+
+{% endblock %}
