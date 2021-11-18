@@ -5,6 +5,7 @@ const config = {
   focusAt: 0,
   // autoplay: 2000,
   hoverpause: true,
+  gap: 25,
   breakpoints: {
     1200: {
       perView: 3
