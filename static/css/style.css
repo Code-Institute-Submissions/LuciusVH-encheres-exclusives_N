@@ -317,7 +317,7 @@ img.logo {
 }
 
 .glide__arrow--right {
-  right: -0.1em;
+  right: -0.3em;
 }
 
 
@@ -328,8 +328,8 @@ img.logo {
 }
 
 .auction-card-padding {
-  padding-right: calc(var(--bs-gutter-x) * .2);
-  padding-left: calc(var(--bs-gutter-x) * .2);
+  padding-right: calc(var(--bs-gutter-x) * .25);
+  padding-left: calc(var(--bs-gutter-x) * .25);
 }
 
 .card-img-bg {
@@ -348,11 +348,22 @@ img.logo {
 .lot-title {
   font-family: var(--font-title);
   font-size: 1.5rem;
+  line-height: 1.1;
 }
 
 .lot-brand-artist {
   font-size: 1.1rem;
   line-height: 1.1;
+}
+
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  .lot-title {
+    font-size: 1.3rem;
+  }
+  .lot-brand-artist {
+    font-size: 1rem;
+    line-height: 1.1;
+  }
 }
 
 .lot-estimated-price {

@@ -5,12 +5,13 @@ const config = {
   focusAt: 0,
   // autoplay: 2000,
   hoverpause: true,
+  gap: 15,
   breakpoints: {
     1200: {
-      perView: 3
+      perView: 4
     },
     768: {
-      perView: 2
+      perView: 3
     },
     576: {
       perView: 1
