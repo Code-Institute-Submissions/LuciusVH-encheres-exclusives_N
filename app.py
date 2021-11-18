@@ -58,15 +58,21 @@ def auctions_dispatch():
 
   for auction in auctions:
     if auction["date_start"] <= now and now <= auction["date_end"]:
-      # Add the auction to the current_auctions list
+      # Update the field "is_running" to true & add the auction to the current_auctions list
+      mongo.db.auctions.update_one(
+        {'_id' : auction['_id'] },
+        { "$set": {"is_running": True}}
+      )
       current_auctions.append(auction)
     elif auction["date_start"] <= now and now >= auction["date_end"]:
-      # Updates the auction dates by incrementing date_start & date_end by as many weeks as there are auction categories
+      # Update the field "is_running" to false & the auction dates by incrementing 
+      # date_start & date_end by as many weeks as there are auction categories
       updated_dates = {
-        "date_start" : auction['date_start'] + timedelta(
+        "date_start": auction['date_start'] + timedelta(
           days=7*mongo.db.auctions.count_documents({})),
-        "date_end" : auction['date_end'] + timedelta(
-          days=7*mongo.db.auctions.count_documents({}))
+        "date_end": auction['date_end'] + timedelta(
+          days=7*mongo.db.auctions.count_documents({})),
+        "is_running": False
       }
       updated_auction = mongo.db.auctions.update_one(
         {'_id' : auction['_id'] },
@@ -75,7 +81,11 @@ def auctions_dispatch():
       # Add the newly updated auction to the upcoming_auctions list
       upcoming_auctions.append(updated_auction)
     else:
-      # Add the auction to the upcoming_auctions list
+      # Update the field "is_running" to false & add the auction to the upcoming_auctions list
+      mongo.db.auctions.update_one(
+        {'_id' : auction['_id'] },
+        { "$set": {"is_running": False}}
+      )
       upcoming_auctions.append(auction)
 
     # Reset all items to currently_auctioned: False
@@ -147,8 +157,25 @@ def index():
 
 @app.route('/auction/<category>', methods=["GET"])
 def auction(category):
+  # Retrieve the auction's details
+  auction = mongo.db.auctions.find_one({"category": category})
+  # Retrieve the lots belonging to the chosen category
   lots = list(mongo.db.lots.find({"category": category}))
-  return render_template('auction.html', lots=lots)
+  if session:
+    # Grab the session's user details from database
+    user = mongo.db.users.find_one(
+      {"_id": ObjectId(session["user"])}
+    )
+    # Retrieve the user's lots to be sold
+    user_lots = list(mongo.db.lots.find({"created_by": session["user"]}))
+    # Retrieve the different auctions categories
+    categories = list(mongo.db.auctions.find().sort("category", 1))
+  return render_template('auction.html', 
+                          auction=auction,
+                          lots=lots,
+                          user=user,
+                          user_lots=user_lots,
+                          categories=categories)
 
 
 # _____ PLACE BID _____ #

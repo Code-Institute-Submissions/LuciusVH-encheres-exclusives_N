@@ -2,15 +2,23 @@
 
 {% block content %}
   <header class="header-title bg-dark p-3 mb-3 mb-md-5">
-    <div class="d-flex flex-column flex-md-row align-lots-baseline text-md-start text-center">
+    <div class="d-flex flex-column flex-md-row align-items-baseline text-md-start text-center">
       <div class="p-md-2 mx-auto">
-        <h2 class="fw-bolder mb-md-0">Current Auction<span class="d-none d-md-inline"> |</span></h2>
+        {% if auction.is_running == true %}
+          <h2 class="fw-bolder mb-md-0">Current Auction<span class="d-none d-md-inline"> |</span></h2>
+        {% else %}
+          <h2 class="fw-bolder mb-md-0">Upcoming Auction<span class="d-none d-md-inline"> |</span></h2>
+        {% endif %}
       </div>
       <div class="p-md-2 flex-grow-1 mx-auto ">
-        <h3 class="fw-bolder mb-md-0">Books, Letters & Manuscripts</h3>
+        <h3 class="fw-bolder mb-md-0">{{ auction.category }}</h3>
       </div>
       <div class="p-md-2 mx-auto">
-        <h6 class="mb-0">Ends: November 10th, 2021</h6>
+        {% if auction.is_running == true %}
+        <h6 class="mb-0">Ends: {{ auction|date_end }} UTC</h6>
+        {% else %}
+        <h6 class="mb-0">Starts: {{ auction|date_start }} UTC</h6>
+        {% endif %}
       </div>
     </div> 
   </header>
@@ -20,35 +28,30 @@
       <div class="row gx-4 gx-lg-5 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
       {% for lot in lots %}
         <div class="col mb-5">
-          <div class="card h-100">
-            <!-- Lot image-->
-            <div class="card-img-bg">
-              <img class="card-img-top" src="{{ lot.image_url }}" alt="{{ lot.title }} from {{ lot.brand_artist }}" />
-            </div>
-            <!-- Lot details-->
-            <div class="card-body p-3">
-              <div class="text-center">
-                <!-- Title -->
-                <p class="lot-title fw-bolder">{{ lot.title }}</p>
-                <!-- Brand / Artist -->
-                <p class="lot-brand-artist h5">{{ lot.brand_artist }}</p>
-                <!-- Actual bid -->
-                <p class="lot-actual-bid">Actual bid<br>
-                <span class="h4 fw-bolder">{{ lot.actual_bid }}€</span></p>
-                <!-- Estimated price-->
-                <p class="lot-estimated-price h6">Estimated price<br>
-                <span>{{ lot.estimated_price }}€</span></p>
-              </div>
-            </div>
-            <!-- Product actions-->
-            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-              <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Place Bid</a></div>
-            </div>
-          </div>
+          {% include 'components/lot_card.html' %}
         </div>
       {% endfor %}
       </div>
     </div>
+  </section>
+
+    <!-- Bidding modal -->
+  <section id="auction-bidding-modal">
+    {% for lot in lots %}
+      {% include 'components/bidding_modal.html' %}
+    {% endfor %}
+  </section>
+
+  <!-- Lot actions -->
+  <section id="auction-lot-actions">
+    <!-- Lot edit modal -->
+    {% for lot in user_lots %}
+      {% include 'components/edit_lot.html' %}
+    {% endfor %}
+    <!-- Lot deletion confirmation -->
+    {% for lot in user_lots %}
+      {% include 'components/delete_lot_confirmation.html' %}
+    {% endfor %}
   </section>
 
 {% endblock %}

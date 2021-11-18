@@ -70,7 +70,7 @@
               <div class="glide__track" data-glide-el="track">
                 <ul class="glide__slides">
                   {% for lot in user_bids %}
-                    {% include 'components/glide_slider.html' %}
+                    {% include 'components/lot_card.html' %}
                   {% endfor %}
                 </ul>
               </div>
@@ -100,7 +100,7 @@
               <div class="glide__track" data-glide-el="track">
                 <ul class="glide__slides">
                   {% for lot in user_lots %}
-                    {% include 'components/glide_slider.html' %}
+                    {% include 'components/lot_card.html' %}
                   {% endfor %}
                 </ul>
               </div>
