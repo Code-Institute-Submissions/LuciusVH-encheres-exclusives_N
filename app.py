@@ -145,6 +145,10 @@ def index():
     user_lots = list(mongo.db.lots.find({"created_by": session["user"]}))
     # Retrieve the different auctions categories
     categories = list(mongo.db.auctions.find().sort("category", 1))
+  else:
+    return render_template('index.html', 
+                            newest_auction=newest_auction, 
+                            lots=lots)
   return render_template('index.html', 
                           newest_auction=newest_auction, 
                           lots=lots, 
@@ -170,6 +174,10 @@ def auction(category):
     user_lots = list(mongo.db.lots.find({"created_by": session["user"]}))
     # Retrieve the different auctions categories
     categories = list(mongo.db.auctions.find().sort("category", 1))
+  else:
+    return render_template('auction.html', 
+                            auction=auction,
+                            lots=lots)
   return render_template('auction.html', 
                           auction=auction,
                           lots=lots,
@@ -405,7 +413,6 @@ def delete_profile():
     session.pop("user")
     flash("Account, lot(s) & bid(s) deleted", "deleted")
     return redirect(url_for('index'))
-
   else:
     return redirect(url_for("login"))
 
