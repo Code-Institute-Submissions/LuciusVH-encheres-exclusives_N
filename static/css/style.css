@@ -50,7 +50,8 @@ h6 {
   font-family: var(--font-title);
 }
 
-h1,
+
+/* h1,
 .h1 {
   font-size: calc(1.375rem + 1.5vw);
 }
@@ -58,14 +59,13 @@ h1,
 h2,
 .h2 {
   font-size: calc(1.325rem + 1vw);
-}
+} */
 
 h3,
-.h3 {
-  font-size: calc(1.3rem + 0.70vw);
-}
+.h3 {}
 
-h4,
+
+/* h4,
 .h4 {
   font-size: calc(1.275rem + 0.5vw);
 }
@@ -78,7 +78,7 @@ h5,
 h6,
 .h6 {
   font-size: calc(1.10rem + 0.25vw);
-}
+} */
 
 
 /* _____ BUTTONS _____ */
@@ -114,7 +114,7 @@ h6,
 }
 
 .btn-actions {
-  margin: auto 16px;
+  margin: auto 7px;
   width: 70px;
 }
 
@@ -357,6 +357,11 @@ img.logo {
   height: 520px;
 }
 
+.auction-card-padding {
+  padding-right: calc(var(--bs-gutter-x) * .2);
+  padding-left: calc(var(--bs-gutter-x) * .2);
+}
+
 .card-img-bg {
   height: 40%;
   background-color: var(--bg-grey);
@@ -372,15 +377,16 @@ img.logo {
 
 .lot-title {
   font-family: var(--font-title);
-  line-height: 1.2;
+  font-size: 1.5rem;
 }
 
 .lot-brand-artist {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
+  line-height: 1.1;
 }
 
 .lot-estimated-price {
-  font-size: 1rem;
+  margin-bottom: 0;
 }
 
 .wrap-normal {
@@ -389,7 +395,7 @@ img.logo {
 
 @media screen and (max-width: 576px) {
   .lot-title {
-    font-size: calc(1rem + 3vw)
+    /* font-size: calc(1rem + 3vw) */
   }
 }
 
