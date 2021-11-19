@@ -24,12 +24,13 @@
   <!-- Product actions-->
   <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
     <div class="text-center">
-      {% if session.user %}
       <!-- Display different buttons depending if the user is logged-in, owning the lot, being the highest bidder... -->
+      {% if session.user %}
+        <!-- The user is logged in -->
         {% if session.user == lot.created_by %}
-        <!-- Display Edit & Delete buttons if the lot belongs to the user -->
+          <!-- The lot belongs to the user -->
           {% if lot.category in running_categories %}
-            <!-- Disable these buttons if the auction is running at the moment -->
+            <!-- The auction is running, they can't edit/delete anymore -->
             <span class="d-inline-block" tabindex="0" data-bs-toggle="tooltip" title="❌ Sorry, you can no longer edit your item once the auction is running">
               <button class="btn btn-actions btn-edit" disabled>
                 <i class="far fa-edit"></i>
@@ -40,8 +41,8 @@
                 <i class="far fa-trash-alt"></i>
               </button>
             </span>
-            {% else %}
-            <!-- Enable the buttons -->
+          {% else %}
+            <!-- The auction is not runnign, they can edit/delete their lot -->
             <button class="btn btn-actions btn-edit" data-bs-toggle="modal" data-bs-target="#edit-modal-{{ lot._id }}" aria-label="Edit your lot {{ lot.title }} by {{ lot.brand_artist }}">
               <i class="far fa-edit"></i>
             </button>
@@ -49,17 +50,20 @@
               <i class="far fa-trash-alt"></i>
             </button>
           {% endif %}
-        {% elif session.user == lot.sold_created_by %}
-        <!-- Display the sold Sold button -->
-          <span class="d-inline-block" tabindex="0" data-bs-toggle="tooltip" title="💰 Contact us to organize the payment">
-            <a href="{{ url_for('contact') }}">
-              <button class="btn upper btn-sold">
-                Sold!
-              </button>
-            </a>
-          </span>
-        {% elif session.user == lot.final_bidder %}
-        <!-- Display the sold Winner button -->
+        <!-- The lot doesn't belong to the user -->
+        {% elif lot.category in running_categories %}
+          <!-- The auction is running but the item is sold -->
+          {% if session.user == lot.sold_created_by %}
+            <!-- The user owns the item -->
+            <span class="d-inline-block" tabindex="0" data-bs-toggle="tooltip" title="💰 Contact us to organize the payment">
+              <a href="{{ url_for('contact') }}">
+                <button class="btn upper btn-sold">
+                  Sold!
+                </button>
+              </a>
+            </span>
+          {% elif session.user == lot.final_bidder %}
+          <!-- The user has won the auction -->
           <span class="d-inline-block" tabindex="0" data-bs-toggle="tooltip" title="💸 Contact us to organize the payment">
             <a href="{{ url_for('contact') }}">
               <button class="btn upper btn-winner">
@@ -67,23 +71,29 @@
               </button>
             </a>
           </span>
-        {% else %}
-          {% if session.user == lot.actual_bidder %}
-          <!-- Disable the Place Bid button if the user is currently the highest bidder -->
-            <span class="d-inline-block" tabindex="0" data-bs-toggle="tooltip" title="You can't outbid yourself &#128521;">
-              <button class="btn btn-bg-dark upper mt-auto edit-modal-opener" disabled> 
-                Place Bid
-              </button>
-            </span>
+          {% elif session.user == lot.actual_bidder %}
+            <!-- The user is the highest bidder -->
+              <span class="d-inline-block" tabindex="0" data-bs-toggle="tooltip" title="You can't outbid yourself &#128521;">
+                <button class="btn btn-bg-dark upper mt-auto edit-modal-opener" disabled> 
+                  Place Bid
+                </button>
+              </span>
           {% else %}
-          <!-- Enable it otherwise -->
+            <!-- The user can bid -->
             <a class="btn btn-bg-dark upper mt-auto edit-modal-opener" data-bs-toggle="modal" data-bs-target="#bidding-modal-{{ lot._id }}"> 
               Place Bid
             </a>
           {% endif %}
+        {% else %}
+          <!-- The auction is not running yet -->
+          <span class="d-inline-block" tabindex="0" data-bs-toggle="tooltip" title="The auction hasn't started yet, sorry!">
+            <button class="btn btn-bg-dark upper mt-auto" disabled> 
+              Place Bid
+            </button>
+          </span>
         {% endif %}
       {% else %}
-      <!-- Send the user to the Login page if they are not logged in -->
+        <!-- The user is not logged in -->
         <a href="{{ url_for('login') }}" class="btn btn-outline-dark btn-bg-dark upper mt-auto edit-modal-opener"> 
           Place Bid
         </a>
