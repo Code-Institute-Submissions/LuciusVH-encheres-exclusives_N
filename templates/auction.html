@@ -4,7 +4,7 @@
   <header class="header-title bg-dark p-3 mb-3 mb-md-5">
     <div class="d-flex flex-column flex-md-row align-items-baseline text-md-start text-center">
       <div class="p-md-2 mx-auto">
-        {% if auction.is_running == true %}
+        {% if auction_running == true %}
           <h2 class="fw-bolder mb-md-0">Current Auction<span class="d-none d-md-inline"> |</span></h2>
         {% else %}
           <h2 class="fw-bolder mb-md-0">Upcoming Auction<span class="d-none d-md-inline"> |</span></h2>
@@ -14,7 +14,7 @@
         <h3 class="fw-bolder mb-md-0">{{ auction.category }}</h3>
       </div>
       <div class="p-md-2 mx-auto">
-        {% if auction.is_running == true %}
+        {% if auction_running == true %}
         <h6 class="mb-0">Ends: {{ auction|date_end }} UTC</h6>
         {% else %}
         <h6 class="mb-0">Starts: {{ auction|date_start }} UTC</h6>

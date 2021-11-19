@@ -10,9 +10,9 @@
     <!-- Brand / Artist -->
     <p class="lot-brand-artist">{{ lot.brand_artist }}</p>
     <!-- Actual bid or Starting price -->
-    {% if lot.actual_bid != 0 %}
+    {% if lot.highest_bid != 0 %}
     <p class="lot-actual-bid h6">Actual bid<br>
-    <span class="h5 fw-bolder">{{ lot.actual_bid|price_format }}€</span></p>
+    <span class="h5 fw-bolder">{{ lot.highest_bid|price_format }}€</span></p>
     {% else %}
     <p class="lot-starting-price h6">Starting price<br>
     <span class="h5 fw-bolder">{{ lot.starting_price|price_format }}€ </span></p>
@@ -28,38 +28,39 @@
       <!-- Display different buttons depending if the user is logged-in, owning the lot, being the highest bidder... -->
         {% if session.user == lot.created_by %}
         <!-- Display Edit & Delete buttons if the lot belongs to the user -->
-          {% if lot.currently_auctioned == true %}
-          <!-- Disable these buttons if the auction is running at the moment -->
-          <span class="d-inline-block" tabindex="0" data-bs-toggle="tooltip" title="❌ Sorry, you can no longer edit your item once the auction is running">
-            <button class="btn btn-actions btn-edit" disabled>
+          {% if lot.category in running_categories %}
+            <!-- Disable these buttons if the auction is running at the moment -->
+            <span class="d-inline-block" tabindex="0" data-bs-toggle="tooltip" title="❌ Sorry, you can no longer edit your item once the auction is running">
+              <button class="btn btn-actions btn-edit" disabled>
+                <i class="far fa-edit"></i>
+              </button>
+            </span>
+            <span class="d-inline-block" tabindex="0" data-bs-toggle="tooltip" title="❌ Sorry, you can no longer delete your item once the auction is running">
+              <button class="btn btn-actions btn-delete delete-toast" disabled>
+                <i class="far fa-trash-alt"></i>
+              </button>
+            </span>
+            {% else %}
+            <!-- Enable the buttons -->
+            <button class="btn btn-actions btn-edit" data-bs-toggle="modal" data-bs-target="#edit-modal-{{ lot._id }}" aria-label="Edit your lot {{ lot.title }} by {{ lot.brand_artist }}">
               <i class="far fa-edit"></i>
             </button>
-          </span>
-          <span class="d-inline-block" tabindex="0" data-bs-toggle="tooltip" title="❌ Sorry, you can no longer delete your item once the auction is running">
-            <button class="btn btn-actions btn-delete delete-toast" disabled>
+            <button class="btn btn-actions btn-delete delete-toast" id="delete-lot-{{ lot._id }}" aria-label="Delete your lot {{ lot.title }} by {{ lot.brand_artist }}">
               <i class="far fa-trash-alt"></i>
             </button>
-          </span>
-          {% else %}
-          <!-- Enable the buttons -->
-          <button class="btn btn-actions btn-edit" data-bs-toggle="modal" data-bs-target="#edit-modal-{{ lot._id }}" aria-label="Edit your lot {{ lot.title }} by {{ lot.brand_artist }}">
-            <i class="far fa-edit"></i>
-          </button>
-          <button class="btn btn-actions btn-delete delete-toast" id="delete-lot-{{ lot._id }}" aria-label="Delete your lot {{ lot.title }} by {{ lot.brand_artist }}">
-            <i class="far fa-trash-alt"></i>
-          </button>
           {% endif %}
         {% elif session.user == lot.sold_created_by %}
         <!-- Display the sold Sold button -->
-          <span class="d-inline-block" tabindex="0" data-bs-toggle="tooltip" title="💰 Contact us to organize the payment.">
+          <span class="d-inline-block" tabindex="0" data-bs-toggle="tooltip" title="💰 Contact us to organize the payment">
             <a href="{{ url_for('contact') }}">
               <button class="btn upper btn-sold">
                 Sold!
               </button>
             </a>
           </span>
+        {% elif session.user == lot.final_bidder %}
         <!-- Display the sold Winner button -->
-          <span class="d-inline-block" tabindex="0" data-bs-toggle="tooltip" title="💸 Contact us to organize the payment.">
+          <span class="d-inline-block" tabindex="0" data-bs-toggle="tooltip" title="💸 Contact us to organize the payment">
             <a href="{{ url_for('contact') }}">
               <button class="btn upper btn-winner">
               You won!

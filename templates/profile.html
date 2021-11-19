@@ -109,7 +109,7 @@
           {% endif %}
           <div class="row">
             <p>Do you want to sell something?<br>
-              <a href="#" class="link">Discover how it works</a> or 
+              <a href="{{ url_for('howdoesitwork') }}" class="link">Discover how it works</a> or 
               <a href="#" class="btn btn-outline-dark btn-bg-dark mt-auto" data-bs-toggle="modal" data-bs-target="#new-lot-modal">
                 <i class="fas fa-plus"></i>Propose a lot
               </a>
@@ -121,8 +121,8 @@
   </section>
 
   <!-- Auction's over, user's lots & winner bids -->
-  <section id="profile-auctions-over">
-    {% if lots_sold|length > 0 %}
+  {% if lots_sold|length > 0 %}
+    <section id="profile-auctions-over">
       <div class="header-title bg-dark p-3 mb-3 mb-md-5">
         <div class="d-flex flex-column flex-md-row align-lots-baseline text-md-start text-center">
           <div class="p-md-2 mx-auto">
@@ -150,8 +150,8 @@
           </div>
         </div>
       </div>
-    {% endif %}
-  </section>
+    </section>
+  {% endif %}
 
   <!-- Bidding modal -->
   <section id="profile-bidding-modal">

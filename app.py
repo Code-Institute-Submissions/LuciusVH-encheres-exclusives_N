@@ -41,98 +41,98 @@ class MyEncoder(json.JSONEncoder):
 app.json_encoder = MyEncoder
 
 
+"""
+  Functions determining if an auction is running or is upcoming
+  Code snippet written with the help of my mentor
+
+"""
+def is_auction_running(auction):
+  now = datetime.today()
+  if auction["date_start"] <= now and now <= auction["date_end"]:
+    return True
+  else:
+    return False
+
+def has_auction_ended(auction):
+  now = datetime.today()
+  if now >= auction["date_end"]:
+    return True
+  else:
+    return False
+
+
 @app.context_processor
 def auctions_dispatch():
   """
   Maintain the current_auctions & upcoming_auctions lists up-to-date.
-  Maintain the currently_auctioned field on each lot up-to-date.
   Maintain the collections lots & lots_sold up-to-date.
 
   """
   auctions = list(mongo.db.auctions.find().sort('date_start', 1))
   current_auctions = []
   upcoming_auctions = []
-  current_auctions.clear()
-  upcoming_auctions.clear()
-  now = datetime.today()
 
   for auction in auctions:
-    if auction["date_start"] <= now and now <= auction["date_end"]:
-      # Update the field "is_running" to true & add the auction to the current_auctions list
+
+    if is_auction_running(auction):
+      # Add the auction to the current_auctions list
+      current_auctions.append(auction)
+    elif has_auction_ended(auction):
+      # Update the auction dates by incrementing date_start & date_end by as many weeks as there are auction categories
+      updated_data = {
+          "date_start": auction['date_start'] + timedelta(
+          days=7*mongo.db.auctions.count_documents({})),
+          "date_end": auction['date_end'] + timedelta(
+          days=7*mongo.db.auctions.count_documents({})),
+      }
       mongo.db.auctions.update_one(
         {'_id' : auction['_id'] },
-        { "$set": {"is_running": True}}
+        { "$set": updated_data}
       )
-      current_auctions.append(auction)
-    elif auction["date_start"] <= now and now >= auction["date_end"]:
-      # Update the field "is_running" to false & the auction dates by incrementing 
-      # date_start & date_end by as many weeks as there are auction categories
-      updated_dates = {
-        "date_start": auction['date_start'] + timedelta(
-          days=7*mongo.db.auctions.count_documents({})),
-        "date_end": auction['date_end'] + timedelta(
-          days=7*mongo.db.auctions.count_documents({})),
-        "is_running": False
-      }
-      updated_auction = mongo.db.auctions.update_one(
-        {'_id' : auction['_id'] },
-        { "$set": updated_dates}
-      )
-      # Add the newly updated auction to the upcoming_auctions list
-      upcoming_auctions.append(updated_auction)
+
       # Since this auction is over, transfer the sold lots from the lots collection to the lots_sold collection
       all_lots_from_this_category = list(mongo.db.lots.find({"category": auction['category']}))
+      print(all_lots_from_this_category)
       for lot in all_lots_from_this_category:
-        if lot['actual_bid'] > 0 or lot['actual_bid'] > lot ['reserve_price']:
-          lot_sold = {
+        # Verify if the reserve price has been met, to declare the lot sold
+        if lot['highest_bid'] > lot ['reserve_price']:
+          lot_sold_data = {
             "category": lot['category'],
             "title": lot['title'],
             "brand_artist": lot['brand_artist'],
             "final_bidder": lot['actual_bidder'],
-            "final_bid": lot['actual_bid'],
+            "final_bid": lot['highest_bid'],
             "final_bid_time": lot['bid_time'],
             "estimated_price": lot['estimated_price'],
             "image_url": lot['image_url'],
             "bids_history": list(lot['previous_bids_details']),
             "sold_created_by": lot['created_by'],
-            "creation_time": lot['creation_time']
+            "creation_time": lot['creation_time'],
           }
-          mongo.db.lots_sold.insert_one(lot_sold)
+          mongo.db.lots_sold.insert_one(lot_sold_data)
           mongo.db.lots.delete_one({'_id': lot['_id']})
         # And reset the lots not sold (with no bids or when the reserve price has not been reached)
         else:
-          lot_not_sold = {
-            "actual_bid": 0,
-            "actual_bidder": None,
-            "previous_bids_details": None
-          }
-          mongo.db.lots.update_one(
-            {'id': lot['_id']},
-            {'$set': lot_not_sold})
-    else:
-      # Update the field "is_running" to false & add the auction to the upcoming_auctions list
-      mongo.db.auctions.update_one(
-        {'_id': auction['_id'] },
-        {"$set": {"is_running": False}})
+            lot_not_sold = {
+                "highest_bid": 0,
+                "actual_bidder": None,
+                "previous_bids_details": None
+            }
+            mongo.db.lots.update_one(
+                {'id': lot['_id']},
+                {'$set': lot_not_sold})
+
+      # Add the newly updated auction to the upcoming_auctions list
+      upcoming_auctions.append(auction)
+    else: 
       upcoming_auctions.append(auction)
 
-  # Reset all items to currently_auctioned: False
-  mongo.db.lots.update_many(
-    {'currently_auctioned': True},
-    {"$set": {'currently_auctioned': False}})
-
-  # Check which two auction categories are currently running & update all lots matching these categories
+  # Check which two auction categories are currently running
   running_categories = []
   for auction in current_auctions:
     running_categories.append(auction["category"])
-  mongo.db.lots.update_many(
-    # {"category": running_categories[0]},
-    # {"$set": {'currently_auctioned': True}})
-    {"$or": [{"category": running_categories[0]}, 
-      {"category": running_categories[1]}]},
-    {"$set": {'currently_auctioned': True}})
-      
-  return dict(current_auctions=current_auctions, upcoming_auctions=upcoming_auctions)
+
+  return dict(current_auctions=current_auctions, upcoming_auctions=upcoming_auctions, running_categories=running_categories)
 
 
 """
@@ -161,7 +161,7 @@ def date_end(dttm):
 
 @app.route('/', methods=["GET"])
 def index():
-  dispatch_data = auctions_dispatch()  
+  dispatch_data = auctions_dispatch()
   # Isolate the newest auction, its data & its lots
   newest_auction = dispatch_data["current_auctions"][0]
   auction_category = newest_auction["category"]
@@ -175,16 +175,17 @@ def index():
     user_lots = list(mongo.db.lots.find({"created_by": session["user"]}))
     # Retrieve the different auctions categories
     categories = list(mongo.db.auctions.find().sort("category", 1))
+    return render_template('index.html',
+                        newest_auction=newest_auction,
+                        lots=lots,
+                        user=user,
+                        user_lots=user_lots,
+                        categories=categories)
   else:
-    return render_template('index.html', 
-                            newest_auction=newest_auction, 
+    return render_template('index.html',
+                            newest_auction=newest_auction,
                             lots=lots)
-  return render_template('index.html', 
-                          newest_auction=newest_auction, 
-                          lots=lots, 
-                          user=user, 
-                          user_lots=user_lots, 
-                          categories=categories)
+
 
 
 # _____ AUCTION _____ #
@@ -193,6 +194,7 @@ def index():
 def auction(category):
   # Retrieve the auction's details
   auction = mongo.db.auctions.find_one({"category": category})
+  auction_running = is_auction_running(auction)
   # Retrieve the lots belonging to the chosen category
   lots = list(mongo.db.lots.find({"category": category}))
   if session:
@@ -204,16 +206,18 @@ def auction(category):
     user_lots = list(mongo.db.lots.find({"created_by": session["user"]}))
     # Retrieve the different auctions categories
     categories = list(mongo.db.auctions.find().sort("category", 1))
-  else:
-    return render_template('auction.html', 
-                            auction=auction,
-                            lots=lots)
-  return render_template('auction.html', 
+    return render_template('auction.html',
                           auction=auction,
                           lots=lots,
                           user=user,
                           user_lots=user_lots,
-                          categories=categories)
+                          categories=categories,
+                          auction_running=auction_running)
+  else:
+    return render_template('auction.html',
+                            auction=auction,
+                            lots=lots,
+                            auction_running = auction_running)
 
 
 # _____ PLACE BID _____ #
@@ -226,17 +230,17 @@ def place_bid(lot_id):
     try:
       lot = mongo.db.lots.find_one({"_id": ObjectId(lot_id)})
       starting_price = int(lot['starting_price'])
-      actual_bid = int(lot['actual_bid'])
-      
-      # Check that the user's input is greater than actual_bid, if there's, or than the starting price otherwise
-      if user_bid > actual_bid and user_bid > starting_price:
+      highest_bid = int(lot['highest_bid'])
+
+      # Check that the user's input is greater than highest_bid, if there's, or than the starting price otherwise
+      if user_bid > highest_bid and user_bid > starting_price:
         # Retrieve the data of the soon-to-be previous bid and store it under "previous_bids_details"
         bid_placed = {
-          "actual_bid": user_bid,
+          "highest_bid": user_bid,
           "actual_bidder": session["user"],
           "bid_time": datetime.now()
         }
-        if actual_bid != 0:
+        if highest_bid != 0:
           actual_bidder = lot['actual_bidder']
           bid_time = lot['bid_time']
           previous_bid = {
@@ -244,7 +248,7 @@ def place_bid(lot_id):
               "$each": [
                 {
                   "previous_bidder": actual_bidder,
-                  "previous_bid": actual_bid,
+                  "previous_bid": highest_bid,
                   "previous_bid_time": bid_time
                 }
               ]
@@ -271,37 +275,33 @@ def place_bid(lot_id):
 
 @app.route('/register', methods=["GET", "POST"])
 def register():
-  if session:
-    flash("You are already registered!", "error")
-    return redirect(url_for('profile'))
-  else:
-    if request.method == "POST":
-      # Check if the email exists already in the database
-      existing_user = mongo.db.users.find_one(
-        {"email": request.form.get("email").lower()}
-      )
-      if existing_user:
-        flash("Email already registered", "error")
-        return redirect(url_for("login"))
+  if request.method == "POST":
+    # Check if the email exists already in the database
+    existing_user = mongo.db.users.find_one(
+      {"email": request.form.get("email").lower()}
+    )
+    if existing_user:
+      flash("Email already registered", "error")
+      return redirect(url_for("login"))
 
-      newsletter = True if request.form.get("newsletter") else False
-      register = {
-        "email": request.form.get("email").lower(),
-        "password": generate_password_hash(request.form.get("password")),
-        "title": request.form.get("title").lower(),
-        "first_name": request.form.get("first_name").lower(),
-        "last_name": request.form.get("last_name").lower(),
-        "newsletter_subscribed": newsletter,
-        "registration_time": datetime.now()
-      }
-      mongo.db.users.insert_one(register)
+    newsletter = True if request.form.get("newsletter") else False
+    register = {
+      "email": request.form.get("email").lower(),
+      "password": generate_password_hash(request.form.get("password")),
+      "title": request.form.get("title").lower(),
+      "first_name": request.form.get("first_name").lower(),
+      "last_name": request.form.get("last_name").lower(),
+      "newsletter_subscribed": newsletter,
+      "registration_time": datetime.now()
+    }
+    mongo.db.users.insert_one(register)
 
-      # Put the new user into "session" cookie
-      user_data = mongo.db.users.find_one(
-        {"email": request.form.get("email").lower()}
-      )
-      session["user"] = str(user_data["_id"])
-      return redirect(url_for("profile"))
+    # Put the new user into "session" cookie
+    user_data = mongo.db.users.find_one(
+      {"email": request.form.get("email").lower()}
+    )
+    session["user"] = str(user_data["_id"])
+    return redirect(url_for("profile"))
   return render_template('register.html')
 
 
@@ -309,30 +309,26 @@ def register():
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
-  if session:
-    flash("You are already logged in!", "error")
-    return redirect(url_for('profile'))
-  else:
-    if request.method == "POST":
-      # Check if the email is already in the database
-      existing_user = mongo.db.users.find_one(
-        {"email": request.form.get("email").lower()}
-      )
+  if request.method == "POST":
+    # Check if the email is already in the database
+    existing_user = mongo.db.users.find_one(
+      {"email": request.form.get("email").lower()}
+    )
 
-      if existing_user:
-        # Check if the hashed password matches the user's input
-        if check_password_hash(
-          existing_user["password"], request.form.get("password")):
-            session["user"] = str(existing_user["_id"])
-            return redirect(url_for("profile"))
-        else:
-          # Invalid password
-          flash("Incorrect email and/or password", "error")
-          return redirect(url_for("login"))
+    if existing_user:
+      # Check if the hashed password matches the user's input
+      if check_password_hash(
+        existing_user["password"], request.form.get("password")):
+          session["user"] = str(existing_user["_id"])
+          return redirect(url_for("profile"))
       else:
-        # Email not registered
+        # Invalid password
         flash("Incorrect email and/or password", "error")
         return redirect(url_for("login"))
+    else:
+      # Email not registered
+      flash("Incorrect email and/or password", "error")
+      return redirect(url_for("login"))
   return render_template('login.html')
 
 
@@ -344,6 +340,13 @@ def logout():
   session.pop("user")
   flash("You've been logged out. Come back soon!", "bye")
   return redirect(url_for("login"))
+
+
+# _____ HOW DOES IT WORK REDIRECT LINK _____ #
+
+@app.route('/howdoesitwork')
+def howdoesitwork():
+  return redirect(url_for('about', _anchor='howdoesitwork'))
 
 
 # _____ PROFILE _____ #
@@ -367,7 +370,7 @@ def profile():
     ))
     # Retrieve the sold lots
     lots_sold = list(mongo.db.lots_sold.find(
-      {"$or": [{"created_by": session["user"]},
+      {"$or": [{"sold_created_by": session["user"]},
       {"final_bidder": session["user"]}]}
     ))
     # Retrieve the different auctions categories
@@ -380,7 +383,7 @@ def profile():
                             categories=categories)
   else:
     return redirect(url_for("login"))
-  
+
 
 # _____ EDIT PROFILE _____ #
 
@@ -439,15 +442,15 @@ def delete_profile():
       for lot in current_bids:
         actual_bidder = lot['previous_bids_details'][-1]['previous_bidder']
         bid_time = lot['previous_bids_details'][-1]['previous_bid_time']
-        actual_bid = lot['previous_bids_details'][-1]['previous_bid']
+        highest_bid = lot['previous_bids_details'][-1]['previous_bid']
         back_to_previous_bid = {
-          "actual_bid": actual_bid,
+          "highest_bid": highest_bid,
           "actual_bidder": actual_bidder,
           "bid_time": bid_time
         }
         mongo.db.lots.update_one(
           {"_id": ObjectId(lot['_id'])},
-          {"$set": back_to_previous_bid, 
+          {"$set": back_to_previous_bid,
           "$pop": {"previous_bids_details": 1}}
         )
     # Delete the user's lots
@@ -476,7 +479,7 @@ def add_lot():
       "estimated_price": int(request.form.get("addlot-estimatedprice")),
       "starting_price": starting_price,
       "reserve_price": reserve_price,
-      "actual_bid": 0,
+      "highest_bid": 0,
       "image_url": request.form.get("addlot-imageurl"),
       "created_by": session["user"],
       "creation_time": datetime.now()
@@ -531,13 +534,13 @@ def delete_lot(lot_id):
     return redirect(url_for("login"))
 
 
-# _____ SEARCH _____ #
+# _____ ABOUT _____ #
 
 @app.route('/about')
 def about():
   return render_template('about.html')
 
-# _____ SEARCH _____ #
+# _____ CONTACT _____ #
 
 @app.route('/contact', methods=["GET", "POST"])
 def contact():
@@ -590,10 +593,10 @@ def search():
     # Retrieve the different auctions categories
     categories = list(mongo.db.auctions.find().sort("category", 1))
   else:
-    return render_template('search_result.html', 
+    return render_template('search_result.html',
                             lots=lots,
                             query=query)
-  return render_template('search_result.html', 
+  return render_template('search_result.html',
                           lots=lots,
                           query=query,
                           user=user,
