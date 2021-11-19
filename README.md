@@ -43,19 +43,19 @@ You can find the deployed site [here](https://encheres-exclusives.herokuapp.com/
 
 ## UX
 
-The world of auctions known for selling famous artworks and extremely expensive items, is sometimes perceived as too closed or secret. It is a common misperception, turns out more than 90% of the auctions in the world are completely public and accessible to anyone who dares to cross the doorstep. This misconception is due to the fact that we only hear about the exceptional sales, proposing extraordinary lots, often reserved to already well known customers of the auction house hosting the event. *Enchères Exclusives* is a gateway to this realm, with the mission to make it more accessible, even from the comfort of your living room.
+The world of auctions, known for selling famous artworks and extremely expensive items, is sometimes perceived as too closed or secret. It is a common misperception, turns out more than 90% of the auctions in the world are completely public and accessible to anyone who dares to cross the doorstep. This misconception is due to the fact that we only hear about the exceptional sales, proposing extraordinary lots, often reserved to already well known customers of the auction house hosting the event. *Enchères Exclusives* is a gateway to this realm, with the mission to make it more accessible, even from the comfort of your living room.
 
 ### 	Structure & Design
 
 Designed as a multipage website, built with Flask, it allows the user to browse the different collections, create an account to bid on some lots of their liking, and sold some of their own. *Enchères Exclusives* also gives some precious information about the auction business, in order to familiarize the user and sort of demystify this world. 
 
-I wanted the general design to stay clean and sleek, to allow the user to focus on the lots. The color panel is really neutral with Ghost White (#F8F8FF) and Gray80 (#CCCCCC) as background color when an element needs a bit more attention (like for a title banner). The global text color is also a gray, Gray20 (#333333). To highlight some elements, I used different shades of *Enchères Exclusives*'s indigo (#23448D). All contrast ratios were tested using [WebAIM.org contrast checker](https://webaim.org/resources/contrastchecker/). 
+I wanted the general design to stay clean and sleek, to allow the user to focus on the lots. The color panel is really neutral with Ghost White (#FAFAFF) and Gray80 (#CCCCCC) as background color when an element needs a bit more attention (like for a title banner). The global text color is also a gray, Gray20 (#333333). To highlight some elements, I used different shades of *Enchères Exclusives*'s indigo (#23448D). All contrast ratios were tested using [WebAIM.org contrast checker](https://webaim.org/resources/contrastchecker/). 
 
 The <u>Home page</u> displays a hero image, the image being different depending on the viewport's width, to ensure a nice rendering on any screen. 
 
-Below this, the latest auction is exposed, showing off the lots in a carousel, each lot presented in a card. The number of cards depends on the width available: from 1 to 4. 
+Below this, the latest auction is exposed, showing off the lots in a slider, each lot presented in a card. The number of cards depends on the width available: from 1 to 4. 
 
-Next comes a section inviting the user to subscribe to the company's newsletter. This section is shown only if the user hasn't subscribed already.
+Next comes a section inviting the user to subscribe to the company's newsletter. 
 
 Finally, a footer inviting the user to follow *Enchères Exclusives* on different social medias: Twitter, Facebook, Instagram, YouTube & Weibo. A discreet copyright mention is positioned under it, being aligned with the "Follow us" on desktop, or centered from a smaller screen. 
 
@@ -76,6 +76,10 @@ The <u>Profile page</u> display a personalized welcoming message followed by the
 Clicking on *Edit* leads the user to the <u>Edit Profile page</u>, of course, which is a copy of the Register page. The form is already populated with the user data registered in the database. As of now, I have an issue to prepopulate the title dropdown with the correct content (more on this in the [bugs](https://github.com/LuciusVH/encheres-exclusives#spotted-bugs--errors) section).
 
 The *Delete* link opens up a Bootstrap "toast", playing the alert role (it is set up by aria attributes, for screen-readers): it asks the user for confirmation that they really want to delete their account, informing them that all data will be deleted with no possibility to cancel this action. 
+
+Below this, the <u>My Bids</u> section. It consists of a slider, displaying the lots on which the user has bidden (whether they are still the highest bidder or not). It allows them to retrieve the lots for which they have an interest quickly. Under, <u>My Lots</u> display the user's own lots to be sold, in a second slider. They can be edited or deleted, but only until the auction in which they have been categorized begins. A link invites the user to get more familiar with the concept & working process of the app if needed, and finally a button opens up the <u>Add a lot modal</u>, allowing the user to submit their own lot to auction. The third and last section is available if the user has won any auction, or sold any lot. It also display the lots in a slider, and the action button this time links to the <u>Contact page</u>.
+
+The <u>Auction page</u> displays all item of the auction's category, allowing the user to bid or not depending on whether the auction is running or not. Users can edit/delete their lots, depending on whether the auction is running or not.
 
 ### User stories
 
@@ -188,7 +192,41 @@ The website has been tested automatically through W3C HTML & CSS validators, Jav
 
 #### Tested user stories:
 
+- As a buyer, I want to find new items for my collections. 
 
+  *Enchères Privées provides the opportunity to buy incredible lots, no better place to expand your collections.*
+
+- As a user, I want to find information about the actual & upcoming sales. 
+
+  *The auctions, running and upcoming, are both displayed in the Auctions dropdown menu in the navbar.*
+
+- As a seller & member, I want to resell some of my items. 
+
+  *You can add your items through our Propose a lot modal, located on your Profile page.*
+
+- As a buyer & member, I want to see my bids.
+
+  *You can find all lots on which you have bidden on your Profile page.*
+
+- As a buyer/seller, I want to find information about the whole process & how this works.
+
+  *These information are available on the About page.*
+
+- As a seller & member, I want to be able to add my lot to be sold, edit or delete them.
+
+  *You can add, see, edit and delete them (CRUD) your lots through your Profile page.*
+
+- As a member, I want to be able to edit or delete my profile.
+
+  *You can edit or delete your profile and all your data through your Profile page.*
+
+- As a new user, I want to be able to create an account.
+
+  *The Register form is here for you!*
+
+- As a user, I want to subscribe to the newsletter.
+
+  *This is possible through the Newsletter form available on the Home page.*
 
 ## Deployment & cloning
 

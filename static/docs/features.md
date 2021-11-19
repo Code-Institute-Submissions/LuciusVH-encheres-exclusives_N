@@ -22,7 +22,7 @@
       <img src="https://github.com/LuciusVH/encheres-exclusives/blob/main/static/docs/readme-img/test-email.png" alt="Email received after using the app contact form."/>
     </p>
 
-    The user gets a confirmation with Flash message, wether it went through or not. If something goes wrong, the Flash messages invites them to contact ms3.encheres.privees@gmail.com directly:
+    The user gets a confirmation with Flash message, whether it went through or not. If something goes wrong, the Flash messages invites them to contact ms3.encheres.privees@gmail.com directly:
 
     <p align="center">
       <img src="https://github.com/LuciusVH/encheres-exclusives/blob/main/static/docs/readme-img/contact-flash-message.png" alt="Flash confirmation or error message."/>
