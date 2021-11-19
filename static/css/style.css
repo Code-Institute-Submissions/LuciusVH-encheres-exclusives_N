@@ -18,6 +18,7 @@
   --bg-warning: hsl(20, 100%, 37%);
   --bg-warning-hover: hsl(20, 100%, 37%, 0.8);
   --bg-validation: hsl(105, 100%, 37%);
+  --bg-validation-hover: hsl(105, 100%, 37%, 0.8);
 }
 
 body {
@@ -88,12 +89,14 @@ h6 {
   width: 70px;
 }
 
-.btn-edit {
+.btn-edit,
+.btn-sold {
   background-color: var(--bg-alert);
 }
 
 .btn-edit:hover,
-.btn-edit:active {
+.btn-edit:active .btn-sold:hover,
+.btn-sold:active {
   background-color: var(--bg-alert-hover);
   color: white;
 }
@@ -106,6 +109,15 @@ h6 {
 .btn-delete:active {
   background-color: var(--bg-warning-hover);
   color: white;
+}
+
+.btn-winner {
+  background-color: var(--bg-validation);
+}
+
+.btn-winner:hover,
+.btn-winner:active {
+  background-color: var(--bg-validation-hover);
 }
 
 .btn:disabled {
@@ -364,7 +376,7 @@ img.logo {
 }
 
 .glide__arrow--right {
-  right: -0.3em;
+  right: -0.1em;
 }
 
 
@@ -421,12 +433,6 @@ img.logo {
   white-space: normal;
 }
 
-@media screen and (min-width: 1200px) {
-  .card {
-    height: 620px;
-  }
-}
-
 
 /* _____ BIDDING MODAL _____ */
 
@@ -437,12 +443,6 @@ img.logo {
 .modal .card-img-bg {
   height: 100%;
   max-height: 250px;
-}
-
-@media screen and (min-width: 1200px) {
-  .modal .card-img-bg {
-    height: 250px;
-  }
 }
 
 .modal-lot-details,
@@ -536,12 +536,19 @@ label[for="newsletter"],
   margin-bottom: 0;
 }
 
-.user-details-actions a {
+.user-details-actions a,
+.user-details-actions span {
   color: var(--color-text);
 }
 
-.user-details-actions a:hover {
+.user-details-actions a:hover,
+.user-details-actions span:hover {
   color: var(--bg-highlight-dark);
+}
+
+#delete-profile {
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .toast-delete {

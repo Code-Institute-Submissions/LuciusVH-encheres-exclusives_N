@@ -47,6 +47,7 @@ def auctions_dispatch():
   """
   Maintain the current_auctions & upcoming_auctions lists up-to-date.
   Maintain the currently_auctioned field on each lot up-to-date.
+  Maintain the collections lots & lots_sold up-to-date.
 
   """
   auctions = list(mongo.db.auctions.find().sort('date_start', 1))
@@ -80,15 +81,43 @@ def auctions_dispatch():
       )
       # Add the newly updated auction to the upcoming_auctions list
       upcoming_auctions.append(updated_auction)
+      # Since this auction is over, transfer the sold lots from the lots collection to the lots_sold collection
+      all_lots_from_this_category = list(mongo.db.lots.find({"category": auction['category']}))
+      for lot in all_lots_from_this_category:
+        if lot['actual_bid'] > 0 or lot['actual_bid'] > lot ['reserve_price']:
+          lot_sold = {
+            "category": lot['category'],
+            "title": lot['title'],
+            "brand_artist": lot['brand_artist'],
+            "final_bidder": lot['actual_bidder'],
+            "final_bid": lot['actual_bid'],
+            "final_bid_time": lot['bid_time'],
+            "estimated_price": lot['estimated_price'],
+            "image_url": lot['image_url'],
+            "bids_history": list(lot['previous_bids_details']),
+            "sold_created_by": lot['created_by'],
+            "creation_time": lot['creation_time']
+          }
+          mongo.db.lots_sold.insert_one(lot_sold)
+          mongo.db.lots.delete_one({'_id': lot['_id']})
+        # And reset the lots not sold (with no bids or when the reserve price has not been reached)
+        else:
+          lot_not_sold = {
+            "actual_bid": 0,
+            "actual_bidder": None,
+            "previous_bids_details": None
+          }
+          mongo.db.lots.update_one(
+            {'id': lot['_id']},
+            {'$set': lot_not_sold})
     else:
       # Update the field "is_running" to false & add the auction to the upcoming_auctions list
       mongo.db.auctions.update_one(
-        {'_id' : auction['_id'] },
-        { "$set": {"is_running": False}}
-      )
+        {'_id': auction['_id'] },
+        {"$set": {"is_running": False}})
       upcoming_auctions.append(auction)
 
-    # Reset all items to currently_auctioned: False
+  # Reset all items to currently_auctioned: False
   mongo.db.lots.update_many(
     {'currently_auctioned': True},
     {"$set": {'currently_auctioned': False}})
@@ -98,6 +127,8 @@ def auctions_dispatch():
   for auction in current_auctions:
     running_categories.append(auction["category"])
   mongo.db.lots.update_many(
+    # {"category": running_categories[0]},
+    # {"$set": {'currently_auctioned': True}})
     {"$or": [{"category": running_categories[0]}, 
       {"category": running_categories[1]}]},
     {"$set": {'currently_auctioned': True}})
@@ -327,12 +358,18 @@ def profile():
     user_lots = list(mongo.db.lots.find(
       {"created_by": session["user"]}
     ))
+    # Retrieve the sold lots
+    lots_sold = list(mongo.db.lots_sold.find(
+      {"$or": [{"created_by": session["user"]},
+      {"final_bidder": session["user"]}]}
+    ))
     # Retrieve the different auctions categories
     categories = list(mongo.db.auctions.find().sort("category", 1))
     return render_template('profile.html',
                             user=user,
                             user_bids=user_bids,
                             user_lots=user_lots,
+                            lots_sold=lots_sold,
                             categories=categories)
   else:
     return redirect(url_for("login"))
@@ -424,12 +461,14 @@ def add_lot():
   # Collect data from the user's inputs on the form to insert the entry on the lots collection
   if request.method == "POST":
     starting_price = int(request.form.get("addlot-estimatedprice")) // 10
+    reserve_price = int(request.form.get("addlot-estimatedprice")) // 2
     new_lot = {
       "category": request.form.get("addlot-category"),
       "title": request.form.get("addlot-title").title(),
       "brand_artist": request.form.get("addlot-artistbrand").title(),
       "estimated_price": int(request.form.get("addlot-estimatedprice")),
       "starting_price": starting_price,
+      "reserve_price": reserve_price,
       "actual_bid": 0,
       "image_url": request.form.get("addlot-imageurl"),
       "created_by": session["user"],
@@ -489,7 +528,8 @@ def delete_lot(lot_id):
 
 @app.route('/search', methods=["GET", "POST"])
 def search():
-  query = request.args.get('search-query')
+  user_query = request.args.get('search-query')
+  query = '"'+user_query+'"'
   lots = list(mongo.db.lots.find({"$text": {"$search": query}}))
   if session:
     # Grab the session's user details from database
@@ -502,9 +542,11 @@ def search():
     categories = list(mongo.db.auctions.find().sort("category", 1))
   else:
     return render_template('search_result.html', 
-                            lots=lots)
+                            lots=lots,
+                            query=query)
   return render_template('search_result.html', 
                           lots=lots,
+                          query=query,
                           user=user,
                           user_lots=user_lots,
                           categories=categories)

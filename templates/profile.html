@@ -26,7 +26,7 @@
           *********
         </p>
         <!-- User's profile actions -->
-        <p class="user-details-actions"><a href="{{ url_for('edit_profile')}}">Edit</a> / <a href="#" id="delete-profile" class="delete-toast">Delete</a></p>
+        <p class="user-details-actions"><a href="{{ url_for('edit_profile')}}">Edit</a> / <span id="delete-profile" class="delete-toast">Delete</span></p>
       </div>
     </div>
   </section>
@@ -120,6 +120,39 @@
     </div>
   </section>
 
+  <!-- Auction's over, user's lots & winner bids -->
+  <section id="profile-auctions-over">
+    <div class="header-title bg-dark p-3 mb-3 mb-md-5">
+      <div class="d-flex flex-column flex-md-row align-lots-baseline text-md-start text-center">
+        <div class="p-md-2 mx-auto">
+          <h2 class="fw-bolder m-0">Auction's over!</h2>
+        </div>
+      </div> 
+    </div>
+    <div class="pb-3 pb-md-5">
+      <div class="container px-4 mt-sm-5">
+        <div class="row">
+          {% if lots_sold|length > 0 %}
+            <!-- GlideJS slider -->
+            <div class="glide">
+              <div class="glide__track" data-glide-el="track">
+                <ul class="glide__slides">
+                  {% for lot in lots_sold %}
+                    {% include 'components/lot_card.html' %}
+                  {% endfor %}
+                </ul>
+              </div>
+              {% include 'components/glide_controllers.html' %}
+            </div>
+          {% endif %}
+          <div class="row">
+            <p>We will contact you shortly to organize payment, wether you sold a lot or won an auction.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Bidding modal -->
   <section id="profile-bidding-modal">
     {% for lot in user_bids %}
@@ -172,7 +205,7 @@
                     <p class="addlot-rules">Max 50 characters</p>
                   </div>
                 </div>
-                <div class="col-12 col-sm-6">
+                <div class="col-12 col-sm-4">
                   <div class="row">
                     <div class="col-11">
                       <div class="form-floating">
@@ -184,7 +217,7 @@
                     <p class="addlot-rules">Max 12 digits, multiple of 10</p>
                   </div>
                 </div>
-                <div class="col-12 col-sm-6">
+                <div class="col-12 col-sm-4">
                   <div class="row">
                     <div class="col-11">
                       <div class="form-floating">
@@ -193,7 +226,19 @@
                       </div>
                     </div>
                     <div class="col-1 euro-currency">€</div>
-                    <p class="addlot-rules">Set to 10% of the Estimated Price</p>
+                    <p class="addlot-rules">10% of the Estimated Price</p>
+                  </div>
+                </div>
+                <div class="col-12 col-sm-4">
+                  <div class="row">
+                    <div class="col-11">
+                      <div class="form-floating">
+                        <input id="addlot-reserveprice" name="addlot-reserveprice" type="number" class="form-control" placeholder="Reserve Price" disabled readonly>
+                        <label for="addlot-reserveprice">Reserve Price</label>
+                      </div>
+                    </div>
+                    <div class="col-1 euro-currency">€</div>
+                    <p class="addlot-rules">50% of the Estimated Price</p>
                   </div>
                 </div>
                 <div class="col-12 col-sm-8">

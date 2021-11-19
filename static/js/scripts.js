@@ -71,14 +71,17 @@ function bidInput(event) {
   }
 }
 
-// Calculate the Starting Price of a lot when the user fills up the Add lot form
+// Calculate the Starting Price & Reserve Price of a lot when the user fills up the Add lot form
 let estimatedPriceInput = document.querySelector('#addlot-estimatedprice');
-estimatedPriceInput.addEventListener('input', calculateStartingPrice)
+estimatedPriceInput.addEventListener('input', calculatePrices)
 
-function calculateStartingPrice() {
+function calculatePrices() {
   let estimatedPrice = estimatedPriceInput.value;
   let startingPrice = estimatedPrice / 10;
+  let reservePrice = estimatedPrice / 2;
 
   let startingPriceInput = document.querySelector('#addlot-startingprice');
   startingPriceInput.value = Math.round(startingPrice);
+  let reservePriceInput = document.querySelector('#addlot-reserveprice');
+  reservePriceInput.value = Math.round(reservePrice);
 }
