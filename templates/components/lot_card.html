@@ -73,11 +73,11 @@
           </span>
           {% elif session.user == lot.actual_bidder %}
             <!-- The user is the highest bidder -->
-              <span class="d-inline-block" tabindex="0" data-bs-toggle="tooltip" title="You can't outbid yourself &#128521;">
-                <button class="btn btn-bg-dark upper mt-auto edit-modal-opener" disabled> 
-                  Place Bid
-                </button>
-              </span>
+            <span class="d-inline-block" tabindex="0" data-bs-toggle="tooltip" title="You can't outbid yourself &#128521;">
+              <button class="btn btn-bg-dark upper mt-auto edit-modal-opener" disabled> 
+                Place Bid
+              </button>
+            </span>
           {% else %}
             <!-- The user can bid -->
             <a class="btn btn-bg-dark upper mt-auto edit-modal-opener" data-bs-toggle="modal" data-bs-target="#bidding-modal-{{ lot._id }}"> 
