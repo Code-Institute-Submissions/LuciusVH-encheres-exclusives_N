@@ -257,9 +257,23 @@ img.logo {
   }
 }
 
+.dropdown-menu h5:hover {
+  background-color: transparent;
+}
+
+.dropdown-menu h5:focus,
+.dropdown-menu h5:active {
+  background-color: transparent;
+  color: var(--color-text);
+}
+
 .dropdown-item {
   white-space: normal;
   word-break: break-word;
+}
+
+.dropdown-item:active {
+  background-color: var(--bg-highlight-dark);
 }
 
 .nav-item-auction-date {
