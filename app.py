@@ -1,13 +1,13 @@
 import os
 from flask import (Flask, flash, render_template,
-   redirect, request, session, url_for, jsonify)
-from flask.scaffold import F
+  redirect, request, session, url_for, Markup)
 from flask_pymongo import PyMongo
 import json
 from bson.objectid import ObjectId
-# from bson import json_util
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime, timedelta
+import yagmail
+from yagmail import sender
 if os.path.exists('env.py'):
   import env
 
@@ -528,6 +528,41 @@ def delete_lot(lot_id):
       return redirect(url_for('profile'))
   else:
     return redirect(url_for("login"))
+
+
+# _____ SEARCH _____ #
+@app.route('/contact', methods=["GET", "POST"])
+def contact():
+  if request.method == "POST":
+    try:
+      user_title = request.form.get("title")
+      user_fname = request.form.get("first_name")
+      user_lname = request.form.get("last_name")
+      user_email = request.form.get("email")
+      user_message = request.form.get("message")
+
+      body = [
+        f"<h3>You have received a message from {user_title} {user_fname} {user_lname}!</h3>",
+        "<p>Here it is:</p>",
+        f"<p>{user_message}</p>",
+        f"<p>Answer them to: {user_email}</p>"
+      ]
+
+      yag = yagmail.SMTP(user='ms3.encheres.privees@gmail.com',
+                        password=os.environ.get('EMAIL_PSWD'),
+                        host='smtp.gmail.com')
+      yag.send(
+        subject=f"New message from {user_email}",
+        contents=body
+      )
+      flash("Thank you for contacting us. We will get back to you shortly!", "valid")
+    except:
+      # If something goes wrong, invite the user to connect directly through mail
+      message = Markup("Something went wrong... But you can write us as \
+        <a href='mailto:ms3.encheres.privees@gmail.com'>\
+        ms3.encheres.privees@gmail.com</a>!")
+      flash(message, "error")
+  return render_template('contact.html')
 
 
 # _____ SEARCH _____ #
