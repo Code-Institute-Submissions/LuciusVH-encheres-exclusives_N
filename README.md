@@ -63,9 +63,9 @@ The navigation bar is pretty basic: the company's logo on the left, being a link
 
 The <u>Auction link</u> dropdown menu is divided in two sections: the Current Auctions & the Upcoming Auctions. Each auction displays which category it belongs to (Art, Fashion & Jewels, Interior Design & Furniture, Watches, etc.) and either way when it starts if it's an upcoming auction, or when it ends if the auction is already running. 
 
-About link
+The <u>About page</u> explains shortly how the app works and the auction process.
 
-<u>Contact modal</u>
+The <u>Contact page</u> is a simple contact form, allowing the user to get in touch with *Enchères Privées*. The form consists of a dropdown to select your appropriate title and 4 input fields (first name, last name, email & your message).
 
 The <u>Register page</u> simply display a form with 4 input fields (email, password, first name & last name), a dropdown to select your appropriate title, a checkbox to receive the newsletter and a "Sign Up" button. Under that, a "Log In" link if the user misclicked and already is a member. Once validated, the user is redirected to the Profile page.
 
@@ -83,13 +83,11 @@ The *Delete* link opens up a Bootstrap "toast", playing the alert role (it is se
 - As a user, I want to find information about the actual & upcoming sales. 
 - As a seller & member, I want to resell some of my items. 
 - As a buyer & member, I want to see my bids.
-- As a user, I want to find information about the company's offices.
 - As a buyer/seller, I want to find information about the whole process & how this works.
 - As a seller & member, I want to be able to add my lot to be sold, edit or delete them.
 - As a member, I want to be able to edit or delete my profile.
 - As a new user, I want to be able to create an account.
 - As a user, I want to subscribe to the newsletter.
-- As a user, I want to learn more about the auction world.
 
 
 
@@ -102,10 +100,10 @@ To see the whole list of features, please read the [Detailed Existing Features r
 
 ### Features Left to Implement
 
-- Password lost function.
-- Password verification.
-- Picture upload input, instead of URL & picture storage in db.
+- Password lost function & verification.
+- Picture upload input & picture storage in db, instead of URL.
 - Time display based on local timezone.
+- Online payment, from the app.
 
 
 
@@ -206,14 +204,14 @@ You can find the deployed site [here](https://encheres-exclusives.herokuapp.com/
 
 ### Content
 
-- X
+- All content has been written by myself.
 
 ### Media
 
 - The hero pictures are both from Adobe Stock [[landscape](https://stock.adobe.com/images/panoramic-shot-of-auctioneer-talking-with-microphone-and-holding-picture-during-auction/325679020) & [portrait](https://stock.adobe.com/images/auctioneer-talking-with-microphone-and-holding-picture-during-auction/325679180)]. 
-- See the detailed media credits [here](https://github.com/LuciusVH/encheres-exclusives/blob/main/static/docs/media-credits.md).
+- For the lots' pictures, see the detailed media credits [here](https://github.com/LuciusVH/encheres-exclusives/blob/main/static/docs/media-credits.md).
 
 ### Acknowledgements
 
-- X 
+- I want to thank the Code Institute tutors, which are always helpful and resourceful! As well as my mentor, for these productive sessions. 
 
