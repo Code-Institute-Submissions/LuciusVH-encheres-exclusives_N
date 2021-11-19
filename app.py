@@ -272,33 +272,36 @@ def place_bid(lot_id):
 
 @app.route('/register', methods=["GET", "POST"])
 def register():
-  if request.method == "POST":
-    # Check if the email exists already in the database
-    existing_user = mongo.db.users.find_one(
-      {"email": request.form.get("email").lower()}
-    )
-    if existing_user:
-      flash("Email already registered", "error")
-      return redirect(url_for("login"))
+  if session:
+    return redirect(url_for('profile'))
+  else:
+    if request.method == "POST":
+      # Check if the email exists already in the database
+      existing_user = mongo.db.users.find_one(
+        {"email": request.form.get("email").lower()}
+      )
+      if existing_user:
+        flash("Email already registered", "error")
+        return redirect(url_for("login"))
 
-    newsletter = True if request.form.get("newsletter") else False
-    register = {
-      "email": request.form.get("email").lower(),
-      "password": generate_password_hash(request.form.get("password")),
-      "title": request.form.get("title").lower(),
-      "first_name": request.form.get("first_name").lower(),
-      "last_name": request.form.get("last_name").lower(),
-      "newsletter_subscribed": newsletter,
-      "registration_time": datetime.now()
-    }
-    mongo.db.users.insert_one(register)
+      newsletter = True if request.form.get("newsletter") else False
+      register = {
+        "email": request.form.get("email").lower(),
+        "password": generate_password_hash(request.form.get("password")),
+        "title": request.form.get("title").lower(),
+        "first_name": request.form.get("first_name").lower(),
+        "last_name": request.form.get("last_name").lower(),
+        "newsletter_subscribed": newsletter,
+        "registration_time": datetime.now()
+      }
+      mongo.db.users.insert_one(register)
 
-    # Put the new user into "session" cookie
-    user_data = mongo.db.users.find_one(
-      {"email": request.form.get("email").lower()}
-    )
-    session["user"] = str(user_data["_id"])
-    return redirect(url_for("profile", user_id=session["user"]))
+      # Put the new user into "session" cookie
+      user_data = mongo.db.users.find_one(
+        {"email": request.form.get("email").lower()}
+      )
+      session["user"] = str(user_data["_id"])
+      return redirect(url_for("profile"))
   return render_template('register.html')
 
 
@@ -306,26 +309,29 @@ def register():
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
-  if request.method == "POST":
-    # Check if the email is already in the database
-    existing_user = mongo.db.users.find_one(
-      {"email": request.form.get("email").lower()}
-    )
+  if session:
+    return redirect(url_for('profile'))
+  else:
+    if request.method == "POST":
+      # Check if the email is already in the database
+      existing_user = mongo.db.users.find_one(
+        {"email": request.form.get("email").lower()}
+      )
 
-    if existing_user:
-      # Check if the hashed password matches the user's input
-      if check_password_hash(
-        existing_user["password"], request.form.get("password")):
-          session["user"] = str(existing_user["_id"])
-          return redirect(url_for("profile"))
+      if existing_user:
+        # Check if the hashed password matches the user's input
+        if check_password_hash(
+          existing_user["password"], request.form.get("password")):
+            session["user"] = str(existing_user["_id"])
+            return redirect(url_for("profile"))
+        else:
+          # Invalid password
+          flash("Incorrect email and/or password", "error")
+          return redirect(url_for("login"))
       else:
-        # Invalid password
+        # Email not registered
         flash("Incorrect email and/or password", "error")
         return redirect(url_for("login"))
-    else:
-      # Email not registered
-      flash("Incorrect email and/or password", "error")
-      return redirect(url_for("login"))
   return render_template('login.html')
 
 
