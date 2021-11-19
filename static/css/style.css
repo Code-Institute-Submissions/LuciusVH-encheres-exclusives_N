@@ -129,7 +129,7 @@ h6 {
 /* _____ LINKS _____ */
 
 .link {
-  color: var(--bg-highlight-darker);
+  color: var(--bg-highlight-dark);
   text-decoration: none;
   border-bottom: solid var(--bg-highlight-dark) 0.3rem;
   display: inline-block;
@@ -139,8 +139,8 @@ h6 {
 
 .link:hover,
 .link:active {
-  color: var(--bg-highlight-darker);
-  border-bottom: solid var(--bg-highlight-light) 0.3rem;
+  color: var(--bg-highlight-dark-hover);
+  border-bottom: solid var(--bg-highlight-dark-hover) 0.3rem;
 }
 
 

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+
+  <header class="header-title bg-dark p-3 mb-3 mb-md-5">
+    <div class="d-flex flex-column flex-md-row align-lots-baseline text-md-start text-center">
+      <div class="p-md-2 mx-auto">
+        <h2 class="fw-bolder m-0">About</h2>
+      </div>
+    </div> 
+  </header>
+
+  <!-- How does it work? -->
+  <section class="pb-3 pb-md-5">
+    <div class="container px-4 mt-sm-5">
+      <div class="row">
+        <h1>How does it work?</h1>
+        <p>It's pretty simple.</p>
+        <p>First step is to <a href="{{ url_for('register') }}" class="link">create your account</a>. From there you can start bidding on lots and propose your own to be auctioned.</p>
+      </div>
+    </div>
+  </section>
+
+{% endblock %}

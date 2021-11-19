@@ -272,6 +272,7 @@ def place_bid(lot_id):
 @app.route('/register', methods=["GET", "POST"])
 def register():
   if session:
+    flash("You are already registered!", "error")
     return redirect(url_for('profile'))
   else:
     if request.method == "POST":
@@ -309,6 +310,7 @@ def register():
 @app.route('/login', methods=["GET", "POST"])
 def login():
   if session:
+    flash("You are already logged in!", "error")
     return redirect(url_for('profile'))
   else:
     if request.method == "POST":
@@ -530,6 +532,13 @@ def delete_lot(lot_id):
 
 
 # _____ SEARCH _____ #
+
+@app.route('/about')
+def about():
+  return render_template('about.html')
+
+# _____ SEARCH _____ #
+
 @app.route('/contact', methods=["GET", "POST"])
 def contact():
   if request.method == "POST":
