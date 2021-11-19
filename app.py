@@ -348,7 +348,7 @@ def logout():
 def howdoesitwork():
   return redirect(url_for('about', _anchor='howdoesitwork'))
 
-# _____ HOW DOES IT WORK REDIRECT LINK _____ #
+# _____ PROPOSE A LOT REDIRECT LINK _____ #
 
 @app.route('/proposealot')
 def proposealot():
@@ -634,6 +634,19 @@ def newsletter():
     flash("Thank you, we stay in touch!", "valid")
     return redirect(url_for("index"))
   return render_template("index.html")
+
+
+# _____ ERROR PAGES _____ #
+
+@app.errorhandler(404)
+def not_found(error):
+    return render_template('404.html'), 404
+
+
+@app.errorhandler(505)
+def internal(error):
+    return render_template('404.html'), 505
+
 
 # _____ LOCAL SERVER _____ #
 
