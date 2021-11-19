@@ -12,6 +12,8 @@ Flask-PyMongo = "==2.3.0"
 Werkzeug = "==2.0.1"
 pymongo = "*"
 yagmail = {extras = ["all"], version = "*"}
+markupsafe = "*"
+certifi = "*"
 
 [dev-packages]
 
