@@ -122,17 +122,17 @@
 
   <!-- Auction's over, user's lots & winner bids -->
   <section id="profile-auctions-over">
-    <div class="header-title bg-dark p-3 mb-3 mb-md-5">
-      <div class="d-flex flex-column flex-md-row align-lots-baseline text-md-start text-center">
-        <div class="p-md-2 mx-auto">
-          <h2 class="fw-bolder m-0">Auction's over!</h2>
-        </div>
-      </div> 
-    </div>
-    <div class="pb-3 pb-md-5">
-      <div class="container px-4 mt-sm-5">
-        <div class="row">
-          {% if lots_sold|length > 0 %}
+    {% if lots_sold|length > 0 %}
+      <div class="header-title bg-dark p-3 mb-3 mb-md-5">
+        <div class="d-flex flex-column flex-md-row align-lots-baseline text-md-start text-center">
+          <div class="p-md-2 mx-auto">
+            <h2 class="fw-bolder m-0">Auction's over!</h2>
+          </div>
+        </div> 
+      </div>
+      <div class="pb-3 pb-md-5">
+        <div class="container px-4 mt-sm-5">
+          <div class="row">
             <!-- GlideJS slider -->
             <div class="glide">
               <div class="glide__track" data-glide-el="track">
@@ -144,13 +144,13 @@
               </div>
               {% include 'components/glide_controllers.html' %}
             </div>
-          {% endif %}
-          <div class="row">
-            <p>We will contact you shortly to organize payment, wether you sold a lot or won an auction.</p>
+            <div class="row">
+              <p><a href="#" class="link">Contact us</a> shortly to organize payment.</p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    {% endif %}
   </section>
 
   <!-- Bidding modal -->
