@@ -627,6 +627,10 @@ label[for="newsletter"],
   height: 116px;
 }
 
+a[href^="mailto:"] {
+  color: var(--bg-alert);
+}
+
 
 /* _____ FOOTER _____ */
 

@@ -14,7 +14,7 @@
     <div class="container px-4 mt-sm-5">
       <div class="row gx-4 gx-lg-5">
         <div class="col-md-7 col-lg-5 col-xl-4 mx-auto">
-          <form method="POST" action="">
+          <form method="POST" action="{{ url_for('contact') }}">
             <div class="row">
               <div class="col-md-4 mb-4 mb-md-0">
                 <label for="title" class="visually-hidden">Title</label>
@@ -42,8 +42,8 @@
               <label for="email">Email</label>
             </div>
             <div class="form-floating mx-auto mb-4">
-              <textarea id="users-message" name="users-message" class="form-control" placeholder="Your message"></textarea>
-              <label for="users-message">Your message</label>
+              <textarea id="message" name="message" class="form-control" placeholder="Your message"></textarea>
+              <label for="message">Your message</label>
             </div>
             <div class="row">
               <button type="submit" class="col-8 col-sm-6 mx-auto mt-4 btn btn-bg-dark upper">
@@ -55,5 +55,5 @@
       </div>
     </div>
   </section> 
-
+  
 {% endblock %}
