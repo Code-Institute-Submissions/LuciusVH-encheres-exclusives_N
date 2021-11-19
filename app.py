@@ -348,6 +348,12 @@ def logout():
 def howdoesitwork():
   return redirect(url_for('about', _anchor='howdoesitwork'))
 
+# _____ HOW DOES IT WORK REDIRECT LINK _____ #
+
+@app.route('/proposealot')
+def proposealot():
+  return redirect(url_for('profile', _anchor='propose-a-lot'))
+
 
 # _____ PROFILE _____ #
 
@@ -605,6 +611,7 @@ def search():
 
 
 # _____ NEWSLETTER _____ #
+
 @app.route('/newsletter', methods=["GET", "POST"])
 def newsletter():
   # Collect data from the user's inputs on the form to insert the entry on the newsletter collection
