@@ -52,15 +52,19 @@
         {% elif session.user == lot.sold_created_by %}
         <!-- Display the sold Sold button -->
           <span class="d-inline-block" tabindex="0" data-bs-toggle="tooltip" title="💰 Contact us to organize the payment.">
-            <button class="btn upper btn-sold">
-              Sold!
-            </button>
+            <a href="{{ url_for('contact') }}">
+              <button class="btn upper btn-sold">
+                Sold!
+              </button>
+            </a>
           </span>
         <!-- Display the sold Winner button -->
           <span class="d-inline-block" tabindex="0" data-bs-toggle="tooltip" title="💸 Contact us to organize the payment.">
-            <button class="btn upper btn-winner">
+            <a href="{{ url_for('contact') }}">
+              <button class="btn upper btn-winner">
               You won!
-            </button>
+              </button>
+            </a>
           </span>
         {% else %}
           {% if session.user == lot.actual_bidder %}
