@@ -621,6 +621,13 @@ label[for="newsletter"],
 }
 
 
+/* _____ CONTACT FORM _____ */
+
+#users-message {
+  height: 116px;
+}
+
+
 /* _____ FOOTER _____ */
 
 .social {
