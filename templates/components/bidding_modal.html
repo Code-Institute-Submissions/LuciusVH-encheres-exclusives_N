@@ -20,15 +20,15 @@
         <div class="modal-bidding-area col-12 col-sm-6 col-lg-4 align-self-center">
           <form class="form" method="POST" action="{{ url_for('place_bid', lot_id=lot._id) }}">
             <p><strong>Bidding area</strong></p>
-            {% if lot.actual_bid != 0 %}
-            <p>Actual bid: <strong>{{ lot.actual_bid|price_format }}€</strong></p>
+            {% if lot.highest_bid != 0 %}
+            <p>Actual bid: <strong>{{ lot.highest_bid|price_format }}€</strong></p>
             {% else %}
             <p>Starting price: <strong>{{ lot.starting_price|price_format }}€</strong></p>
             {% endif %}
             <p><strong>
               <label for="user_bid_lot-{{ lot._id }}">Your bid:</label>
-              {% if lot.actual_bid != 0 %}
-              <input class="input-bid" type="number" name="user_bid" id="user_bid_lot-{{ lot._id }}" min="{{ lot.actual_bid }}" required> € 
+              {% if lot.highest_bid != 0 %}
+              <input class="input-bid" type="number" name="user_bid" id="user_bid_lot-{{ lot._id }}" min="{{ lot.highest_bid }}" required> € 
               {% else %}
               <input class="input-bid" type="number" name="user_bid" id="user_bid_lot-{{ lot._id }}" min="{{ lot.starting_price }}" required> € 
               {% endif %}
