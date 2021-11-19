@@ -7,7 +7,6 @@ from bson.objectid import ObjectId
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime, timedelta
 import yagmail
-from yagmail import sender
 if os.path.exists('env.py'):
   import env
 
