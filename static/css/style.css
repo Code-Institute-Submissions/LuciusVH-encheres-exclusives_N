@@ -129,18 +129,23 @@ h6 {
 /* _____ LINKS _____ */
 
 .link {
-  color: var(--bg-highlight-dark);
+  color: var(--color-text);
+  padding-left: 1px;
+  padding-right: 1px;
+  margin-left: -1px;
+  margin-right: -1px;
+  background-image: linear-gradient(to right, hsl(221, 60%, 34%, 0.4) 100%, hsl(0deg 0% 100%) 0);
+  background-position: 0 80%;
+  background-repeat: repeat-x;
+  background-size: 100% 23%;
   text-decoration: none;
-  border-bottom: solid var(--bg-highlight-dark) 0.3rem;
-  display: inline-block;
-  line-height: 1.05;
-  text-shadow: 1px 1px var(--bg-light), 1px -1px var(--bg-light), -1px 1px var(--bg-light), -1px -1px var(--bg-light);
 }
 
 .link:hover,
 .link:active {
-  color: var(--bg-highlight-dark-hover);
-  border-bottom: solid var(--bg-highlight-dark-hover) 0.3rem;
+  color: var(--color-text);
+  background-position-y: 0;
+  background-size: 100% 87%;
 }
 
 
