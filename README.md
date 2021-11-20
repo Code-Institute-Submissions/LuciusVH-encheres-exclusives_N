@@ -151,14 +151,45 @@ The website has been tested automatically through W3C HTML & CSS validators, Jav
 
 ### HTML Validator ([W3C](https://validator.w3.org/))
 
+- Element [`div`](https://html.spec.whatwg.org/multipage/#the-div-element) not allowed as child of element [`ul`](https://html.spec.whatwg.org/multipage/#the-ul-element) in this context.
+
+  These errors are due to the Bootstrap navbar use of dropdown menus.
+
+- Bad value `navigation` for attribute `role` on element [`button`](https://html.spec.whatwg.org/multipage/#the-button-element).
+
+  These errors are due to GlideJS, attributing the role of navigation to the arrows controls.
+
+- Attribute `alt` not allowed on element [`button`](https://html.spec.whatwg.org/multipage/#the-button-element) at this point.
+
+  Switch to `aria-label`.
+
+- Attribute `maxlenght` not allowed on element [`input`](https://html.spec.whatwg.org/multipage/#the-input-element) at this point.
+
+  I decided to keep these, I need some control over the user's input.
+
 ### CSS Validator ([W3C](https://jigsaw.w3.org/css-validator/validator.html))
+
+- L159 .form-check-input:checked - `background-color` et `border-color` sont de la même couleur.
+
+  This was the goal, I wanted the checked checkbox to look sleek.
 
 ### [JSHint](https://jshint.com/)
 
+All errors corrected.
 
 ### Lighthouse
 
+- **index.html**
+
+<p align="center">
+  <img src="https://github.com/LuciusVH/encheres-exclusives/blob/main/static/docs/readme-img/lighthouse-index.png" alt="Lighthouse report of index.html"/>
+</p>
+
+The bad performance is due to the use of external URL to load the lots images. It would drastically improve if the images were hosted in the database.
+
 #### Link testing:
+
+All links are functional.
 
 
 
