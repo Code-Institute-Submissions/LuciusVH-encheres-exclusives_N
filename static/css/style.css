@@ -278,7 +278,6 @@ img.logo {
 
 .dropdown-item {
   white-space: normal;
-  word-break: break-word;
 }
 
 .dropdown-item:active {
@@ -326,7 +325,7 @@ img.logo {
   color: hsl(0, 0%, 0%, 55%);
   cursor: pointer;
   background-color: transparent;
-  padding: 8x;
+  padding: 5px 10px;
   border-radius: 50%;
 }
 
