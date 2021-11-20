@@ -348,6 +348,12 @@ def logout():
 def howdoesitwork():
   return redirect(url_for('about', _anchor='howdoesitwork'))
 
+# _____ PROPOSE A LOT REDIRECT LINK _____ #
+
+@app.route('/proposealot')
+def proposealot():
+  return redirect(url_for('profile', _anchor='propose-a-lot'))
+
 
 # _____ PROFILE _____ #
 
@@ -568,7 +574,7 @@ def contact():
       )
       flash("Thank you for contacting us. We will get back to you shortly!", "valid")
     except:
-      # If something goes wrong, invite the user to connect directly through mail
+      # If something goes wrong, invite the user to connect directly through email
       message = Markup("Something went wrong... But you can write us as \
         <a href='mailto:ms3.encheres.privees@gmail.com'>\
         ms3.encheres.privees@gmail.com</a>!")
@@ -605,6 +611,7 @@ def search():
 
 
 # _____ NEWSLETTER _____ #
+
 @app.route('/newsletter', methods=["GET", "POST"])
 def newsletter():
   # Collect data from the user's inputs on the form to insert the entry on the newsletter collection
@@ -627,6 +634,19 @@ def newsletter():
     flash("Thank you, we stay in touch!", "valid")
     return redirect(url_for("index"))
   return render_template("index.html")
+
+
+# _____ ERROR PAGES _____ #
+
+@app.errorhandler(404)
+def not_found(error):
+    return render_template('404.html'), 404
+
+
+@app.errorhandler(505)
+def internal(error):
+    return render_template('404.html'), 505
+
 
 # _____ LOCAL SERVER _____ #
 

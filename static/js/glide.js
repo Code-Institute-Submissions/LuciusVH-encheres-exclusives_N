@@ -3,7 +3,7 @@ const config = {
   startAt: 0,
   perView: 4,
   focusAt: 0,
-  // autoplay: 2000,
+  autoplay: 2000,
   hoverpause: true,
   gap: 15,
   breakpoints: {

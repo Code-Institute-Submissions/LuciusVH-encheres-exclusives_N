@@ -21,7 +21,7 @@ function imageLoad() {
         submitBtn.disabled = true;
         imagePreview.setAttribute('alt', 'Loading Error /!\\');
         alert("There's an error in your URL. Check it ;)");
-      }
+      };
 
       // Otherwise, allow the user to submit their completed form
       imagePreview.onload = () => {
@@ -30,7 +30,7 @@ function imageLoad() {
         } else {
           submitBtn.disabled = false;
         }
-      }
+      };
     } else {
       // Keep the default pic otherwise & inform the user they didn't set a correct image format
       imagePreview.setAttribute('src', '/static/img/no_pic.jpg');

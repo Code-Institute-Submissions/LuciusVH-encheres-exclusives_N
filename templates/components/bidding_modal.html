@@ -1,8 +1,8 @@
-<div class="modal fade" id="bidding-modal-{{ lot._id }}" tabindex="-1" role="dialog" aria-labelledby="FormModal" aria-hidden="true">
+<div class="modal fade" id="bidding-modal-{{ lot._id }}" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="exampleModalLabel">Are you ready to bid?</h4>
+        <h4 class="modal-title">Are you ready to bid?</h4>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="row modal-body justify-content-center">
@@ -33,9 +33,8 @@
               <input class="input-bid" type="number" name="user_bid" id="user_bid_lot-{{ lot._id }}" min="{{ lot.starting_price }}" required> € 
               {% endif %}
             </strong></p>
-            <p id="bid-input"></p>
             <div>
-              <button id="submit" type="submit" class="btn btn-bg-dark upper">Place bid</button>
+              <button type="submit" class="btn btn-bg-dark upper">Place bid</button>
             </div>
           </form>
         </div>

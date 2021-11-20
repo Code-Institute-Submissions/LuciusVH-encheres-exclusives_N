@@ -40,6 +40,8 @@
 
 6. ##### Wine & Liquors
 
+   - *The Macallan Fine & Rare 22 Year Old*, Macallan - [Sotheby's](https://www.sothebys.com/en/buy/auction/2021/distilled-whisky-moutai-6/the-macallan-fine-rare-22-year-old-58-2-abv-1990-1)
+
 7. ##### Tableware & Kitchenware
 
 8. ##### Interior Design & Furniture

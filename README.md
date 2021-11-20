@@ -43,19 +43,19 @@ You can find the deployed site [here](https://encheres-exclusives.herokuapp.com/
 
 ## UX
 
-The world of auctions known for selling famous artworks and extremely expensive items, is sometimes perceived as too closed or secret. It is a common misperception, turns out more than 90% of the auctions in the world are completely public and accessible to anyone who dares to cross the doorstep. This misconception is due to the fact that we only hear about the exceptional sales, proposing extraordinary lots, often reserved to already well known customers of the auction house hosting the event. *Enchères Exclusives* is a gateway to this realm, with the mission to make it more accessible, even from the comfort of your living room.
+The world of auctions, known for selling famous artworks and extremely expensive items, is sometimes perceived as too closed or secret. It is a common misperception, turns out more than 90% of the auctions in the world are completely public and accessible to anyone who dares to cross the doorstep. This misconception is due to the fact that we only hear about the exceptional sales, proposing extraordinary lots, often reserved to already well known customers of the auction house hosting the event. *Enchères Exclusives* is a gateway to this realm, with the mission to make it more accessible, even from the comfort of your living room.
 
 ### 	Structure & Design
 
 Designed as a multipage website, built with Flask, it allows the user to browse the different collections, create an account to bid on some lots of their liking, and sold some of their own. *Enchères Exclusives* also gives some precious information about the auction business, in order to familiarize the user and sort of demystify this world. 
 
-I wanted the general design to stay clean and sleek, to allow the user to focus on the lots. The color panel is really neutral with Ghost White (#F8F8FF) and Gray80 (#CCCCCC) as background color when an element needs a bit more attention (like for a title banner). The global text color is also a gray, Gray20 (#333333). To highlight some elements, I used different shades of *Enchères Exclusives*'s indigo (#23448D). All contrast ratios were tested using [WebAIM.org contrast checker](https://webaim.org/resources/contrastchecker/). 
+I wanted the general design to stay clean and sleek, to allow the user to focus on the lots. The color panel is really neutral with Ghost White (#FAFAFF) and Gray80 (#CCCCCC) as background color when an element needs a bit more attention (like for a title banner). The global text color is also a gray, Gray20 (#333333). To highlight some elements, I used different shades of *Enchères Exclusives*'s indigo (#23448D). All contrast ratios were tested using [WebAIM.org contrast checker](https://webaim.org/resources/contrastchecker/). 
 
 The <u>Home page</u> displays a hero image, the image being different depending on the viewport's width, to ensure a nice rendering on any screen. 
 
-Below this, the latest auction is exposed, showing off the lots in a carousel, each lot presented in a card. The number of cards depends on the width available: from 1 to 4. 
+Below this, the latest auction is exposed, showing off the lots in a slider, each lot presented in a card. The number of cards depends on the width available: from 1 to 4. 
 
-Next comes a section inviting the user to subscribe to the company's newsletter. This section is shown only if the user hasn't subscribed already.
+Next comes a section inviting the user to subscribe to the company's newsletter. 
 
 Finally, a footer inviting the user to follow *Enchères Exclusives* on different social medias: Twitter, Facebook, Instagram, YouTube & Weibo. A discreet copyright mention is positioned under it, being aligned with the "Follow us" on desktop, or centered from a smaller screen. 
 
@@ -76,6 +76,10 @@ The <u>Profile page</u> display a personalized welcoming message followed by the
 Clicking on *Edit* leads the user to the <u>Edit Profile page</u>, of course, which is a copy of the Register page. The form is already populated with the user data registered in the database. As of now, I have an issue to prepopulate the title dropdown with the correct content (more on this in the [bugs](https://github.com/LuciusVH/encheres-exclusives#spotted-bugs--errors) section).
 
 The *Delete* link opens up a Bootstrap "toast", playing the alert role (it is set up by aria attributes, for screen-readers): it asks the user for confirmation that they really want to delete their account, informing them that all data will be deleted with no possibility to cancel this action. 
+
+Below this, the <u>My Bids</u> section. It consists of a slider, displaying the lots on which the user has bidden (whether they are still the highest bidder or not). It allows them to retrieve the lots for which they have an interest quickly. Under, <u>My Lots</u> display the user's own lots to be sold, in a second slider. They can be edited or deleted, but only until the auction in which they have been categorized begins. A link invites the user to get more familiar with the concept & working process of the app if needed, and finally a button opens up the <u>Add a lot modal</u>, allowing the user to submit their own lot to auction. The third and last section is available if the user has won any auction, or sold any lot. It also display the lots in a slider, and the action button this time links to the <u>Contact page</u>.
+
+The <u>Auction page</u> displays all item of the auction's category, allowing the user to bid or not depending on whether the auction is running or not. Users can edit/delete their lots, depending on whether the auction is running or not.
 
 ### User stories
 
@@ -147,14 +151,45 @@ The website has been tested automatically through W3C HTML & CSS validators, Jav
 
 ### HTML Validator ([W3C](https://validator.w3.org/))
 
+- Element [`div`](https://html.spec.whatwg.org/multipage/#the-div-element) not allowed as child of element [`ul`](https://html.spec.whatwg.org/multipage/#the-ul-element) in this context.
+
+  These errors are due to the Bootstrap navbar use of dropdown menus.
+
+- Bad value `navigation` for attribute `role` on element [`button`](https://html.spec.whatwg.org/multipage/#the-button-element).
+
+  These errors are due to GlideJS, attributing the role of navigation to the arrows controls.
+
+- Attribute `alt` not allowed on element [`button`](https://html.spec.whatwg.org/multipage/#the-button-element) at this point.
+
+  Switch to `aria-label`.
+
+- Attribute `maxlenght` not allowed on element [`input`](https://html.spec.whatwg.org/multipage/#the-input-element) at this point.
+
+  I decided to keep these, I need some control over the user's input.
+
 ### CSS Validator ([W3C](https://jigsaw.w3.org/css-validator/validator.html))
+
+- L159 .form-check-input:checked - `background-color` et `border-color` sont de la même couleur.
+
+  This was the goal, I wanted the checked checkbox to look sleek.
 
 ### [JSHint](https://jshint.com/)
 
+All errors corrected.
 
 ### Lighthouse
 
+- **index.html**
+
+<p align="center">
+  <img src="https://github.com/LuciusVH/encheres-exclusives/blob/main/static/docs/readme-img/lighthouse-index.png" alt="Lighthouse report of index.html"/>
+</p>
+
+The bad performance is due to the use of external URL to load the lots images. It would drastically improve if the images were hosted in the database.
+
 #### Link testing:
+
+All links are functional.
 
 
 
@@ -188,17 +223,192 @@ The website has been tested automatically through W3C HTML & CSS validators, Jav
 
 #### Tested user stories:
 
+- As a buyer, I want to find new items for my collections. 
 
+  *Enchères Privées provides the opportunity to buy incredible lots, no better place to expand your collections.*
+
+- As a user, I want to find information about the actual & upcoming sales. 
+
+  *The auctions, running and upcoming, are both displayed in the Auctions dropdown menu in the navbar.*
+
+- As a seller & member, I want to resell some of my items. 
+
+  *You can add your items through our Propose a lot modal, located on your Profile page.*
+
+- As a buyer & member, I want to see my bids.
+
+  *You can find all lots on which you have bidden on your Profile page.*
+
+- As a buyer/seller, I want to find information about the whole process & how this works.
+
+  *These information are available on the About page.*
+
+- As a seller & member, I want to be able to add my lot to be sold, edit or delete them.
+
+  *You can add, see, edit and delete them (CRUD) your lots through your Profile page.*
+
+- As a member, I want to be able to edit or delete my profile.
+
+  *You can edit or delete your profile and all your data through your Profile page.*
+
+- As a new user, I want to be able to create an account.
+
+  *The Register form is here for you!*
+
+- As a user, I want to subscribe to the newsletter.
+
+  *This is possible through the Newsletter form available on the Home page.*
 
 ## Deployment & cloning
 
 You can find the deployed site [here](https://encheres-exclusives.herokuapp.com/). 
 
-### Deployment
-
 ### Cloning
 
+1. Start by creating a MongoDB account if you don't have one already. Create a cluster, and a database (here called encheres-privees).
 
+2. My DB is organized as follow:
+
+   ###### auctions
+
+   ```
+   _id: <ObjectId>
+   category: <string>
+   date_start: <date>
+   date_end: <date>
+   ```
+
+   ###### lots
+
+   ```
+   _id: <ObjectId>
+   category: <string>
+   title: <string>
+   brand_artist: <string>
+   highest_bid: <int32>
+   actual_bidder: <string>
+   bid_time: <date>
+   starting_price: <int32>
+   estimated_price: <int32>
+   reserve_price: <int32>
+   image_url: <string>
+   previous_bids_details: <array>
+   	↳ { <object>
+   		↳ [
+   			previous_bidder: <string>
+   			previous_bid: <int32>
+   			previous_bid_time: <date>
+   		]
+   	}
+   created_by: <string>
+   creation_time: <date>
+   ```
+
+   ###### lots_sold
+
+   ```
+   _id: <ObjectId>
+   category: <string>
+   title: <string>
+   brand_artist: <string>
+   highest_bid: <int32>
+   final_bidder: <string>
+   final_bid_time: <date>
+   estimated_price: <int32>
+   image_url: <string>
+   bids_history: <array>
+   	↳ { <object>
+   		↳ [
+   			previous_bidder: <string>
+   			previous_bid: <int32>
+   			previous_bid_time: <date>
+   		]
+   	}
+   sold_created_by: <string>
+   creation_time: <date>
+   ```
+
+   ###### users
+
+   ```
+   _id: <ObjectId>
+   email: <string>
+   password: <string>
+   title: <string>
+   first_name: <string>
+   last_name: <string>
+   newsletter: <boolean>
+   ```
+
+   ###### newsletter
+
+   ```
+   _id: <ObjectId>
+   email: <string>
+   title: <string>
+   first_name: <string>
+   last_name: <string>
+   ```
+
+   
+
+3. After you've copied the HTTPS or SSH link, located under the Code dropdown button on [Enchères Exclusives GitHub page](https://github.com/LuciusVH/encheres-exclusives).
+
+4. Open your preferred IDE, create a virtual environment and activate it.
+
+5. Run the command `git clone` + the link you've copied on step #1.
+
+6. Create your environment file `env.py` and add the following:
+
+   ```python
+   import os
+   from pymongo import MongoClient
+   import certifi
+   
+   os.environ.setdefault("IP", "0.0.0.0")
+   os.environ.setdefault("PORT", "5000")
+   os.environ.setdefault("SECRET_KEY", "<YOUR SECRET KEY>")
+   os.environ.setdefault("MONGO_URI", "<YOUR MONGODB URI>")
+   os.environ.setdefault("MONGO_DBNAME", "<YOUR MONGODB DATABASE>")
+   os.environ.setdefault("EMAIL_PSWD", "<YOUR EMAIL ACCOUNT PASSWORD>")
+   
+   s = MongoClient("<YOUR MONGODB URI>", tlsCAFile=certifi.where())
+   ```
+
+7. Create a `.gitignore` file and add it your `env.py`.
+
+8. Install all the requirements: open the terminal and run `pip3 install -r requirements.txt`.
+
+9. Switch `debug=False` to `debug=True` at the end of the `app.py` file.
+
+10. You can now run the app with the command `python app.py`.
+
+### Deployment
+
+1. Create your own requirements.txt by typing the command `pip3 freeze --local > requirements.txt`
+
+2. Create a Procfile by typing the command `echo web: python app.py > Procfile`. Make sure it's the exact same, with no extra whitespace or breakline.
+
+3. Commit & push your change to GitHub.
+
+4. Go to [Heroku](https://www.heroku.com/) & create an account if you don't already have one.
+
+5. Create a new Python app, select your region.
+
+6. On the Deploy tab, in the Connect to GitHub section: search for your repo and connect it. 
+
+7. In the Settings tab, in the Config Vars section, enter:
+
+   ```
+   IP = 0.0.0.0
+   PORT = 5000
+   MONGO_DBNAME = <YOUR MONGODB DATABASE>
+   MONGO_URI = <YOUR MONGODB URI>
+   SECRET_KEY = <YOUR SECRET KEY>
+   EMAIL_PSWD = <YOUR EMAIL ACCOUNT PASSWORD>
+   ```
+
+8. On the Deploy tab, in the Automatic Deploy section: select the `main` branch and click Enable Automatic Deploys.
 
 ## Credits
 
@@ -214,4 +424,12 @@ You can find the deployed site [here](https://encheres-exclusives.herokuapp.com/
 ### Acknowledgements
 
 - I want to thank the Code Institute tutors, which are always helpful and resourceful! As well as my mentor, for these productive sessions. 
+- The wonderful Code Institute Slack community as well! You guys rock 💪
 
+------
+
+------
+
+##### The final word...
+
+These paintings, books... God if I had the money......... 🤑
