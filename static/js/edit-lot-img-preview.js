@@ -1,8 +1,8 @@
 // Verify the URL input when the user fills up the Edit lot form
-var imageURLInputEditModal = document.querySelectorAll('.editlot-imageurl')
+var imageURLInputEditModal = document.querySelectorAll('.editlot-imageurl');
 imageURLInputEditModal.forEach((el) => {
   el.addEventListener('change', imageLoadEditModal);
-})
+});
 
 function imageLoadEditModal() {
   var editModalOpened = this.id;
@@ -25,7 +25,7 @@ function imageLoadEditModal() {
         submitBtnEditModalId.disabled = true;
         imagePreviewEditModalId.setAttribute('alt', 'Loading Error /!\\');
         alert("There's an error in your URL. Check it ;)");
-      }
+      };
 
       // Otherwise, allow the user to submit their completed form
       imagePreviewEditModalId.onload = () => {
@@ -34,7 +34,7 @@ function imageLoadEditModal() {
         } else {
           submitBtnEditModalId.disabled = false;
         }
-      }
+      };
     } else {
       // Keep the default pic otherwise & inform the user they didn't set a correct image format
       imagePreviewEditModalId.setAttribute('src', '/static/img/no_pic.jpg');

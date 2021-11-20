@@ -1,7 +1,7 @@
 // Checkes if the user has scrolled down more than 20px and reduces the logo height in half (and so the navbar height)
 window.onscroll = () => {
   scrollCheck();
-}
+};
 
 function scrollCheck() {
   let logo = document.querySelector('.logo');
@@ -19,14 +19,14 @@ function scrollCheck() {
 // Update copyright date
 $(document).ready(function() {
   $('#copyright').text(new Date().getFullYear());
-})
+});
 
 // Target the Delete link on profile page to toggle the delete profile confirmation toast
 // or the delete button on profile page to toggle the delete item confirmation toast
 const deleteToastSwitch = document.querySelectorAll('.delete-toast');
 deleteToastSwitch.forEach((el) => {
   el.addEventListener('click', deleteToast);
-})
+});
 
 function deleteToast() {
   let toastClicked = this.id;
@@ -35,7 +35,7 @@ function deleteToast() {
   const options = {
     autohide: false,
     animation: true
-  }
+  };
 
   if (toastClicked == "delete-profile") {
     const deleteProfileToast = document.querySelector('#delete-profile-confirmation');
@@ -49,16 +49,16 @@ function deleteToast() {
 }
 
 // Enable Bootstrap tooltips
-var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
 var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
-  return new bootstrap.Tooltip(tooltipTriggerEl)
-})
+  return new bootstrap.Tooltip(tooltipTriggerEl);
+});
 
 // Custom error input when the user wants to bid a lower price than required
 let userInput = document.querySelectorAll('input[name="user_bid"]');
 userInput.forEach((el) => {
   el.addEventListener('change', bidInput);
-})
+});
 
 function bidInput(event) {
   let input = event.target;
@@ -73,7 +73,7 @@ function bidInput(event) {
 
 // Calculate the Starting Price & Reserve Price of a lot when the user fills up the Add lot form
 let estimatedPriceInput = document.querySelector('#addlot-estimatedprice');
-estimatedPriceInput.addEventListener('input', calculatePrices)
+estimatedPriceInput.addEventListener('input', calculatePrices);
 
 function calculatePrices() {
   let estimatedPrice = estimatedPriceInput.value;
