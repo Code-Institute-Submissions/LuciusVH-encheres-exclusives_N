@@ -1,4 +1,4 @@
-<section class="modal fade" id="edit-modal-{{ lot._id }}" tabindex="-1" role="dialog" aria-labelledby="FormModal" aria-hidden="true">
+<section class="modal fade" id="edit-modal-{{ lot._id }}" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
@@ -18,29 +18,29 @@
             <div class="row">
               <div class="col-12 col-sm-6">
                 <div class="form-floating">
-                  <input id="editlot-title-{{ lot._id }}" name="editlot-title" type="text" maxlenght="50" class="form-control" placeholder="Title" value="{{ lot.title }}" required>
-                  <label for="editlot-title">Title</label>
+                  <input id="editlot-title-{{ lot._id }}" name="editlot-title" type="text" maxlength="50" class="form-control" placeholder="Title" value="{{ lot.title }}" required>
+                  <label for="editlot-title-{{ lot._id }}">Title</label>
                   <p class="addlot-rules">Max 50 characters</p>
                 </div>
               </div>
               <div class="col-12 col-sm-6">
                 <div class="form-floating">
-                  <input id="editlot-artistbrand-{{ lot._id }}" name="editlot-artistbrand" type="text" maxlenght="50" class="form-control" placeholder="Artist or Brand" value="{{ lot.brand_artist }}" required>
-                  <label for="editlot-artistbrand">Artist or Brand</label>
+                  <input id="editlot-artistbrand-{{ lot._id }}" name="editlot-artistbrand" type="text" maxlength="50" class="form-control" placeholder="Artist or Brand" value="{{ lot.brand_artist }}" required>
+                  <label for="editlot-artistbrand-{{ lot._id }}">Artist or Brand</label>
                   <p class="addlot-rules">Max 50 characters</p>
                 </div>
               </div>
               <div class="col-12 col-sm-8">
                 <div class="form-floating">
                   <input id="editlot-imageurl-{{ lot._id }}" name="editlot-imageurl" type="url" class="form-control editlot-imageurl" placeholder="Image URL" value="{{ lot.image_url }}" required>
-                  <label for="editlot-imageurl">Image URL</label>
+                  <label for="editlot-imageurl-{{ lot._id }}">Image URL</label>
                   <p class="addlot-rules">JPEG or PNG images only</p>
                 </div>
               </div>
               <div class="col-12 col-sm-4">
-                <label for="editlot-category" class="visually-hidden">Auction's Category</label>
+                <label for="editlot-category-{{ lot._id }}" class="visually-hidden">Auction's Category</label>
                 <select class="form-select" id="editlot-category-{{ lot._id }}" name="editlot-category" required>
-                  <option disabled>Category</option>
+                  <option value="" disabled>Category</option>
                   {% for category in categories %}
                     {% if category.category == lot.category %}
                       <option selected>{{ category.category }}</option>

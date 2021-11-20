@@ -12,9 +12,7 @@
     <p>This action is irrevocable.</p>
     <div class="mt-2 pt-2 border-top">
       <button type="button" class="btn btn-bg-light btn-sm upper" data-bs-dismiss="toast">Cancel</button>
-      <a href="{{ url_for('delete_lot', lot_id=lot._id) }}">
-        <button type="button" class="btn btn-delete btn-sm upper">Delete</button>
-      </a>
+      <a href="{{ url_for('delete_lot', lot_id=lot._id) }}" class="btn btn-delete btn-sm upper">Delete</a>
     </div>
   </div>
 </div>

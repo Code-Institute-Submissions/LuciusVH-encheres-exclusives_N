@@ -45,9 +45,7 @@
       <p>This action is irrevocable.</p>
       <div class="mt-2 pt-2 border-top">
         <button type="button" class="btn btn-bg-light btn-sm upper" data-bs-dismiss="toast">Cancel</button>
-        <a href="{{ url_for('delete_profile') }}">
-          <button type="button" class="btn btn-delete btn-sm upper">Delete</button>
-        </a>
+        <a href="{{ url_for('delete_profile') }}" class="btn btn-delete btn-sm upper">Delete</a>
       </div>
     </div>
   </section>
@@ -173,7 +171,7 @@
   </section>
 
   <!-- Add a lot modal -->
-  <section class="modal fade" id="new-lot-modal" tabindex="-1" role="dialog" aria-labelledby="FormModal" aria-hidden="true">
+  <section class="modal fade" id="new-lot-modal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
@@ -193,14 +191,14 @@
               <div class="row">
                 <div class="col-12 col-sm-6">
                   <div class="form-floating">
-                    <input id="addlot-title" name="addlot-title" type="text" maxlenght="50" class="form-control" placeholder="Title" required>
+                    <input id="addlot-title" name="addlot-title" type="text" maxlength="50" class="form-control" placeholder="Title" required>
                     <label for="addlot-title">Title</label>
                     <p class="addlot-rules">Max 50 characters</p>
                   </div>
                 </div>
                 <div class="col-12 col-sm-6">
                   <div class="form-floating">
-                    <input id="addlot-artistbrand" name="addlot-artistbrand" type="text" maxlenght="50" class="form-control" placeholder="Artist or Brand" required>
+                    <input id="addlot-artistbrand" name="addlot-artistbrand" type="text" maxlength="50" class="form-control" placeholder="Artist or Brand" required>
                     <label for="addlot-artistbrand">Artist or Brand</label>
                     <p class="addlot-rules">Max 50 characters</p>
                   </div>
@@ -209,7 +207,7 @@
                   <div class="row">
                     <div class="col-11">
                       <div class="form-floating">
-                        <input id="addlot-estimatedprice" name="addlot-estimatedprice" type="number" maxlenght="12" class="form-control" placeholder="Estimated Price" step="10" required>
+                        <input id="addlot-estimatedprice" name="addlot-estimatedprice" type="number" maxlength="12" class="form-control" placeholder="Estimated Price" step="10" required>
                         <label for="addlot-estimatedprice">Estimated Price</label>
                       </div>
                     </div>
@@ -251,7 +249,7 @@
                 <div class="col-12 col-sm-4">
                   <label for="addlot-category" class="visually-hidden">Auction's Category</label>
                   <select class="form-select" id="addlot-category" name="addlot-category" required>
-                    <option disabled>Category</option>
+                    <option value="" disabled>Category</option>
                     {% for category in categories %}
                       <option>{{ category.category }}</option>
                     {% endfor %}
