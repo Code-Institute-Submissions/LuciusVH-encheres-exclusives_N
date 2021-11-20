@@ -393,4 +393,12 @@ You can find the deployed site [here](https://encheres-exclusives.herokuapp.com/
 ### Acknowledgements
 
 - I want to thank the Code Institute tutors, which are always helpful and resourceful! As well as my mentor, for these productive sessions. 
+- The wonderful Code Institute Slack community as well! You guys rock 💪
 
+------
+
+------
+
+##### The final word...
+
+These paintings, books... God if I had the money......... 🤑
