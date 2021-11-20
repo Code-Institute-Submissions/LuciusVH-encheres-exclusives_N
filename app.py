@@ -574,7 +574,7 @@ def contact():
       )
       flash("Thank you for contacting us. We will get back to you shortly!", "valid")
     except:
-      # If something goes wrong, invite the user to connect directly through mail
+      # If something goes wrong, invite the user to connect directly through email
       message = Markup("Something went wrong... But you can write us as \
         <a href='mailto:ms3.encheres.privees@gmail.com'>\
         ms3.encheres.privees@gmail.com</a>!")
